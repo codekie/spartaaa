@@ -1,0 +1,8 @@
+{
+  "name": "spartaaa",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "repository": "https://github.com/codekie/spartaaa.git",
+  "author": "Code Kie <codekie@users.noreply.github.com>",
+  "license": "MIT"
+}
