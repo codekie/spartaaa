@@ -2,3 +2,4 @@ extends:
   - ../../.eslintrc.yaml
 env:
   node: true
+  jest: true

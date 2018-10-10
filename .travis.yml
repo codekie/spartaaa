@@ -1,0 +1,13 @@
+language: node_js
+
+cache: yarn
+
+node_js:
+  - "8"
+  - "node"
+
+script:
+  - yarn run coverage
+
+after_success:
+  - yarn run coveralls
