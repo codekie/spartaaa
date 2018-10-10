@@ -5,7 +5,9 @@ const winston = require('winston'),
 
 // CONSTANTS
 
-const LOG_LEVEL_CONFIG = winston.config.npm;
+const LOG_LEVEL_CONFIG = winston.config.npm,
+    // Create enum for supported log-levels
+    LOG_LEVEL = Object.keys(LOG_LEVEL_CONFIG.levels).reduce((res, name) => Object.assign(res, { [name]: name }), {});
 
 // PRIVATE STATICS
 
@@ -15,10 +17,11 @@ let _transactionIdStack = [];
 // EXPORT API
 
 const API = {
-    LOG_LEVEL: Object.keys(LOG_LEVEL_CONFIG.levels)
-        .reduce((res, name) => Object.assign(res, { [name]: name }), {}),   // Create enum for supported log-levels
+    LOG_LEVEL,
+    isDebug,
     startTransaction,
-    stopTransaction
+    stopTransaction,
+    log
     // There will be a log-method per serverity bound to this API
     // eg. error(..), info(..), ...
 };
@@ -31,6 +34,10 @@ module.exports = API;
 
 function log() {
     return _logger.log.apply(_logger, arguments);
+}
+
+function isDebug() {
+    return process.env.LOG_LEVEL === LOG_LEVEL.debug;
 }
 
 // Private
@@ -53,7 +60,7 @@ function _createLogger() {
 }
 
 function _getLogLevel({ process }) {
-    return process.env.LOG_LEVEL || 'info';
+    return process.env.LOG_LEVEL || LOG_LEVEL.info;
 }
 
 function startTransaction(transactionId) {
@@ -67,12 +74,12 @@ function stopTransaction() {
 function _bindLoggers(api, logger) {
     Object.keys(LOG_LEVEL_CONFIG.levels).forEach(severity => {
         // No arrow-function here. We need the arguments from anon function
-        api[severity] = function() { _log(logger, severity, ...arguments); }
+        api[severity] = function() { _log(logger, severity, ...arguments); };
     });
 }
 
 function _getCurrentTransactionId() {
-    return _transactionIdStack[_transactionIdStack.length - 1];
+    return _transactionIdStack[_transactionIdStack.length - 1] || '-';
 }
 
 function _log(logger, severity, message) {

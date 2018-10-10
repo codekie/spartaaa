@@ -7,4 +7,5 @@ Web-app for taskwarrior
 
 ## Requirements
 
+- `Taskwarrior` pre-installed
 - NodeJS `8+`
