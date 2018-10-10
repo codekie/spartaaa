@@ -7,7 +7,7 @@ node_js:
   - "node"
 
 script:
-  - yarn run coverage
+  - yarn run coverage-lcov
 
 after_success:
   - yarn run coveralls
