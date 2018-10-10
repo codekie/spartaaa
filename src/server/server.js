@@ -1,5 +1,6 @@
 const express = require('express'),
     appConfig = require('../../config/app'),
+    { logger } = require('../util'),
     services = require('./service');
 
 const _inst = _init();
@@ -45,8 +46,7 @@ function _startApp(inst, port = appConfig.server.port) {
     const { app } = inst;
     return new Promise(resolve => {
         inst.server = app.listen(port, () => {
-            // TODO use winston-logger
-            console.log(`Listening on port ${ port }`);
+            logger.info(`Listening on port ${ port }`);
             resolve();
         });
     });
