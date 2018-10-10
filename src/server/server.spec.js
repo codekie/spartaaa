@@ -4,11 +4,15 @@ const request = require('supertest'),
 
 const URL__PING = '/api/ping';
 
-describe('Server >', () => {
-    test('It should respond to the ping-request', async () => {
+describe('Server (concurrent) >', () => {
+    beforeAll(async () => {
         await start({ port: appConfig.test.server.port });
+    });
+    beforeAll(async () => {
+        await stop();
+    });
+    test('It should respond to the ping-request', async () => {
         const response = await request(app).get(URL__PING);
         expect(response.statusCode).toBe(200);
-        await stop();
     });
 });
