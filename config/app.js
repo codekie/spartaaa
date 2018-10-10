@@ -2,6 +2,7 @@ const path = require('path');
 
 const DEFAULT__PORT__DEV_SERVER = 8080,
     DEFAULT__PORT__SERVER = 3000,
+    DEFAULT__PORT__TEST__SERVER = 3001,
     DEFAULT__PROTOCOL__SERVER = 'http',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
     ENV__PORT__SERVER = 'port',
@@ -27,6 +28,7 @@ function _createConfig() {
         entry: _createEntryConfig(),
         server: _createServerConfig(),
         dev: _createDevConfig(),
+        test: _createTestConfig(),
         build: _createBuildConfig()
     };
 }
@@ -55,6 +57,14 @@ function _createDevConfig() {
             devServer: {
                 port: process.env[ENV__PORT__DEV__SERVER] || DEFAULT__PORT__DEV_SERVER
             }
+        }
+    };
+}
+
+function _createTestConfig() {
+    return {
+        server: {
+            port: DEFAULT__PORT__TEST__SERVER
         }
     };
 }
