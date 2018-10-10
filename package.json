@@ -16,7 +16,7 @@
     "build": "yarn run clean-build && yarn run build:webpack",
     "clean-build": "rimraf dist",
     "start-dev": "concurrently -c \"magenta.bold,cyan.bold\" -n \"server, webpack\" \"yarn run start-dev:server-watch\" \"yarn run start-dev:webpack\"",
-    "start-dev:server-watch": "nodemon --exec yarn run start-dev:server",
+    "start-dev:server-watch": "nodemon --ignore \"src/client\" --exec yarn run start-dev:server",
     "start-dev:server": "babel-node $NODE_DEBUG_OPTION ./src/server/index.js",
     "start-dev:webpack": "webpack-dev-server --mode development --hot --history-api-fallback --inline --progress --config ./config/webpack/dev.js",
     "build:webpack": "webpack --mode production --bail --progress --config ./config/webpack/build.js"

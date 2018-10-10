@@ -8,7 +8,8 @@ const config = Object.assign(
         devServer: {
             port: appConfig.dev.client.devServer.port,
             proxy: {
-                [appConfig.server.basePathServices]: appConfig.server.host
+                [appConfig.server.basePathServices]: appConfig.server.host,
+                changeOrigin: true
             }
         }
     }

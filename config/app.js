@@ -1,8 +1,8 @@
 const path = require('path');
 
 const DEFAULT__PORT__DEV_SERVER = 8080,
-    DEFAULT__PORT__SERVER = 3000,
-    DEFAULT__PORT__TEST__SERVER = 3001,
+    DEFAULT__PORT__SERVER = 3010,
+    DEFAULT__PORT__TEST__SERVER = 3020,
     DEFAULT__PROTOCOL__SERVER = 'http',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
     ENV__PORT__SERVER = 'port',
