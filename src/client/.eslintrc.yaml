@@ -3,3 +3,5 @@ extends:
   - react
 env:
   browser: true
+rules:
+  one-var: 0

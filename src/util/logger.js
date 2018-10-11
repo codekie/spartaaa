@@ -12,6 +12,7 @@ const LOG_LEVEL_CONFIG = winston.config.npm,
 // PRIVATE STATICS
 
 const _logger = _createLogger();
+// Fixme: This is not concurrency-safe!
 let _transactionIdStack = [];
 
 // EXPORT API

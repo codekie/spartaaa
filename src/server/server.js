@@ -1,4 +1,5 @@
 const express = require('express'),
+    addRequestId = require('express-request-id'),
     appConfig = require('../../config/app'),
     { logger } = require('../util'),
     services = require('./service');
@@ -21,9 +22,14 @@ function stop() {
 
 function _init() {
     const app = express();
+    _useMiddlewares({ app });
     _mountStaticFolders({ app });
     _mountServices({ app });
     return { app };
+}
+
+function _useMiddlewares({ app }) {
+    app.use(addRequestId());
 }
 
 function _mountStaticFolders({ app }) {

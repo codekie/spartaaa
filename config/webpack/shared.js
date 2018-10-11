@@ -1,4 +1,5 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin'),
+const path = require('path'),
+    HtmlWebPackPlugin = require('html-webpack-plugin'),
     appConfig = require('../app');
 
 module.exports = {
@@ -6,6 +7,13 @@ module.exports = {
     output: {
         path: appConfig.build.client.output.path,
         filename: appConfig.build.client.output.filenameScript
+    },
+    resolve: {
+        // Other resolve props
+        alias: {
+            // Other aliases
+            '_variables.sass': path.resolve(__dirname, '../../src/client/bulma-variables.sass')
+        }
     },
     module: {
         rules: [
@@ -15,6 +23,19 @@ module.exports = {
                 use: {
                     loader: 'babel-loader'
                 }
+            },
+            {
+                test: /\.(scss|sass)$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass')
+                        }
+                    }
+                ]
             },
             {
                 test: /\.css$/,
