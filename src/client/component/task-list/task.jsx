@@ -3,6 +3,7 @@ import Content from 'react-bulma-components/lib/components/content';
 import Image from 'react-bulma-components/lib/components/image';
 import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
+import Tag from 'react-bulma-components/lib/components/tag';
 
 import TagList from '../tag-list';
 import determineClassNames from './css-class-determinator';
@@ -22,7 +23,12 @@ export default class Task extends Component {
                 <Media.Item>
                     <Content>
                         <p><strong>[{ task.id }] { task.description }</strong></p>
-                        <TagList tags={task.tags} />
+                        <Level>
+                            <Level.Side align="left">
+                                <Level.Item>{ _createProjectTag(task) }</Level.Item>
+                                <Level.Item><TagList tags={task.tags} /></Level.Item>
+                            </Level.Side>
+                        </Level>
                     </Content>
                     <Level breakpoint="mobile">
                         <Level.Side align="left">
@@ -37,4 +43,14 @@ export default class Task extends Component {
             </Media>
         );
     }
+}
+
+function _createProjectTag(task) {
+    if (!task.project) { return null; }
+    return (
+        <Tag.Group gapless>
+            <Tag color="dark">project</Tag>
+            <Tag color="info">{ task.project }</Tag>
+        </Tag.Group>
+    );
 }
