@@ -5,6 +5,7 @@ const config = Object.assign(
     {},
     sharedConfig,
     {
+        devtool: 'cheap-module-eval-source-map',
         devServer: {
             port: appConfig.dev.client.devServer.port,
             proxy: {

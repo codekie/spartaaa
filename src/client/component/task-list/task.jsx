@@ -25,7 +25,7 @@ export default class Task extends Component {
                         <p><strong>[{ task.id }] { task.description }</strong></p>
                         <Level>
                             <Level.Side align="left">
-                                <Level.Item>{ _createProjectTag(task) }</Level.Item>
+                                { _createProjectItem(task) }
                                 <Level.Item><TagList tags={task.tags} /></Level.Item>
                             </Level.Side>
                         </Level>
@@ -45,12 +45,14 @@ export default class Task extends Component {
     }
 }
 
-function _createProjectTag(task) {
+function _createProjectItem(task) {
     if (!task.project) { return null; }
     return (
-        <Tag.Group gapless>
-            <Tag color="dark">project</Tag>
-            <Tag color="info">{ task.project }</Tag>
-        </Tag.Group>
+        <Level.Item>
+            <Tag.Group gapless>
+                <Tag color="dark">project</Tag>
+                <Tag color="info">{ task.project }</Tag>
+            </Tag.Group>
+        </Level.Item>
     );
 }

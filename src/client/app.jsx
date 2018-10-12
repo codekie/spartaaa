@@ -1,32 +1,43 @@
+// # IMPORTS
+
+// 3rd-party
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Button from 'react-bulma-components/lib/components/button';
 import Image from 'react-bulma-components/lib/components/image';
 import Level from 'react-bulma-components/lib/components/level';
 import Panel from 'react-bulma-components/lib/components/panel';
 import Section from 'react-bulma-components/lib/components/section';
 import { Control, Input } from 'react-bulma-components/lib/components/form';
-import logo from './static/images/sparta.png';
+// App
+import CommandType from './store/command-type';
+import Action from './store/actions';
 import { TaskList } from './component/task-list';
+import { getTasks } from './store';
+// Style
+import './app.sass';
+import logo from './static/images/sparta.png';
 
-export default class App extends Component {
+// # CONSTANTS
+
+const MAP__DISPATCH_TO_PROPS = {
+    [CommandType.fetchTasks]: Action[CommandType.fetchTasks]
+};
+
+// # CLASS DEFINITIONS
+
+class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            tasks: []
-        };
     }
     componentDidMount() {
-        fetch('/api/tasks')
-            .then(response => response.json())
-            .then((tasks) => {
-                console.log(tasks);
-                return tasks;
-            })
-            .then(tasks => this.setState({ tasks }));
+        this.props.fetchTasks();
     }
     // TODO multilanguage
     render() {
-        const { tasks } = this.state;
+        const tasks = getTasks() || [],
+            { fetchTasks } = this.props;
         return (
             <Section>
                 <Panel.Header>
@@ -37,6 +48,11 @@ export default class App extends Component {
                             </Level.Item>
                             <Level.Item>
                                 This is Spartaaa!!!
+                            </Level.Item>
+                            <Level.Item>
+                                <Button onClick={fetchTasks}>
+                                    Refresh
+                                </Button>
                             </Level.Item>
                         </Level.Side>
                     </Level>
@@ -57,4 +73,16 @@ export default class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('App'));
+// # EXPORT PUBLIC API
+
+export default connect(_mapStateToProps, _mapDispatchToProps)(App);
+
+// # IMPLEMENTATION DETAILS
+
+function _mapStateToProps(state) {
+    return { ...state };
+}
+
+function _mapDispatchToProps(dispatch) {
+    return bindActionCreators({ ...MAP__DISPATCH_TO_PROPS }, dispatch);
+}
