@@ -1,5 +1,5 @@
 const moment = require('moment'),
-    { logger } = require('../../../util');
+    { logger } = require('../../util');
 
 const PATTERN__PARSE_DATE = 'YYYYMMDDHHmmss';
 

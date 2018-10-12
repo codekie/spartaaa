@@ -1,5 +1,5 @@
 const spawn = require('child_process').spawn,
-    { logger } = require('../../../util'),
+    { logger } = require('../../util'),
     { mapTasks } = require('./map-tasks');
 
 const COMMAND__TASKWARRIOR = 'task',

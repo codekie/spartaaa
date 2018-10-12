@@ -1,7 +1,7 @@
 const express = require('express'),
     addRequestId = require('express-request-id'),
     appConfig = require('../../config/app'),
-    { logger } = require('../util'),
+    { logger } = require('./util'),
     services = require('./service');
 
 const _inst = _init();

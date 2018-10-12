@@ -1,4 +1,5 @@
-const path = require('path');
+const path = require('path'),
+    os = require('os');
 
 const DEFAULT__PORT__DEV_SERVER = 8080,
     DEFAULT__PORT__SERVER = 3010,
@@ -7,9 +8,12 @@ const DEFAULT__PORT__DEV_SERVER = 8080,
     DEFAULT__PROTOCOL__SERVER = 'http',
     DEFAULT__PROTOCOL__SERVER__WEBSOCKET = 'ws',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
+    DEFAULT__PATH__TASKWARRIOR_DATA = `${ os.homedir() }/.task`,
+    DEFAULT__FILE_WATCH__DEBOUNCE_DURATION = 10,
     ENV__PORT__SERVER = 'port',
     ENV__PORT__SERVER__WEBSOCKET = 'port-websocket',
     ENV__PORT__DEV__SERVER = 'port-dev',
+    ENV__PATH__TASKWARRIOR_DATA = 'path-taskwarrior-data',
     BASE_PATH__SERVICES = '/api',
     PATH__PROJECT_BASE = path.join(__dirname, '..'),
     PATH__BUILD_OUTPUT = path.join(PATH__PROJECT_BASE, 'dist'),
@@ -51,6 +55,10 @@ function _createServerConfig() {
         host: `${ DEFAULT__PROTOCOL__SERVER }://${ DEFAULT__HOSTNAME__SERVER }:${ port }`,
         basePathServices: BASE_PATH__SERVICES,
         pathStaticFiles: PATH__SERVER__STATIC_FILES,
+        pathTaskwarriorData: process.env[ENV__PATH__TASKWARRIOR_DATA] || DEFAULT__PATH__TASKWARRIOR_DATA,
+        fileWatch: {
+            debounceDuration: DEFAULT__FILE_WATCH__DEBOUNCE_DURATION
+        },
         websocket: {
             port: portWebSocket,
             host: `${ DEFAULT__PROTOCOL__SERVER__WEBSOCKET }://${ DEFAULT__HOSTNAME__SERVER }:${ portWebSocket }`

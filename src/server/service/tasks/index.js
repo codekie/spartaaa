@@ -1,6 +1,6 @@
 // # IMPORTS
 
-const { logger } = require('../../../util'),
+const { logger } = require('../../util'),
     fetchTasks = require('./fetch-tasks.js');
 
 // # CONSTANTS

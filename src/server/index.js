@@ -1,5 +1,7 @@
-const WebServer = require('./server');
-const { WebSocketServer } = require('./websocket');
+import * as WebServer from './server';
+import { WebSocketServer } from './websocket';
+import * as Watcher from './watcher';
 
 WebServer.start();
 WebSocketServer.init();
+Watcher.init();
