@@ -2,6 +2,7 @@
 
 // 3rd-party
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from 'react-bulma-components/lib/components/button';
@@ -75,7 +76,7 @@ class App extends Component {
 
 // # EXPORT PUBLIC API
 
-export default connect(_mapStateToProps, _mapDispatchToProps)(App);
+export default hot(module)(connect(_mapStateToProps, _mapDispatchToProps)(App));
 
 // # IMPLEMENTATION DETAILS
 
