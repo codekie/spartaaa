@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Content from 'react-bulma-components/lib/components/content';
-import Image from 'react-bulma-components/lib/components/image';
+import Icon from 'react-bulma-components/lib/components/icon';
 import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
 
 import TagList from '../tag-list';
 import determineClassNames from './css-class-determinator';
+import determineIcon from './icon-determinator';
 import './task.sass';
 
 export default class Task extends Component {
@@ -18,7 +20,9 @@ export default class Task extends Component {
         return (
             <Media className={`cmp-task ${ determineClassNames(task) }`}>
                 <Media.Item renderAs="figure" position="left">
-                    <Image size={64} alt="64x64" src="http://bulma.io/images/placeholders/128x128.png" />
+                    <Icon className="is-medium fa-2x">
+                        <FontAwesomeIcon icon={determineIcon(task)} />
+                    </Icon>
                 </Media.Item>
                 <Media.Item>
                     <Content>
