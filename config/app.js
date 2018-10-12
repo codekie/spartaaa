@@ -2,6 +2,7 @@ const path = require('path');
 
 const DEFAULT__PORT__DEV_SERVER = 8080,
     DEFAULT__PORT__SERVER = 3010,
+    DEFAULT__PORT__SERVER__WEBSOCKET = 40510,
     DEFAULT__PORT__TEST__SERVER = 3020,
     DEFAULT__PROTOCOL__SERVER = 'http',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
@@ -46,7 +47,10 @@ function _createServerConfig() {
         port,
         host: `${ DEFAULT__PROTOCOL__SERVER }://${ DEFAULT__HOSTNAME__SERVER }:${ port }`,
         basePathServices: BASE_PATH__SERVICES,
-        pathStaticFiles: PATH__SERVER__STATIC_FILES
+        pathStaticFiles: PATH__SERVER__STATIC_FILES,
+        websocket: {
+            port: DEFAULT__PORT__SERVER__WEBSOCKET
+        }
     };
 }
 

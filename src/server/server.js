@@ -40,9 +40,9 @@ function _mountServices({ app }) {
     Object.keys(services)
         .forEach(name => {
             const serviceConfig = services[name];
-            Object.keys(serviceConfig.methods)
+            Object.keys(serviceConfig.restMethods)
                 .forEach(httpMethod => {
-                    const handler = serviceConfig.methods[httpMethod];
+                    const handler = serviceConfig.restMethods[httpMethod];
                     app[httpMethod](`${ appConfig.server.basePathServices }/${ serviceConfig.name }`, handler);
                 });
         });

@@ -1,22 +1,32 @@
+// # IMPORTS
+
 const { logger } = require('../../../util'),
     fetchTasks = require('./fetch-tasks.js');
 
-const SERVICE_NAME = 'tasks';
+// # CONSTANTS
 
-const STATUS__PENDING = 'pending';
+const SERVICE_NAME = 'tasks',
+    STATUS__PENDING = 'pending';
+
+// # PUBLIC API
 
 module.exports = {
     name: SERVICE_NAME,
     methods: {
-        get: exportTaskwarrior
+        exportTasks
+    },
+    restMethods: {
+        get: handleExportTasksRequest
     }
 };
 
-async function exportTaskwarrior(req, res) {
+// # IMPLEMENTATION DETAILS
+
+// ## Public
+
+async function handleExportTasksRequest(req, res) {
     try {
-        const tasks = await fetchTasks(),
-            result = tasks.filter(_filterPending);
-        result.sort(_orderUrgencyDesc);
+        const result = await exportTasks();
         res.send(result);
     } catch (e) {
         logger.error(e);
@@ -24,6 +34,15 @@ async function exportTaskwarrior(req, res) {
         res.send('error');
     }
 }
+
+async function exportTasks() {
+    const tasks = await fetchTasks(),
+        result = tasks.filter(_filterPending);
+    result.sort(_orderUrgencyDesc);
+    return result;
+}
+
+// ## Private
 
 function _filterPending(task) {
     return task.status === STATUS__PENDING;

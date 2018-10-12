@@ -1,3 +1,5 @@
-const { start } = require('./server');
+const WebServer = require('./server');
+const { WebSocketServer } = require('./websocket');
 
-start();
+WebServer.start();
+WebSocketServer.init();
