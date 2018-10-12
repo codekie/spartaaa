@@ -5,8 +5,10 @@ const DEFAULT__PORT__DEV_SERVER = 8080,
     DEFAULT__PORT__SERVER__WEBSOCKET = 40510,
     DEFAULT__PORT__TEST__SERVER = 3020,
     DEFAULT__PROTOCOL__SERVER = 'http',
+    DEFAULT__PROTOCOL__SERVER__WEBSOCKET = 'ws',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
     ENV__PORT__SERVER = 'port',
+    ENV__PORT__SERVER__WEBSOCKET = 'port-websocket',
     ENV__PORT__DEV__SERVER = 'port-dev',
     BASE_PATH__SERVICES = '/api',
     PATH__PROJECT_BASE = path.join(__dirname, '..'),
@@ -42,14 +44,16 @@ function _createEntryConfig() {
 }
 
 function _createServerConfig() {
-    const port = process.env[ENV__PORT__SERVER] || DEFAULT__PORT__SERVER;
+    const port = process.env[ENV__PORT__SERVER] || DEFAULT__PORT__SERVER,
+        portWebSocket = process.env[ENV__PORT__SERVER__WEBSOCKET] || DEFAULT__PORT__SERVER__WEBSOCKET;
     return {
         port,
         host: `${ DEFAULT__PROTOCOL__SERVER }://${ DEFAULT__HOSTNAME__SERVER }:${ port }`,
         basePathServices: BASE_PATH__SERVICES,
         pathStaticFiles: PATH__SERVER__STATIC_FILES,
         websocket: {
-            port: DEFAULT__PORT__SERVER__WEBSOCKET
+            port: portWebSocket,
+            host: `${ DEFAULT__PROTOCOL__SERVER__WEBSOCKET }://${ DEFAULT__HOSTNAME__SERVER }:${ portWebSocket }`
         }
     };
 }

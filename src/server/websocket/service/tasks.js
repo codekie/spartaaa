@@ -18,7 +18,5 @@ function init() {
 
 async function _setResponse(response, ws, event) {
     const tasks = await TaskService.methods.exportTasks();
-    WebSocketServer.send(ws, WS_EVENT_RES__SET_RESPONSE, {
-        tasks
-    }, event);
+    WebSocketServer.send(ws, WS_EVENT_RES__SET_RESPONSE, tasks, event);
 }

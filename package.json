@@ -67,6 +67,7 @@
     "express-request-id": "^1.4.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
+    "queueing-subject": "^0.3.0",
     "react": "^16.5.2",
     "react-bulma-components": "^2.2.0",
     "react-dom": "^16.5.2",
@@ -76,6 +77,7 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
+    "rxjs-websockets": "^6.0.2",
     "winston": "^3.1.0",
     "ws": "^6.1.0"
   }

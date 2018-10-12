@@ -6870,6 +6870,11 @@ querystringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
   integrity sha512-eTPo5t/4bgaMNZxyjWx6N2a6AuE0mq51KWvpc7nU/MAqixcI6v6KrGUKES0HaomdnolQBBXU/++X6/QQ9KL4tw==
 
+queueing-subject@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/queueing-subject/-/queueing-subject-0.3.0.tgz#8641263efb4722a3b84ff4a8d3599708925dd70d"
+  integrity sha512-Z+nbx4ZjsPwIamHIw8FmxlvaIVWl6LNLsRso28hYGHNvE89UPK/EWiVeM64lrZ/tJ4S6pwlUwawOD6w7k0E94Q==
+
 quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
@@ -7401,6 +7406,11 @@ rxjs-compat@^6.3.3:
   version "6.3.3"
   resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.3.3.tgz#2ab3b9ac0dac0c073749d55fef9c03ea1df2045c"
   integrity sha512-caGN7ixiabHpOofginKEquuHk7GgaCrC7UpUQ9ZqGp80tMc68msadOeP/2AKy2R4YJsT1+TX5GZCtxO82qWkyA==
+
+rxjs-websockets@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/rxjs-websockets/-/rxjs-websockets-6.0.2.tgz#052f801a703b0007969e3b1d674e27285acdc5cd"
+  integrity sha512-2DEl/SkJaYrXIus3YNfKpfZtaSdiK01C4DlCS5ApiA65IIyY3+TOv5EOWhGP+Agb3RRAB8MTD4af93l5ZflM7A==
 
 rxjs@6.2.2:
   version "6.2.2"

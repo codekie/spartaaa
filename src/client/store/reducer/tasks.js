@@ -8,7 +8,7 @@ import { setTasks } from '../state/accessor/tasks';
 
 //  # CONSTANTS
 
-const MAP__REDUCERS = {
+const Reducer = {
     [CommandType.fetchTasks]: _fetchTasks,
     [CommandType.fetchTasksSuccess]: _fetchTasksSuccess,
     [CommandType.fetchTasksFailed]: _fetchTasksFailed
@@ -17,10 +17,13 @@ const MAP__REDUCERS = {
 // # PUBLIC API
 
 export default function reduceTasks(state = getRootState(), command) {
-    const reducer = MAP__REDUCERS[command.type];
+    const reducer = Reducer[command.type];
     if (!reducer) { return state; }
     return reducer(command);
 }
+export {
+    Reducer
+};
 
 // # IMPLEMENTATION DETAILS
 

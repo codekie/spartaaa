@@ -2,7 +2,8 @@
 
 // 3rd-party
 import React, { Component } from 'react';
-import { hot } from 'react-hot-loader'
+import PropTypes from 'prop-types';
+import { hot } from 'react-hot-loader';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Button from 'react-bulma-components/lib/components/button';
@@ -29,6 +30,9 @@ const MAP__DISPATCH_TO_PROPS = {
 // # CLASS DEFINITIONS
 
 class App extends Component {
+    static propTypes = {
+        fetchTasks: PropTypes.func.isRequired
+    };
     constructor(props) {
         super(props);
     }

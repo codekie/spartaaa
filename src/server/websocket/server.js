@@ -53,7 +53,7 @@ function send(ws, eventName, data, sourceEvent) {
     };
     // If this event is sent to the client as a response to a client-request, then the transactionId will be passed back
     if (sourceEvent) { response.transactionId = sourceEvent.transactionId; }
-    logger.verbose.event(sourceEvent, `Sending: ${ JSON.stringify(response) }`);
+    logger.verbose(`Sending: ${ JSON.stringify(response) }`);
     ws.send(
         JSON.stringify(response),
         (err) => _handleError(err)
