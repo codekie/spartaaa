@@ -16,12 +16,14 @@ function fetchTasks() {
     return new Promise((resolve, reject) => {
         // TODO debounce with RxJS
         try {
+            logger.verbose('Triggering task export');
             // TODO make this testable (injectable `spawn`-mock)
             const proc = spawn(COMMAND__TASKWARRIOR, [ARG__EXPORT, ARG__EXPORT_TYPE__JSON]);
             let rawData = '';
             proc.stdout.on(EVT__DATA, (data) => rawData += data);
             proc.stdout.on(EVT__CLOSE, () => {
                 try {
+                    logger.verbose('Received results of the task export');
                     const tasks = JSON.parse(rawData);
                     logger.isDebug() && logger.debug(JSON.stringify(tasks, null, '  '));
                     resolve(mapTasks(tasks));

@@ -39,6 +39,7 @@ async function exportTasks() {
     const tasks = await fetchTasks(),
         result = tasks.filter(_filterPending);
     result.sort(_orderUrgencyDesc);
+    logger.verbose('Finished processing tasks');
     return result;
 }
 

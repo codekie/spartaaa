@@ -49,7 +49,7 @@ function register(eventName, handler) {
 
 function send(ws, eventName, data, sourceEvent) {
     let response = _createEvent(eventName, data, { sourceEvent });
-    logger.verbose(`Sending: ${ JSON.stringify(response) }`);
+    logger.isDebug() && logger.debug(`Sending: ${ JSON.stringify(response) }`);
     ws.send(
         JSON.stringify(response),
         (err) => _handleError(err)
