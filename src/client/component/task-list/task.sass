@@ -1,12 +1,20 @@
 @import '../../bulma-variables'
 
 .cmp-task
+  align-items: stretch
+  color: $grey
+  strong
+    color: $grey
   &.media + &.media
     margin-top: 0
-  &.prio-high
-    color: $red
-    strong
-      color: $red
+    padding-top: 1px
+  .priority
+    width: 0.3rem
+    margin-right: 0.2rem
+    &.prio-L
+      background-color: $blue
+    &.prio-H
+      background-color: $red
   .aux-bar-1
     margin-bottom: 0.2rem
   .tags
@@ -17,6 +25,9 @@
       .overdue
         background-color: $red
         color: $grey-light
+  &.tag-bug
+    .task-icon
+        color: $red
   &.tag-next
     background-color: darken($purple, 30)
   &.status-active

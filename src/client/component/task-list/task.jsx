@@ -25,9 +25,10 @@ export default class Task extends Component {
         const { task } = this.props;
         return (
             <Media className={`cmp-task ${ determineClassNames(task) }`}>
+                { _createPriorityIndicator(task) }
                 <Media.Item renderAs="figure" position="left">
                     <Icon className="is-medium fa-2x">
-                        <FontAwesomeIcon icon={determineIcon(task)} />
+                        <FontAwesomeIcon icon={determineIcon(task)} className="task-icon" />
                     </Icon>
                 </Media.Item>
                 <Media.Item>
@@ -84,4 +85,8 @@ function _createDueItem(task) {
             </Tag.Group>
         </Level.Item>
     );
+}
+
+function _createPriorityIndicator(task) {
+    return <div className={`priority ${ task.priority ? `prio-${ task.priority }` : '' }`} />;
 }
