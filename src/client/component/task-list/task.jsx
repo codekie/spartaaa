@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Content from 'react-bulma-components/lib/components/content';
 import Icon from 'react-bulma-components/lib/components/icon';
@@ -10,8 +11,13 @@ import TagList from '../tag-list';
 import determineClassNames from './css-class-determinator';
 import determineIcon from './icon-determinator';
 import './task.sass';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component {
+    static propTypes = {
+        task: PropTypes.object.isRequired
+    };
+
     constructor(props) {
         super(props);
     }
@@ -27,8 +33,13 @@ export default class Task extends Component {
                 <Media.Item>
                     <Content>
                         <p><strong>[{ task.id }] { task.description }</strong></p>
-                        <Level>
+                        <Level className="aux-bar-1">
                             <Level.Side align="left">
+                            </Level.Side>
+                        </Level>
+                        <Level>
+                            <Level.Side align="left" className="tags">
+                                { _createDueItem(task) }
                                 { _createProjectItem(task) }
                                 <Level.Item><TagList tags={task.tags} /></Level.Item>
                             </Level.Side>
@@ -53,9 +64,23 @@ function _createProjectItem(task) {
     if (!task.project) { return null; }
     return (
         <Level.Item>
-            <Tag.Group gapless>
+            <Tag.Group gapless className="tag-project">
                 <Tag color="dark">project</Tag>
                 <Tag color="info">{ task.project }</Tag>
+            </Tag.Group>
+        </Level.Item>
+    );
+}
+
+function _createDueItem(task) {
+    if (!task.due) { return null; }
+    const dueUntil = moment(task.due).fromNow(),
+        classNameDue = task.due - Date.now() > 0 ? 'in-time' : 'overdue';
+    return (
+        <Level.Item>
+            <Tag.Group gapless className="tag-due">
+                <Tag color="dark">due</Tag>
+                <Tag className={classNameDue}>{ dueUntil }</Tag>
             </Tag.Group>
         </Level.Item>
     );
