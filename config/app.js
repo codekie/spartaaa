@@ -21,7 +21,6 @@ const DEFAULT__PORT__DEV_SERVER = 8080,
     FILEPATH__DEV__ENTRY__CLIENT = path.join(PATH__PROJECT_BASE, 'src/client/index.jsx'),
     FILEPATH__BUILD__CLIENT__TEMPLATE = path.join(PATH__PROJECT_BASE, 'src/client/index.html'),
     FILEPATH__OUTPUT__CLIENT__TEMPLATE = path.join(PATH__BUILD_OUTPUT, 'index.html'),
-    FILENAME__ENTRY__CLIENT = 'app.js',
     FILENAME__ENTRY__SERVER = 'server.js';
 
 const config = _createConfig();
@@ -42,8 +41,7 @@ function _createConfig() {
 
 function _createEntryConfig() {
     return {
-        server: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__SERVER),
-        client: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__CLIENT)
+        server: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__SERVER)
     };
 }
 
@@ -93,7 +91,6 @@ function _createBuildConfig() {
                 filepathTemplate: FILEPATH__BUILD__CLIENT__TEMPLATE
             },
             output: {
-                filenameScript: FILENAME__ENTRY__CLIENT,
                 filepathTemplate: FILEPATH__OUTPUT__CLIENT__TEMPLATE,
                 path: PATH__BUILD_OUTPUT
             }

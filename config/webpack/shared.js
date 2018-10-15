@@ -3,10 +3,12 @@ const path = require('path'),
     appConfig = require('../app');
 
 module.exports = {
-    entry: appConfig.dev.client.filepathEntry,
+    entry: {
+        app: [appConfig.dev.client.filepathEntry]
+    },
     output: {
         path: appConfig.build.client.output.path,
-        filename: appConfig.build.client.output.filenameScript
+        filename: '[name].js'
     },
     resolve: {
         // Other resolve props
@@ -66,7 +68,20 @@ module.exports = {
             }
         ]
     },
-    plugins: initPlugins()
+    plugins: initPlugins(),
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    enforce: true,
+                    chunks: 'all'
+                }
+            }
+        }
+    }
 };
 
 function initPlugins() {
