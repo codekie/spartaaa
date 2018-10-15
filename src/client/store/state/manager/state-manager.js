@@ -1,7 +1,9 @@
 import { deepFreeze } from '../../../util';
 import * as Accessors from '../accessor';
 
-let _rootState = deepFreeze({});
+const _inst = {
+    rootState: null
+};
 
 export {
     init,
@@ -11,24 +13,26 @@ export {
 };
 
 function init() {
-    _rootState = Object.keys(Accessors)
-        .reduce((state, name) => {
+    // All these references to `_inst.rootState` are required and intentional. Don't mess with them... you'll regret it.
+    _inst.rootState = {};
+    _inst.rootState = deepFreeze(Object.keys(Accessors)
+        .reduce((rootState, name) => {
             const accessor = Accessors[name];
-            state[accessor.ID] = {};
-            accessor.init(state[accessor.ID]);
-            return state;
-        }, {});
+            accessor.init();
+            return _inst.rootState;
+        }, _inst.rootState));
 }
 
 function getRootState() {
-    return _rootState;
+    return _inst.rootState;
 }
 
 function getState(id) {
-    return _rootState[id];
+    return _inst.rootState[id];
 }
 
 function mutateState(id, state) {
-    _rootState = deepFreeze(Object.assign({}, _rootState, { [id]: state }));
+    const childState = Object.assign({}, getState(id), state);
+    _inst.rootState = deepFreeze(Object.assign({}, _inst.rootState, { [id]: childState }));
     return getState(id);
 }

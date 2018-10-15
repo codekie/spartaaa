@@ -1,9 +1,12 @@
 // # IMPORTS
 
+import { Subject } from 'rxjs';
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { EMPTY } from 'rxjs/internal/observable/empty';
-import { QueueingSubject } from 'queueing-subject';
-import websocketConnect from 'rxjs-websockets';
 import appConfig from '../../../../config/app';
+import * as Store from '../../store';
+import Action from '../../store/actions';
+import CommandType from '../../store/command-type';
 
 // # INITIALIZATION
 
@@ -23,23 +26,23 @@ export {
 // ## Public
 
 function connect() {
-    const { messages, connectionStatus } = websocketConnect(appConfig.server.websocket.host, _inst.input);
-    Object.assign(_inst, { messages, connectionStatus });
+    const webSocket$ = new WebSocketSubject(_createWebSocketSubjectConfig());
+    Object.assign(_inst, { webSocket$ });
 }
 
 function send(eventName, data) {
-    _inst.input.next(JSON.stringify({
+    _inst.webSocket$.next({
         type: eventName,
         timestamp: Date.now(),
         data
-    }));
+    });
     return EMPTY;
 }
 
 function subscribe(eventName, handler) {
-    return _inst.messages.subscribe((strEvent) => {
-        const eventData = JSON.parse(strEvent),
-            { type, data, timestamp } = eventData;
+    Store.dispatch(Action[CommandType.connect]());
+    return _inst.webSocket$.subscribe(eventData => {
+        const { type, data, timestamp } = eventData;
         handler(data, { type, timestamp });
     });
 }
@@ -52,8 +55,33 @@ function unsubscribe(subscription) {
 
 function _init() {
     return {
-        input: new QueueingSubject(),
+        webSocket$: null,
         messages: null,
         connectionStatus: null
     };
+}
+
+function _createWebSocketSubjectConfig() {
+    const openObserver = _createOpenObserver(),
+        closeObserver = _createCloseObserver(),
+        closingObserver = _createClosingObserver();
+    return {
+        url: appConfig.server.websocket.host,
+        serializer: (val) => JSON.stringify(val),
+        openObserver,
+        closeObserver,
+        closingObserver
+    };
+}
+
+function _createOpenObserver() {
+    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.handleConnected]()));
+}
+
+function _createCloseObserver() {
+    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.disconnect]()));
+}
+
+function _createClosingObserver() {
+    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.disconnect]()));
 }

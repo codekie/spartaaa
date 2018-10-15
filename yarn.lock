@@ -7407,11 +7407,6 @@ rxjs-compat@^6.3.3:
   resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.3.3.tgz#2ab3b9ac0dac0c073749d55fef9c03ea1df2045c"
   integrity sha512-caGN7ixiabHpOofginKEquuHk7GgaCrC7UpUQ9ZqGp80tMc68msadOeP/2AKy2R4YJsT1+TX5GZCtxO82qWkyA==
 
-rxjs-websockets@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/rxjs-websockets/-/rxjs-websockets-6.0.2.tgz#052f801a703b0007969e3b1d674e27285acdc5cd"
-  integrity sha512-2DEl/SkJaYrXIus3YNfKpfZtaSdiK01C4DlCS5ApiA65IIyY3+TOv5EOWhGP+Agb3RRAB8MTD4af93l5ZflM7A==
-
 rxjs@6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.2.2.tgz#eb75fa3c186ff5289907d06483a77884586e1cf9"

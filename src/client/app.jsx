@@ -11,12 +11,15 @@ import Image from 'react-bulma-components/lib/components/image';
 import Level from 'react-bulma-components/lib/components/level';
 import Panel from 'react-bulma-components/lib/components/panel';
 import Section from 'react-bulma-components/lib/components/section';
+import Loader from 'react-bulma-components/lib/components/loader';
 import { Control, Input } from 'react-bulma-components/lib/components/form';
 // App
 import CommandType from './store/command-type';
 import Action from './store/actions';
 import { TaskList } from './component/task-list';
+import ConnectionState from './component/connection-state';
 import { getTasks } from './store';
+import { isLoading } from './store';
 // Style
 import './app.sass';
 import logo from './static/images/sparta.png';
@@ -42,6 +45,7 @@ class App extends Component {
     // TODO multilanguage
     render() {
         const tasks = getTasks() || [],
+            loading = isLoading(),
             { fetchTasks } = this.props;
         return (
             <Section>
@@ -58,6 +62,14 @@ class App extends Component {
                                 <Button onClick={fetchTasks}>
                                     Refresh
                                 </Button>
+                            </Level.Item>
+                        </Level.Side>
+                        <Level.Side align="right">
+                            <Level.Item>
+                                <Loader className={`${ loading ? 'is-loading' : '' }`} />
+                            </Level.Item>
+                            <Level.Item>
+                                <ConnectionState />
                             </Level.Item>
                         </Level.Side>
                     </Level>

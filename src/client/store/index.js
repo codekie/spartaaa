@@ -1,3 +1,4 @@
+import { QueueingSubject } from 'queueing-subject';
 import * as StateManager from './state/manager/state-manager';
 import { isLoading } from './state/accessor/loader';
 import { getTasks } from './state/accessor/tasks';
@@ -6,12 +7,12 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import reducer from './reducer';
 import epics, * as Epics from './epic';
 
-let _store = null;
+const _inst = _init();
 
 export {
     init,
     dispatch,
-    // Mutators
+    // Accessors
     isLoading,
     getTasks
 };
@@ -28,10 +29,21 @@ function init() {
             )
         );
     epicMiddleware.run(epics);
-    _store = store;
+    // Queue a `QueueSubject`, to queue commands, before the store has been initialized
+    _inst.dispatchQueue$.subscribe((command) => {
+        store.dispatch(command);
+    });
+    _inst.store = store;
     return store;
 }
 
 function dispatch(command) {
-    return _store.dispatch(command);
+    _inst.dispatchQueue$.next(command);
+}
+
+function _init() {
+    return {
+        store: null,
+        dispatchQueue$: new QueueingSubject()
+    };
 }

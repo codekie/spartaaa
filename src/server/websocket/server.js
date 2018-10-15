@@ -12,7 +12,7 @@ const WebSocketServer = ws.Server;
 const EVT__CONNECTION = 'connection',
     EVT__MESSAGE = 'message',
     EVT__PONG = 'pong',
-    INTERVAL__CHECK_ALIVE = 300000, // 5 mins
+    INTERVAL__CHECK_ALIVE = 30000, // 30 sec
     SYM__ALIVE = Symbol('isAlive');
 
 // ## Private static
@@ -97,7 +97,10 @@ function _bindHandlers(inst, server) {
                 logger.error(`An error has occured while processing the message: ${ message }. Error: ${ e }`);
             }
         });
-        webSocket.on(EVT__PONG, () => webSocket[SYM__ALIVE] = true);
+        webSocket.on(EVT__PONG, () => {
+            webSocket[SYM__ALIVE] = true;
+            logger.debug('Received a pong');
+        });
     });
 }
 
@@ -108,14 +111,15 @@ function _initConnection(webSocket) {
 function _initCheckAlive(server) {
     // Check for broken connections and terminate them
     setInterval(() => {
-        server.clients.forEach(webSocket => {
-            if (!webSocket[SYM__ALIVE]) {
-                webSocket.terminate();
+        server.clients.forEach(client => {
+            if (!client[SYM__ALIVE]) {
+                client.terminate();
                 logger.verbose('Connection terminated, due to ping-timeout.');
                 return;
             }
-            webSocket[SYM__ALIVE] = false;
-            webSocket.ping(null, false, true);
+            client[SYM__ALIVE] = false;
+            client.ping(null, false, true);
+            logger.debug('Sent a ping');
         });
     }, INTERVAL__CHECK_ALIVE);
 }

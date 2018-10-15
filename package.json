@@ -78,7 +78,6 @@
     "redux-observable": "^1.0.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
-    "rxjs-websockets": "^6.0.2",
     "winston": "^3.1.0",
     "ws": "^6.1.0"
   }
