@@ -2,7 +2,7 @@
 
 import { QueueingSubject } from 'queueing-subject';
 import { Subject } from 'rxjs';
-import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import appConfig from '../../../../config/app';
 import * as Store from '../../store';

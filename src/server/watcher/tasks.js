@@ -1,5 +1,5 @@
 import chokidar from 'chokidar';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import appConfig from '../../../config/app';
 import { WebSocketServer } from '../websocket';

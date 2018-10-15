@@ -1,8 +1,5 @@
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/takeUntil';
+import 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import CommandType from '../command-type';
 import Action from '../actions';
 import { WebSocketEvents } from '../../../comm';
@@ -22,7 +19,9 @@ export {
 function fetchTasks(commands$) {
     return commands$
         .ofType(CommandType.fetchTasks)
-        .switchMap((/*command*/) => send(WS_EVENT_REQ__GET_TASKS));
+        .pipe(
+            switchMap((/*command*/) => send(WS_EVENT_REQ__GET_TASKS))
+        );
 }
 
 function init() {
