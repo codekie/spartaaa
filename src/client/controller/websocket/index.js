@@ -1,5 +1,6 @@
 // # IMPORTS
 
+import { QueueingSubject } from 'queueing-subject';
 import { Subject } from 'rxjs';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { EMPTY } from 'rxjs/internal/observable/empty';
@@ -7,6 +8,8 @@ import appConfig from '../../../../config/app';
 import * as Store from '../../store';
 import Action from '../../store/actions';
 import CommandType from '../../store/command-type';
+
+const DEFAULT__RECONNECT_INTERVAL = 5000;
 
 // # INITIALIZATION
 
@@ -26,7 +29,11 @@ export {
 // ## Public
 
 function connect() {
+    Store.dispatch(Action[CommandType.connect]());
     const webSocket$ = new WebSocketSubject(_createWebSocketSubjectConfig());
+    webSocket$.subscribe(eventData => {
+        _inst.messages$.next(eventData);
+    });
     Object.assign(_inst, { webSocket$ });
 }
 
@@ -40,8 +47,7 @@ function send(eventName, data) {
 }
 
 function subscribe(eventName, handler) {
-    Store.dispatch(Action[CommandType.connect]());
-    return _inst.webSocket$.subscribe(eventData => {
+    return _inst.messages$.subscribe(eventData => {
         const { type, data, timestamp } = eventData;
         handler(data, { type, timestamp });
     });
@@ -55,6 +61,7 @@ function unsubscribe(subscription) {
 
 function _init() {
     return {
+        messages$: new QueueingSubject(),
         webSocket$: null,
         messages: null,
         connectionStatus: null
@@ -75,11 +82,19 @@ function _createWebSocketSubjectConfig() {
 }
 
 function _createOpenObserver() {
-    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.handleConnected]()));
+    return new Subject().subscribe(() => {
+        return Store.dispatch(Action[CommandType.handleConnected]());
+    });
 }
 
 function _createCloseObserver() {
-    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.disconnect]()));
+    return new Subject().subscribe(() => {
+        Store.dispatch(Action[CommandType.disconnect]());
+        setTimeout(() => {
+            console.log('Got disconnected. Trying to reconnect');
+            connect();
+        }, DEFAULT__RECONNECT_INTERVAL);
+    });
 }
 
 function _createClosingObserver() {
