@@ -1,10 +1,8 @@
-import TaskFilter from '../../../../comm/session/task-filter';
 import TaskStatus from '../../../../comm/task-status';
 
-const { FILTER_CRITERION } = TaskFilter,
-    TAG__NEXT = 'next';
+const TAG__NEXT = 'next';
 
-export default {
-    [FILTER_CRITERION.status]: TaskStatus.pending,
-    [FILTER_CRITERION.tags]: [TAG__NEXT]
-};
+export default function filter(task) {
+    return task.tags && task.tags.includes(TAG__NEXT)
+        && task.status === TaskStatus.pending;
+}

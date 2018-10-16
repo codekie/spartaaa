@@ -1,3 +1,4 @@
 export default {
-    pending: 'pending'
+    pending: 'pending',
+    deleted: 'deleted'
 };

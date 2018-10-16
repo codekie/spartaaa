@@ -1,8 +1,10 @@
 // # IMPORTS
 
-const { logger } = require('../../util'),
+const { from } = require('rxjs'),
+    { filter, toArray, tap } = require('rxjs/operators'),
+    { logger } = require('../../util'),
     fetchTasks = require('./fetch-tasks.js'),
-    { applyView } = require('./task-list-view');
+    View = require('./task-list-view').default;
 
 // # CONSTANTS
 
@@ -39,20 +41,34 @@ async function handleExportTasksRequest(req, res) {
 
 async function exportTasks(session) {
     const { viewName, taskFilter } = session,
-        tasks = await fetchTasks(),
-        result = _filter(viewName, taskFilter, tasks);
-    result.sort(_orderUrgencyDesc);
-    logger.verbose('Finished processing tasks');
-    return result;
+        tasks = await fetchTasks();
+    return await new Promise((resolve, reject) => {
+        try {
+            from(tasks)
+                .pipe(
+                    filter(View.base),
+                    filter(View[viewName]),
+                    filter((task) => _filter(task, taskFilter, viewName)),
+                    toArray()
+                )
+                .subscribe((result) => {
+                    result.sort(_orderUrgencyDesc);
+                    logger.verbose('Finished processing tasks');
+                    resolve(result);
+                });
+        } catch (e) {
+            reject(e);
+        }
+    });
 }
 
 // ## Private
 
-function _filter(viewName, taskFilter, tasks) {
-    const filtersWithView = applyView(taskFilter, viewName);
-    return tasks
-        .filter((task) => _filterByTags(filtersWithView, task))
-        .filter((task) => _filterByStatus(filtersWithView, task));
+function _filter(task, taskFilter) {
+    return [
+        _filterByTags(taskFilter, task),
+        _filterByStatus(taskFilter, task)
+    ].every(res => res);
 }
 
 function _filterByTags(taskFilter, task) {

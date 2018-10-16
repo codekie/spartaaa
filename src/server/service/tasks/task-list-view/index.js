@@ -1,42 +1,12 @@
-import _ from 'lodash';
 import * as VIEW_NAME from '../../../../comm/task-list-views';
-import PendingView from './pending';
-import NextView from './next';
-import AllView from './all';
-import TaskFilter from '../../../../comm/session/task-filter';
+import base from './base';
+import pending from './pending';
+import next from './next';
+import all from './all';
 
-const { FILTER_CRITERION } = TaskFilter,
-    MAP__CRITERION_HANDLER = {
-        [FILTER_CRITERION.tags]: _applySet
-    };
-const VIEW = {
-    [VIEW_NAME.pending]: PendingView,
-    [VIEW_NAME.next]: NextView,
-    [VIEW_NAME.all]: AllView
+export default {
+    base,
+    [VIEW_NAME.pending]: pending,
+    [VIEW_NAME.next]: next,
+    [VIEW_NAME.all]: all
 };
-
-export {
-    VIEW,
-    applyView
-};
-
-function applyView(taskFilter, viewName) {
-    const view = VIEW[viewName];
-    return Object.keys(view)
-        .reduce((result, criterion) => {
-            const handler = MAP__CRITERION_HANDLER[criterion] || _applyValue;
-            return handler(result, criterion, view[criterion]);
-        }, taskFilter);
-}
-
-function _applySet(taskFilter, criterion, set) {
-    return Object.assign(
-        {},
-        taskFilter,
-        { [criterion]: _.uniq(_.concat(taskFilter[criterion], set)) }
-    );
-}
-
-function _applyValue(taskFilter, criterion, value) {
-    return Object.assign({}, taskFilter, { [criterion]: value });
-}
