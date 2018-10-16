@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import * as VIEW_NAME from '../../../../comm/task-filter-views';
+import * as VIEW_NAME from '../../../../comm/task-list-views';
 import PendingView from './pending';
+import NextView from './next';
+import AllView from './all';
 import TaskFilter from '../../../../comm/session/task-filter';
 
 const { FILTER_CRITERION } = TaskFilter,
@@ -8,7 +10,9 @@ const { FILTER_CRITERION } = TaskFilter,
         [FILTER_CRITERION.tags]: _applySet
     };
 const VIEW = {
-    [VIEW_NAME.pending]: PendingView
+    [VIEW_NAME.pending]: PendingView,
+    [VIEW_NAME.next]: NextView,
+    [VIEW_NAME.all]: AllView
 };
 
 export {

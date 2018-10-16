@@ -18,8 +18,8 @@ import CommandType from './store/command-type';
 import Action from './store/actions';
 import { TaskList } from './component/task-list';
 import ConnectionState from './component/connection-state';
-import { getTasks } from './store';
-import { isLoading } from './store';
+import TaskListSelector from './component/task-list-selector';
+import { isLoading, getTaskListView, getTasks } from './store';
 // Style
 import './app.sass';
 import logo from './static/images/sparta.png';
@@ -46,6 +46,7 @@ class App extends Component {
     render() {
         const tasks = getTasks() || [],
             loading = isLoading(),
+            viewName = getTaskListView(),
             { fetchTasks } = this.props;
         return (
             <Section>
@@ -80,10 +81,7 @@ class App extends Component {
                         <Input size="small" type="text" placeholder="search" readOnly />
                     </Control>
                 </Panel.Block>
-                <Panel.Tabs className="panel-tabs">
-                    <Panel.Tabs.Tab active>Next</Panel.Tabs.Tab>
-                    <Panel.Tabs.Tab>All</Panel.Tabs.Tab>
-                </Panel.Tabs>
+                <TaskListSelector viewName={viewName} />
                 <TaskList tasks={tasks} />
             </Section>
         );

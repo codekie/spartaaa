@@ -2,7 +2,7 @@
 
 const { logger } = require('../../util'),
     fetchTasks = require('./fetch-tasks.js'),
-    { applyView } = require('./task-filter-view');
+    { applyView } = require('./task-list-view');
 
 // # CONSTANTS
 

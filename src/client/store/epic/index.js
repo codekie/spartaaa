@@ -1,4 +1,5 @@
 import * as Tasks from './tasks';
+import * as Session from './session';
 import { combineEpics } from 'redux-observable';
 
 const EPICS = {
@@ -6,7 +7,9 @@ const EPICS = {
 };
 
 export default combineEpics(
-    Tasks.fetchTasks
+    Tasks.fetchTasks,
+    Session.sendSession,
+    Session.setTaskListViewAndUpdateList
 );
 export {
     init

@@ -2,6 +2,7 @@ import { QueueingSubject } from 'queueing-subject';
 import * as StateManager from './state/manager/state-manager';
 import { isLoading } from './state/accessor/loader';
 import { getTasks } from './state/accessor/tasks';
+import { getTaskListView } from './state/accessor/session';
 import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware, compose, createStore } from 'redux';
 import reducer from './reducer';
@@ -14,7 +15,8 @@ export {
     dispatch,
     // Accessors
     isLoading,
-    getTasks
+    getTasks,
+    getTaskListView
 };
 
 function init() {

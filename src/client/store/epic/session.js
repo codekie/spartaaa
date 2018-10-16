@@ -1,4 +1,5 @@
 import 'rxjs';
+import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import CommandType from '../command-type';
@@ -15,8 +16,13 @@ const EVENT__SESSION_UPDATE = Event.session.update,
 
 export {
     init,
-    sendSession
+    sendSession,
+    setTaskListViewAndUpdateList
 };
+
+function init() {
+    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[CommandType.updateSession](session)));
+}
 
 function sendSession(commands$) {
     return commands$
@@ -29,6 +35,16 @@ function sendSession(commands$) {
         );
 }
 
-function init() {
-    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[CommandType.updateSession](session)));
+function setTaskListViewAndUpdateList(commands$) {
+    return commands$
+        .ofType(CommandType.setTaskListViewAndUpdateList)
+        .pipe(
+            switchMap((command) => {
+                return from([
+                    Action[CommandType.setTaskListView](command.payload),
+                    Action[CommandType.sendSession](),
+                    Action[CommandType.fetchTasks]()
+                ]);
+            })
+        );
 }

@@ -15,7 +15,7 @@ const Reducer = {
 
 // # PUBLIC API
 
-export default function reduceTasks(state = getRootState(), command) {
+export default function reduce(state = getRootState(), command) {
     const reducer = Reducer[command.type];
     if (!reducer) { return state; }
     return reducer(command);

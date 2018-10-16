@@ -2,6 +2,8 @@ import CommandType from './command-type';
 import { getSession } from './state/accessor/session';
 
 export default {
+    // Epics
+    [CommandType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
     // Connection
     [CommandType.connect]: connect,
     [CommandType.disconnect]: disconnect,
@@ -11,11 +13,19 @@ export default {
     [CommandType.updateSession]: updateSession,
     [CommandType.clearTaskFilter]: clearTaskFilter,
     [CommandType.filterTasksBy]: filterTasksBy,
+    [CommandType.setTaskListView]: setTaskListView,
     // Tasks
     [CommandType.fetchTasks]: fetchTasks,
     [CommandType.fetchTasksSuccess]: fetchTasksSuccess,
     [CommandType.fetchTasksFailed]: fetchTasksFailed
 };
+
+function setTaskListViewAndUpdateList(viewName) {
+    return {
+        type: CommandType.setTaskListViewAndUpdateList,
+        payload: viewName
+    };
+}
 
 // Connection
 
@@ -61,6 +71,13 @@ function filterTasksBy(criterion, value) {
             criterion,
             value
         }
+    };
+}
+
+function setTaskListView(viewName) {
+    return {
+        type: CommandType.setTaskListView,
+        payload: viewName
     };
 }
 

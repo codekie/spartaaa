@@ -1,4 +1,4 @@
-import * as VIEW_NAME from './task-filter-views';
+import * as VIEW_NAME from './task-list-views';
 import TaskFilter from './session/task-filter';
 
 export default class Session {

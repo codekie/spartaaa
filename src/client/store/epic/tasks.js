@@ -17,6 +17,10 @@ export {
     fetchTasks
 };
 
+function init() {
+    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[CommandType.fetchTasksSuccess](tasks)));
+}
+
 function fetchTasks(commands$) {
     return commands$
         .ofType(CommandType.fetchTasks)
@@ -26,8 +30,4 @@ function fetchTasks(commands$) {
                 return EMPTY;
             })
         );
-}
-
-function init() {
-    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[CommandType.fetchTasksSuccess](tasks)));
 }
