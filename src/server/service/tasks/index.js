@@ -1,12 +1,12 @@
 // # IMPORTS
 
 const { logger } = require('../../util'),
-    fetchTasks = require('./fetch-tasks.js');
+    fetchTasks = require('./fetch-tasks.js'),
+    { applyView } = require('./task-filter-view');
 
 // # CONSTANTS
 
-const SERVICE_NAME = 'tasks',
-    STATUS__PENDING = 'pending';
+const SERVICE_NAME = 'tasks';
 
 // # PUBLIC API
 
@@ -24,6 +24,8 @@ module.exports = {
 
 // ## Public
 
+// TODO remove this function
+/** @deprecated Don't use this anymore. It probably won't work */
 async function handleExportTasksRequest(req, res) {
     try {
         const result = await exportTasks();
@@ -35,9 +37,10 @@ async function handleExportTasksRequest(req, res) {
     }
 }
 
-async function exportTasks() {
-    const tasks = await fetchTasks(),
-        result = tasks.filter(_filterPending);
+async function exportTasks(session) {
+    const { viewName, taskFilter } = session,
+        tasks = await fetchTasks(),
+        result = _filter(viewName, taskFilter, tasks);
     result.sort(_orderUrgencyDesc);
     logger.verbose('Finished processing tasks');
     return result;
@@ -45,8 +48,22 @@ async function exportTasks() {
 
 // ## Private
 
-function _filterPending(task) {
-    return task.status === STATUS__PENDING;
+function _filter(viewName, taskFilter, tasks) {
+    const filtersWithView = applyView(taskFilter, viewName);
+    return tasks
+        .filter((task) => _filterByTags(filtersWithView, task))
+        .filter((task) => _filterByStatus(filtersWithView, task));
+}
+
+function _filterByTags(taskFilter, task) {
+    const { tags = [] } = taskFilter;
+    if (!tags.length) { return true; }
+    return tags.some((tag) => task.tags && task.tags.includes(tag));
+}
+
+function _filterByStatus(taskFilter, task) {
+    if (taskFilter.status == null) { return true; }
+    return task.status === taskFilter.status;
 }
 
 function _orderUrgencyDesc(task1, task2) {

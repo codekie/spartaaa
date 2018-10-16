@@ -6,28 +6,29 @@ import Action from '../actions';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
 import { dispatch } from '..';
+import { getSession } from '../state/accessor/session';
 const { Event, getRequestEventName, getResponseEventName } = WebSocketEvents;
 
-const EVENT__GET_TASKS = Event.tasks.get,
-    WS_EVENT_REQ__GET_TASKS = getRequestEventName(EVENT__GET_TASKS),
-    WS_EVENT_RES__GET_TASKS = getResponseEventName(EVENT__GET_TASKS);
+const EVENT__SESSION_UPDATE = Event.session.update,
+    WS_EVENT_REQ__SESSION_UPDATE = getRequestEventName(EVENT__SESSION_UPDATE),
+    WS_EVENT_RES__SESSION_UPDATE = getResponseEventName(EVENT__SESSION_UPDATE);
 
 export {
     init,
-    fetchTasks
+    sendSession
 };
 
-function fetchTasks(commands$) {
+function sendSession(commands$) {
     return commands$
-        .ofType(CommandType.fetchTasks)
+        .ofType(CommandType.sendSession)
         .pipe(
             switchMap((/*command*/) => {
-                send(WS_EVENT_REQ__GET_TASKS);
+                send(WS_EVENT_REQ__SESSION_UPDATE, getSession());
                 return EMPTY;
             })
         );
 }
 
 function init() {
-    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[CommandType.fetchTasksSuccess](tasks)));
+    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[CommandType.updateSession](session)));
 }

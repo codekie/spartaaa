@@ -5,3 +5,6 @@ env:
   browser: true
 rules:
   one-var: 0
+  operator-linebreak:
+    - 2
+    - before

@@ -3,7 +3,6 @@
 import { QueueingSubject } from 'queueing-subject';
 import { Subject } from 'rxjs';
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import appConfig from '../../../../config/app';
 import * as Store from '../../store';
 import Action from '../../store/actions';
@@ -43,7 +42,6 @@ function send(eventName, data) {
         timestamp: Date.now(),
         data
     });
-    return EMPTY;
 }
 
 function subscribe(eventName, handler) {
@@ -83,6 +81,7 @@ function _createWebSocketSubjectConfig() {
 
 function _createOpenObserver() {
     return new Subject().subscribe(() => {
+        Store.dispatch(Action[CommandType.sendSession]());
         return Store.dispatch(Action[CommandType.handleConnected]());
     });
 }

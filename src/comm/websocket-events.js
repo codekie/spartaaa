@@ -2,6 +2,8 @@
 
 const REQUEST = 'Request',
     RESPONSE = 'Response',
+    SESSION = 'session',
+    SESSION__UPDATE = `${ SESSION }.update`,
     TASKS = 'tasks',
     TASKS__GET = `${ TASKS }.get`;
 
@@ -12,6 +14,9 @@ export {
     getResponseEventName
 };
 export const Event = {
+    session: {
+        update: SESSION__UPDATE
+    },
     tasks: {
         default: TASKS,
         get: TASKS__GET

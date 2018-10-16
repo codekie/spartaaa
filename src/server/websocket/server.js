@@ -3,8 +3,10 @@
 import colors from 'colors';
 import ws from 'ws';
 import appConfig from '../../../config/app';
+import Session from '../../comm/session';
 import * as Services from './service';
 import { logger } from '../util';
+import { Event, getRequestEventName, getResponseEventName } from '../../comm/websocket-events';
 const WebSocketServer = ws.Server;
 
 // # CONSTANTS
@@ -13,7 +15,8 @@ const EVT__CONNECTION = 'connection',
     EVT__MESSAGE = 'message',
     EVT__PONG = 'pong',
     INTERVAL__CHECK_ALIVE = 30000, // 30 sec
-    SYM__ALIVE = Symbol('isAlive');
+    SYM__ALIVE = Symbol('isAlive'),
+    SYM__SESSION = Symbol('session');
 
 // ## Private static
 
@@ -29,7 +32,9 @@ export {
     getPort,
     register,
     broadcast,
-    send
+    send,
+    getSession,
+    updateSession
 };
 
 // # IMPLEMENTATION DETAILS
@@ -70,6 +75,15 @@ function broadcast(eventName, data) {
     });
 }
 
+function getSession(webSocket) {
+    return webSocket[SYM__SESSION];
+}
+
+function updateSession(ws, data) {
+    Object.assign(ws[SYM__SESSION], data);
+    send(ws, getResponseEventName(Event.session.update), ws[SYM__SESSION]);
+}
+
 // ## Private
 
 function _initServer(inst) {
@@ -106,6 +120,7 @@ function _bindHandlers(inst, server) {
 
 function _initConnection(webSocket) {
     webSocket[SYM__ALIVE] = true;
+    webSocket[SYM__SESSION] = new Session();
 }
 
 function _initCheckAlive(server) {
@@ -135,7 +150,10 @@ function _handleError(err, { requestId } = {}) {
 }
 
 function _registerServices() {
-    Object.keys(Services).forEach(serviceName => Services[serviceName].init());
+    register(getRequestEventName(Event.session.update), (data, webSocket) => {
+        Object.assign(webSocket[SYM__SESSION], data);
+    });
+    Object.keys(Services).forEach(serviceName => Services[serviceName].init({ getSession }));
 }
 
 function _createEvent(eventName, data, { sourceEvent } = {}) {
