@@ -30,7 +30,10 @@ function _emitFileChanges(observer) {
 }
 
 async function _sendTasks() {
-    WebSocketServer.broadcast(getResponseEventName(Event.tasks.get), await methods.exportTasks());
+    WebSocketServer.broadcast(
+        getResponseEventName(Event.tasks.get),
+        async ({ session }) => await methods.exportTasks(session)
+    );
 }
 
 function _handleError(e) {

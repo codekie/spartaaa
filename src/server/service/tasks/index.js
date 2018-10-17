@@ -1,7 +1,7 @@
 // # IMPORTS
 
 const { from } = require('rxjs'),
-    { filter, toArray, tap } = require('rxjs/operators'),
+    { filter, toArray } = require('rxjs/operators'),
     { logger } = require('../../util'),
     fetchTasks = require('./fetch-tasks.js'),
     View = require('./task-list-view').default;

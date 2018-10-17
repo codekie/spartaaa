@@ -52,10 +52,10 @@ function register(eventName, handler) {
     _register(_inst, eventName, handler);
 }
 
-function send(ws, eventName, data, sourceEvent) {
+function send(webSocket, eventName, data, sourceEvent) {
     let response = _createEvent(eventName, data, { sourceEvent });
     logger.isDebug() && logger.debug(`Sending: ${ JSON.stringify(response) }`);
-    ws.send(
+    webSocket.send(
         JSON.stringify(response),
         (err) => _handleError(err)
     );
@@ -65,10 +65,12 @@ function getPort() {
     return process.env.PORT_MOCK_WEBSOCKET || appConfig.server.websocket.port;
 }
 
-function broadcast(eventName, data) {
-    _inst.server.clients.forEach(function each(client) {
-        if (client.readyState !== ws.OPEN) { return; }
-        client.send(
+function broadcast(eventName, createData) {
+    _inst.server.clients.forEach(async function each(webSocket) {
+        if (webSocket.readyState !== ws.OPEN) { return; }
+        const session = getSession(webSocket),
+            data = await createData({ session });
+        webSocket.send(
             JSON.stringify(_createEvent(eventName, data)),
             (err) => _handleError(err)
         );
@@ -79,9 +81,9 @@ function getSession(webSocket) {
     return webSocket[SYM__SESSION];
 }
 
-function updateSession(ws, data) {
-    Object.assign(ws[SYM__SESSION], data);
-    send(ws, getResponseEventName(Event.session.update), ws[SYM__SESSION]);
+function updateSession(webSocket, data) {
+    Object.assign(webSocket[SYM__SESSION], data);
+    send(webSocket, getResponseEventName(Event.session.update), webSocket[SYM__SESSION]);
 }
 
 // ## Private
@@ -102,11 +104,12 @@ function _bindHandlers(inst, server) {
         webSocket.on(EVT__MESSAGE, message => {
             logger.verbose(`Received: ${ message }`);
             try {
-                const event = JSON.parse(message),
+                const session = getSession(webSocket),
+                    event = JSON.parse(message),
                     eventName = event.type,
                     data = event.data,
                     handlers = inst.handlers[eventName];
-                handlers && handlers.forEach(handler => handler(data, webSocket, event));
+                handlers && handlers.forEach(handler => handler(data, webSocket, { session, event }));
             } catch (e) {
                 logger.error(`An error has occured while processing the message: ${ message }. Error: ${ e }`);
             }
@@ -126,14 +129,14 @@ function _initConnection(webSocket) {
 function _initCheckAlive(server) {
     // Check for broken connections and terminate them
     setInterval(() => {
-        server.clients.forEach(client => {
-            if (!client[SYM__ALIVE]) {
-                client.terminate();
+        server.clients.forEach(webSocket => {
+            if (!webSocket[SYM__ALIVE]) {
+                webSocket.terminate();
                 logger.verbose('Connection terminated, due to ping-timeout.');
                 return;
             }
-            client[SYM__ALIVE] = false;
-            client.ping(null, false, true);
+            webSocket[SYM__ALIVE] = false;
+            webSocket.ping(null, false, true);
             logger.debug('Sent a ping');
         });
     }, INTERVAL__CHECK_ALIVE);
@@ -153,7 +156,7 @@ function _registerServices() {
     register(getRequestEventName(Event.session.update), (data, webSocket) => {
         Object.assign(webSocket[SYM__SESSION], data);
     });
-    Object.keys(Services).forEach(serviceName => Services[serviceName].init({ getSession }));
+    Object.keys(Services).forEach(serviceName => Services[serviceName].init());
 }
 
 function _createEvent(eventName, data, { sourceEvent } = {}) {
