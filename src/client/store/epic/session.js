@@ -2,7 +2,7 @@ import { from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import ActionType from '../action-type';
-import Action from '../actions';
+import ActionCreator from '../action-creators';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
 import { dispatch } from '..';
@@ -20,7 +20,7 @@ export {
 };
 
 function init() {
-    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[ActionType.updateSession](session)));
+    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(ActionCreator[ActionType.updateSession](session)));
 }
 
 function sendSession(actions$) {
@@ -41,9 +41,9 @@ function setTaskListViewAndUpdateList(actions$) {
         .pipe(
             switchMap((action) => {
                 return from([
-                    Action[ActionType.setTaskListView](action.payload),
-                    Action[ActionType.sendSession](),
-                    Action[ActionType.fetchTasks]()
+                    ActionCreator[ActionType.setTaskListView](action.payload),
+                    ActionCreator[ActionType.sendSession](),
+                    ActionCreator[ActionType.fetchTasks]()
                 ]);
             }),
             catchError((e) => console.error(e))

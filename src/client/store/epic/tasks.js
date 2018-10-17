@@ -2,7 +2,7 @@ import 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import ActionType from '../action-type';
-import Action from '../actions';
+import ActionCreator from '../action-creators';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
 import { dispatch } from '..';
@@ -18,7 +18,7 @@ export {
 };
 
 function init() {
-    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[ActionType.fetchTasksSuccess](tasks)));
+    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(ActionCreator[ActionType.fetchTasksSuccess](tasks)));
 }
 
 function fetchTasks(actions$) {

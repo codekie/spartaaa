@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import Panel from 'react-bulma-components/lib/components/panel';
 import * as TaskListView from '../../../comm/task-list-views';
 import ActionType from '../../store/action-type';
-import Action from '../../store/actions';
+import ActionCreator from '../../store/action-creators';
 import { getTaskListView } from '../../store/state/accessor/session';
 
 // CONSTANTS
 
 const MAP__DISPATCH_TO_PROPS = {
-    [ActionType.setTaskListViewAndUpdateList]: Action[ActionType.setTaskListViewAndUpdateList]
+    [ActionType.setTaskListViewAndUpdateList]: ActionCreator[ActionType.setTaskListViewAndUpdateList]
 };
 
 
