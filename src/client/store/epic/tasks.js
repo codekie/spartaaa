@@ -1,5 +1,5 @@
 import 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import CommandType from '../command-type';
 import Action from '../actions';
@@ -28,6 +28,7 @@ function fetchTasks(commands$) {
             switchMap((/*command*/) => {
                 send(WS_EVENT_REQ__GET_TASKS);
                 return EMPTY;
-            })
+            }),
+            catchError((e) => console.error(e))
         );
 }

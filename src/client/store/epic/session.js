@@ -1,6 +1,5 @@
-import 'rxjs';
 import { from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import CommandType from '../command-type';
 import Action from '../actions';
@@ -31,7 +30,8 @@ function sendSession(commands$) {
             switchMap((/*command*/) => {
                 send(WS_EVENT_REQ__SESSION_UPDATE, getSession());
                 return EMPTY;
-            })
+            }),
+            catchError((e) => console.error(e))
         );
 }
 
@@ -45,6 +45,7 @@ function setTaskListViewAndUpdateList(commands$) {
                     Action[CommandType.sendSession](),
                     Action[CommandType.fetchTasks]()
                 ]);
-            })
+            }),
+            catchError((e) => console.error(e))
         );
 }
