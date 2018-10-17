@@ -1,7 +1,7 @@
 // # IMPORTS
 
-const { from } = require('rxjs'),
-    { filter, toArray } = require('rxjs/operators'),
+const { from, of } = require('rxjs'),
+    { filter, toArray, catchError, tap } = require('rxjs/operators'),
     { logger } = require('../../util'),
     fetchTasks = require('./fetch-tasks.js'),
     View = require('./task-list-view').default;
@@ -49,10 +49,14 @@ async function exportTasks(session) {
                     filter(View.base),
                     filter(View[viewName]),
                     filter((task) => _filter(task, taskFilter, viewName)),
-                    toArray()
+                    toArray(),
+                    tap((result) => result.sort(_orderUrgencyDesc)),
+                    catchError((e) => {
+                        logger.error(e);
+                        return of(e);
+                    })
                 )
                 .subscribe((result) => {
-                    result.sort(_orderUrgencyDesc);
                     logger.verbose('Finished processing tasks');
                     resolve(result);
                 });
@@ -72,6 +76,7 @@ function _filter(task, taskFilter) {
 }
 
 function _filterByTags(taskFilter, task) {
+    //noinspection JSMismatchedCollectionQueryUpdate
     const { tags = [] } = taskFilter;
     if (!tags.length) { return true; }
     return tags.some((tag) => task.tags && task.tags.includes(tag));

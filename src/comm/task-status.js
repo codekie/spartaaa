@@ -1,4 +1,5 @@
 export default {
     pending: 'pending',
-    deleted: 'deleted'
+    deleted: 'deleted',
+    completed: 'completed'
 };

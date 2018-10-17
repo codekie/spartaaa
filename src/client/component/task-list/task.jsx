@@ -33,7 +33,9 @@ export default class Task extends Component {
                 </Media.Item>
                 <Media.Item>
                     <Content>
-                        <p><strong>[{ task.id }] { task.description }</strong></p>
+                        <p className="sub-description">
+                            <strong className="sub-title">[{ task.id }] { task.description }</strong>
+                        </p>
                         <Level className="aux-bar-1">
                             <Level.Side align="left">
                             </Level.Side>

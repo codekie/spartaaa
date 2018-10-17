@@ -17,7 +17,6 @@ const MAP__DISPATCH_TO_PROPS = {
 
 class TagList extends Component {
     static propTypes = {
-//        viewName: PropTypes.string.isRequired
         setTaskListViewAndUpdateList: PropTypes.func.isRequired
     };
 
@@ -35,6 +34,9 @@ class TagList extends Component {
                 <Panel.Tabs.Tab
                     active={TaskListView.next === viewName}
                     onClick={() => setTaskListViewAndUpdateList(TaskListView.next)}>Next</Panel.Tabs.Tab>
+                <Panel.Tabs.Tab
+                    active={TaskListView.completed === viewName}
+                    onClick={() => setTaskListViewAndUpdateList(TaskListView.completed)}>Completed</Panel.Tabs.Tab>
                 <Panel.Tabs.Tab
                     active={TaskListView.all === viewName}
                     onClick={() => setTaskListViewAndUpdateList(TaskListView.all)}>All</Panel.Tabs.Tab>
