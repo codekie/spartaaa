@@ -87,6 +87,7 @@ module.exports = {
 function initPlugins() {
     return [
         new HtmlWebPackPlugin({
+            favicon: 'src/client/static/images/sparta.png',
             template: appConfig.build.client.input.filepathTemplate,
             filename: appConfig.build.client.output.filepathTemplate
         })
