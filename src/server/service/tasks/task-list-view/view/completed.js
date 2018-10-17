@@ -1,4 +1,4 @@
-import TaskStatus from '../../../../comm/task-status';
+import TaskStatus from '../../../../../comm/task-status';
 
 export {
     filter,

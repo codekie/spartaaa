@@ -35,6 +35,9 @@ class TagList extends Component {
                     active={TaskListView.next === viewName}
                     onClick={() => setTaskListViewAndUpdateList(TaskListView.next)}>Next</Panel.Tabs.Tab>
                 <Panel.Tabs.Tab
+                    active={TaskListView.postponed === viewName}
+                    onClick={() => setTaskListViewAndUpdateList(TaskListView.postponed)}>Postponed</Panel.Tabs.Tab>
+                <Panel.Tabs.Tab
                     active={TaskListView.completed === viewName}
                     onClick={() => setTaskListViewAndUpdateList(TaskListView.completed)}>Completed</Panel.Tabs.Tab>
                 <Panel.Tabs.Tab
