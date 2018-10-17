@@ -41,16 +41,17 @@ async function handleExportTasksRequest(req, res) {
 
 async function exportTasks(session) {
     const { viewName, taskFilter } = session,
+        orderBy = View[viewName].sort || _orderUrgencyDesc,
         tasks = await fetchTasks();
     return await new Promise((resolve, reject) => {
         try {
             from(tasks)
                 .pipe(
-                    filter(View.base),
-                    filter(View[viewName]),
+                    filter(View.Base.filter),
+                    filter(View[viewName].filter),
                     filter((task) => _filter(task, taskFilter, viewName)),
                     toArray(),
-                    tap((result) => result.sort(_orderUrgencyDesc)),
+                    tap((result) => result.sort(orderBy)),
                     catchError((e) => {
                         logger.error(e);
                         return of(e);

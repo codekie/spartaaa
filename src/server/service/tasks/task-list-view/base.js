@@ -1,5 +1,9 @@
 import TaskStatus from '../../../../comm/task-status';
 
-export default function filter(task) {
+export {
+    filter
+};
+
+function filter(task) {
     return task.status !== TaskStatus.deleted;
 }

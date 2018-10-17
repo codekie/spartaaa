@@ -1,14 +1,14 @@
 import * as VIEW_NAME from '../../../../comm/task-list-views';
-import base from './base';
-import pending from './pending';
-import completed from './completed';
-import next from './next';
-import all from './all';
+import * as Base from './base';
+import * as Pending from './pending';
+import * as Completed from './completed';
+import * as Next from './next';
+import * as All from './all';
 
 export default {
-    base,
-    [VIEW_NAME.pending]: pending,
-    [VIEW_NAME.completed]: completed,
-    [VIEW_NAME.next]: next,
-    [VIEW_NAME.all]: all
+    Base,
+    [VIEW_NAME.pending]: Pending,
+    [VIEW_NAME.completed]: Completed,
+    [VIEW_NAME.next]: Next,
+    [VIEW_NAME.all]: All
 };
