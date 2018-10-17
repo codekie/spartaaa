@@ -6,7 +6,7 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 import appConfig from '../../../../config/app';
 import * as Store from '../../store';
 import Action from '../../store/actions';
-import CommandType from '../../store/command-type';
+import ActionType from '../../store/action-type';
 
 const DEFAULT__RECONNECT_INTERVAL = 5000;
 
@@ -28,7 +28,7 @@ export {
 // ## Public
 
 function connect() {
-    Store.dispatch(Action[CommandType.connect]());
+    Store.dispatch(Action[ActionType.connect]());
     const webSocket$ = new WebSocketSubject(_createWebSocketSubjectConfig());
     webSocket$.subscribe(eventData => {
         _inst.messages$.next(eventData);
@@ -81,14 +81,14 @@ function _createWebSocketSubjectConfig() {
 
 function _createOpenObserver() {
     return new Subject().subscribe(() => {
-        Store.dispatch(Action[CommandType.sendSession]());
-        return Store.dispatch(Action[CommandType.handleConnected]());
+        Store.dispatch(Action[ActionType.sendSession]());
+        return Store.dispatch(Action[ActionType.handleConnected]());
     });
 }
 
 function _createCloseObserver() {
     return new Subject().subscribe(() => {
-        Store.dispatch(Action[CommandType.disconnect]());
+        Store.dispatch(Action[ActionType.disconnect]());
         setTimeout(() => {
             console.log('Got disconnected. Trying to reconnect');
             connect();
@@ -97,5 +97,5 @@ function _createCloseObserver() {
 }
 
 function _createClosingObserver() {
-    return new Subject().subscribe(() => Store.dispatch(Action[CommandType.disconnect]()));
+    return new Subject().subscribe(() => Store.dispatch(Action[ActionType.disconnect]()));
 }

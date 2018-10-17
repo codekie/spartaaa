@@ -1,7 +1,7 @@
 import { from } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
-import CommandType from '../command-type';
+import ActionType from '../action-type';
 import Action from '../actions';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
@@ -20,14 +20,14 @@ export {
 };
 
 function init() {
-    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[CommandType.updateSession](session)));
+    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(Action[ActionType.updateSession](session)));
 }
 
-function sendSession(commands$) {
-    return commands$
-        .ofType(CommandType.sendSession)
+function sendSession(actions$) {
+    return actions$
+        .ofType(ActionType.sendSession)
         .pipe(
-            switchMap((/*command*/) => {
+            switchMap((/*action*/) => {
                 send(WS_EVENT_REQ__SESSION_UPDATE, getSession());
                 return EMPTY;
             }),
@@ -35,15 +35,15 @@ function sendSession(commands$) {
         );
 }
 
-function setTaskListViewAndUpdateList(commands$) {
-    return commands$
-        .ofType(CommandType.setTaskListViewAndUpdateList)
+function setTaskListViewAndUpdateList(actions$) {
+    return actions$
+        .ofType(ActionType.setTaskListViewAndUpdateList)
         .pipe(
-            switchMap((command) => {
+            switchMap((action) => {
                 return from([
-                    Action[CommandType.setTaskListView](command.payload),
-                    Action[CommandType.sendSession](),
-                    Action[CommandType.fetchTasks]()
+                    Action[ActionType.setTaskListView](action.payload),
+                    Action[ActionType.sendSession](),
+                    Action[ActionType.fetchTasks]()
                 ]);
             }),
             catchError((e) => console.error(e))

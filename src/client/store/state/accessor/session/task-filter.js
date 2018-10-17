@@ -22,15 +22,15 @@ function init(getState, mutateState) {
     _mutateState = mutateState;
 }
 
-function getTaskFilter(command = {}) {
-    const criterion = command.payload;
+function getTaskFilter(action = {}) {
+    const criterion = action.payload;
     const taskFilter = _getState();
     if (criterion == null) { return taskFilter; }
     return taskFilter[criterion];
 }
 
-function clearTaskFilter(command = {}) {
-    const criterion = command.payload,
+function clearTaskFilter(action = {}) {
+    const criterion = action.payload,
         taskFilter = Object.assign(
             {},
             _getState(),
@@ -41,8 +41,8 @@ function clearTaskFilter(command = {}) {
     return _mutateState({ taskFilter });
 }
 
-function filterTasksBy(command = {}) {
-    const { criterion = null, value } = command,
+function filterTasksBy(action = {}) {
+    const { criterion = null, value } = action,
         criteria = Object.assign(
             {},
             _getState(),

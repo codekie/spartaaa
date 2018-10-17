@@ -2,6 +2,6 @@ export {
     applyMutation
 };
 
-function applyMutation(command, mutators) {
-    return mutators.map(mutate => mutate(command));
+function applyMutation(action, mutators) {
+    return mutators.map(mutate => mutate(action));
 }

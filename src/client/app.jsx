@@ -14,7 +14,7 @@ import Section from 'react-bulma-components/lib/components/section';
 import Loader from 'react-bulma-components/lib/components/loader';
 import { Control, Input } from 'react-bulma-components/lib/components/form';
 // App
-import CommandType from './store/command-type';
+import ActionType from './store/action-type';
 import Action from './store/actions';
 import { TaskList } from './component/task-list';
 import ConnectionState from './component/connection-state';
@@ -27,7 +27,7 @@ import logo from './static/images/sparta.png';
 // # CONSTANTS
 
 const MAP__DISPATCH_TO_PROPS = {
-    [CommandType.fetchTasks]: Action[CommandType.fetchTasks]
+    [ActionType.fetchTasks]: Action[ActionType.fetchTasks]
 };
 
 // # CLASS DEFINITIONS

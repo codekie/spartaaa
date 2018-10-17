@@ -1,6 +1,6 @@
 // # IMPORTS
 
-import CommandType from '../command-type';
+import ActionType from '../action-type';
 import { applyMutation } from './utils';
 import { getRootState } from '../state/manager/state-manager';
 import { startLoading, stopLoading } from '../state/accessor/loader';
@@ -9,17 +9,17 @@ import { setTasks } from '../state/accessor/tasks';
 //  # CONSTANTS
 
 const Reducer = {
-    [CommandType.fetchTasks]: _fetchTasks,
-    [CommandType.fetchTasksSuccess]: _fetchTasksSuccess,
-    [CommandType.fetchTasksFailed]: _fetchTasksFailed
+    [ActionType.fetchTasks]: _fetchTasks,
+    [ActionType.fetchTasksSuccess]: _fetchTasksSuccess,
+    [ActionType.fetchTasksFailed]: _fetchTasksFailed
 };
 
 // # PUBLIC API
 
-export default function reduce(state = getRootState(), command) {
-    const reducer = Reducer[command.type];
+export default function reduce(state = getRootState(), action) {
+    const reducer = Reducer[action.type];
     if (!reducer) { return state; }
-    return reducer(command);
+    return reducer(action);
 }
 export {
     Reducer
@@ -29,21 +29,21 @@ export {
 
 // ## Reducer
 
-function _fetchTasks(command) {
-    return applyMutation(command, [
+function _fetchTasks(action) {
+    return applyMutation(action, [
         startLoading
     ]);
 }
 
-function _fetchTasksSuccess(command) {
-    return applyMutation(command, [
+function _fetchTasksSuccess(action) {
+    return applyMutation(action, [
         stopLoading,
         setTasks
     ]);
 }
 
-function _fetchTasksFailed(command) {
-    return applyMutation(command, [
+function _fetchTasksFailed(action) {
+    return applyMutation(action, [
         stopLoading
     ]);
 }

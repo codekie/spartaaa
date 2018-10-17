@@ -33,6 +33,6 @@ function getTasks() {
     return getState(ID).tasks;
 }
 
-function setTasks(command) {
-    return mutateState(ID, { tasks: command.payload.tasks });
+function setTasks(action) {
+    return mutateState(ID, { tasks: action.payload.tasks });
 }

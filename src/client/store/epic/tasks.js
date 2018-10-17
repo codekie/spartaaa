@@ -1,7 +1,7 @@
 import 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { EMPTY } from 'rxjs/internal/observable/empty';
-import CommandType from '../command-type';
+import ActionType from '../action-type';
 import Action from '../actions';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
@@ -18,14 +18,14 @@ export {
 };
 
 function init() {
-    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[CommandType.fetchTasksSuccess](tasks)));
+    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(Action[ActionType.fetchTasksSuccess](tasks)));
 }
 
-function fetchTasks(commands$) {
-    return commands$
-        .ofType(CommandType.fetchTasks)
+function fetchTasks(actions$) {
+    return actions$
+        .ofType(ActionType.fetchTasks)
         .pipe(
-            switchMap((/*command*/) => {
+            switchMap((/*action*/) => {
                 send(WS_EVENT_REQ__GET_TASKS);
                 return EMPTY;
             }),

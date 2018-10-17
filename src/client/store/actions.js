@@ -1,28 +1,28 @@
-import CommandType from './command-type';
+import ActionType from './action-type';
 import { getSession } from './state/accessor/session';
 
 export default {
     // Epics
-    [CommandType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
     // Connection
-    [CommandType.connect]: connect,
-    [CommandType.disconnect]: disconnect,
-    [CommandType.handleConnected]: handleConnected,
+    [ActionType.connect]: connect,
+    [ActionType.disconnect]: disconnect,
+    [ActionType.handleConnected]: handleConnected,
     // Session
-    [CommandType.sendSession]: sendSession,
-    [CommandType.updateSession]: updateSession,
-    [CommandType.clearTaskFilter]: clearTaskFilter,
-    [CommandType.filterTasksBy]: filterTasksBy,
-    [CommandType.setTaskListView]: setTaskListView,
+    [ActionType.sendSession]: sendSession,
+    [ActionType.updateSession]: updateSession,
+    [ActionType.clearTaskFilter]: clearTaskFilter,
+    [ActionType.filterTasksBy]: filterTasksBy,
+    [ActionType.setTaskListView]: setTaskListView,
     // Tasks
-    [CommandType.fetchTasks]: fetchTasks,
-    [CommandType.fetchTasksSuccess]: fetchTasksSuccess,
-    [CommandType.fetchTasksFailed]: fetchTasksFailed
+    [ActionType.fetchTasks]: fetchTasks,
+    [ActionType.fetchTasksSuccess]: fetchTasksSuccess,
+    [ActionType.fetchTasksFailed]: fetchTasksFailed
 };
 
 function setTaskListViewAndUpdateList(viewName) {
     return {
-        type: CommandType.setTaskListViewAndUpdateList,
+        type: ActionType.setTaskListViewAndUpdateList,
         payload: viewName
     };
 }
@@ -30,43 +30,43 @@ function setTaskListViewAndUpdateList(viewName) {
 // Connection
 
 function connect() {
-    return { type: CommandType.connect };
+    return { type: ActionType.connect };
 }
 
 function disconnect() {
-    return { type: CommandType.disconnect };
+    return { type: ActionType.disconnect };
 }
 
 function handleConnected() {
-    return { type: CommandType.handleConnected };
+    return { type: ActionType.handleConnected };
 }
 
 // Session
 
 function sendSession() {
     return {
-        type: CommandType.sendSession,
+        type: ActionType.sendSession,
         payload: getSession()
     };
 }
 
 function updateSession(session) {
     return {
-        type: CommandType.updateSession,
+        type: ActionType.updateSession,
         payload: session
     };
 }
 
 function clearTaskFilter(criterion) {
     return {
-        type: CommandType.clearTaskFilter,
+        type: ActionType.clearTaskFilter,
         payload: criterion
     };
 }
 
 function filterTasksBy(criterion, value) {
     return {
-        type: CommandType.filterTasksBy,
+        type: ActionType.filterTasksBy,
         payload: {
             criterion,
             value
@@ -76,7 +76,7 @@ function filterTasksBy(criterion, value) {
 
 function setTaskListView(viewName) {
     return {
-        type: CommandType.setTaskListView,
+        type: ActionType.setTaskListView,
         payload: viewName
     };
 }
@@ -84,16 +84,16 @@ function setTaskListView(viewName) {
 // Tasks
 
 function fetchTasks() {
-    return { type: CommandType.fetchTasks };
+    return { type: ActionType.fetchTasks };
 }
 
 function fetchTasksSuccess(tasks) {
     return {
-        type: CommandType.fetchTasksSuccess,
+        type: ActionType.fetchTasksSuccess,
         payload: { tasks }
     };
 }
 
 function fetchTasksFailed() {
-    return { type: CommandType.fetchTasksFailed };
+    return { type: ActionType.fetchTasksFailed };
 }

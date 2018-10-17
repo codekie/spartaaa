@@ -49,16 +49,16 @@ function getSession() {
     return getState(ID);
 }
 
-function updateSession(command) {
+function updateSession(action) {
     // This will be called by the backed. We are going to enhance the session, rather than overwriting it (to not
     // overwrite changes that has been applied by the frontend, meanwhile)
-    return mutateState(ID, Object.assign({}, getState(ID), command.payload));
+    return mutateState(ID, Object.assign({}, getState(ID), action.payload));
 }
 
 function getTaskListView() {
     return getSession().viewName;
 }
 
-function setTaskListView(command) {
-    return mutateState(ID, { viewName: command.payload });
+function setTaskListView(action) {
+    return mutateState(ID, { viewName: action.payload });
 }

@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Panel from 'react-bulma-components/lib/components/panel';
 import * as TaskListView from '../../../comm/task-list-views';
-import CommandType from '../../store/command-type';
+import ActionType from '../../store/action-type';
 import Action from '../../store/actions';
 import { getTaskListView } from '../../store/state/accessor/session';
 
 // CONSTANTS
 
 const MAP__DISPATCH_TO_PROPS = {
-    [CommandType.setTaskListViewAndUpdateList]: Action[CommandType.setTaskListViewAndUpdateList]
+    [ActionType.setTaskListViewAndUpdateList]: Action[ActionType.setTaskListViewAndUpdateList]
 };
 
 

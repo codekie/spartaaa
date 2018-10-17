@@ -31,16 +31,16 @@ function init() {
             )
         );
     epicMiddleware.run(epics);
-    // Queue a `QueueSubject`, to queue commands, before the store has been initialized
-    _inst.dispatchQueue$.subscribe((command) => {
-        store.dispatch(command);
+    // Queue a `QueueSubject`, to queue actions, before the store has been initialized
+    _inst.dispatchQueue$.subscribe((action) => {
+        store.dispatch(action);
     });
     _inst.store = store;
     return store;
 }
 
-function dispatch(command) {
-    _inst.dispatchQueue$.next(command);
+function dispatch(action) {
+    _inst.dispatchQueue$.next(action);
 }
 
 function _init() {

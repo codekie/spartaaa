@@ -1,6 +1,6 @@
 // # IMPORTS
 
-import CommandType from '../command-type';
+import ActionType from '../action-type';
 import { applyMutation } from './utils';
 import { getRootState } from '../state/manager/state-manager';
 import { updateSession, clearTaskFilter, filterTasksBy, setTaskListView } from '../state/accessor/session';
@@ -8,18 +8,18 @@ import { updateSession, clearTaskFilter, filterTasksBy, setTaskListView } from '
 //  # CONSTANTS
 
 const Reducer = {
-    [CommandType.updateSession]: _updateSession,
-    [CommandType.clearTaskFilter]: _clearTaskFilter,
-    [CommandType.filterTasksBy]: _filterTasksBy,
-    [CommandType.setTaskListView]: _setTaskListView
+    [ActionType.updateSession]: _updateSession,
+    [ActionType.clearTaskFilter]: _clearTaskFilter,
+    [ActionType.filterTasksBy]: _filterTasksBy,
+    [ActionType.setTaskListView]: _setTaskListView
 };
 
 // # PUBLIC API
 
-export default function reduce(state = getRootState(), command) {
-    const reducer = Reducer[command.type];
+export default function reduce(state = getRootState(), action) {
+    const reducer = Reducer[action.type];
     if (!reducer) { return state; }
-    return reducer(command);
+    return reducer(action);
 }
 export {
     Reducer
@@ -29,26 +29,26 @@ export {
 
 // ## Reducer
 
-function _updateSession(command) {
-    return applyMutation(command, [
+function _updateSession(action) {
+    return applyMutation(action, [
         updateSession
     ]);
 }
 
-function _clearTaskFilter(command) {
-    return applyMutation(command, [
+function _clearTaskFilter(action) {
+    return applyMutation(action, [
         clearTaskFilter
     ]);
 }
 
-function _filterTasksBy(command) {
-    return applyMutation(command, [
+function _filterTasksBy(action) {
+    return applyMutation(action, [
         filterTasksBy
     ]);
 }
 
-function _setTaskListView(command) {
-    return applyMutation(command, [
+function _setTaskListView(action) {
+    return applyMutation(action, [
         setTaskListView
     ]);
 }
