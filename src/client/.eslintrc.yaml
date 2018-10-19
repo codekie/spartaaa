@@ -4,7 +4,8 @@ extends:
 env:
   browser: true
 rules:
-  one-var: 0
+  new-cap: off
+  one-var: off
   operator-linebreak:
     - 2
     - before

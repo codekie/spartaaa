@@ -1,13 +1,14 @@
 // # IMPORTS
 
+import { Map, List } from 'immutable';
 import { getState, mutateState } from '../manager/state-manager';
 
 // # CONSTANTS
 
 const ID = 'Tasks',
-    INITIAL_STATE = {
-        tasks: []
-    };
+    INITIAL_STATE = Map({
+        tasks: List()
+    });
 
 // # PUBLIC API
 
@@ -30,7 +31,7 @@ function init() {
 }
 
 function getTasks() {
-    return getState(ID).tasks;
+    return getState(ID).get('tasks');
 }
 
 function setTasks(action) {

@@ -13,11 +13,14 @@ export default determineClassNames;
 
 function determineClassNames(task) {
     const classNames = [],
-        tags = task.tags || [];
+        tags = task.get('tags') || [],
+        start = task.get('start'),
+        status = task.get('status'),
+        priority = task.get('priority');
     tags.includes(TAG__BUG) && classNames.push(CLASS_NAME__TAG__BUG);
     tags.includes(TAG__NEXT) && classNames.push(CLASS_NAME__TAG__NEXT);
-    task.start && classNames.push(CLASS_NAME__STATUS__ACTIVE);
-    task.status === TaskStatus.completed && classNames.push(CLASS_NAME__STATUS__COMPLETED);
-    task.priority === PRIORITY_HIGH && classNames.push(CLASS_NAME__PRIORITY__H);
+    start && classNames.push(CLASS_NAME__STATUS__ACTIVE);
+    status === TaskStatus.completed && classNames.push(CLASS_NAME__STATUS__COMPLETED);
+    priority === PRIORITY_HIGH && classNames.push(CLASS_NAME__PRIORITY__H);
     return classNames.join(' ');
 }

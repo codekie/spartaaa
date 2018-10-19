@@ -1,13 +1,14 @@
 // # IMPORTS
 
+import { Map } from 'immutable';
 import { getState, mutateState } from '../manager/state-manager';
 
 // # CONSTANTS
 
 const ID = 'Loader',
-    INITIAL_STATE = {
+    INITIAL_STATE = Map({
         loading: false
-    };
+    });
 
 // # PUBLIC API
 
@@ -31,7 +32,7 @@ function init() {
 }
 
 function isLoading() {
-    return getState(ID).loading;
+    return getState(ID).get('loading');
 }
 
 function startLoading() {

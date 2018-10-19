@@ -1,5 +1,6 @@
 // # IMPORTS
 
+import { Map } from 'immutable';
 import { getState, mutateState } from '../manager/state-manager';
 
 // # CONSTANTS
@@ -10,9 +11,9 @@ const ID = 'Connection',
         connecting: 'connecting',
         connected: 'connected'
     },
-    INITIAL_STATE = {
+    INITIAL_STATE = Map({
         state: STATE.disconnected
-    };
+    });
 
 // # PUBLIC API
 
@@ -38,7 +39,7 @@ function init() {
 }
 
 function getConnectionState() {
-    return getState(ID).state;
+    return getState(ID).get('state');
 }
 
 function setDisconnected() {

@@ -1,8 +1,8 @@
-import { deepFreeze } from '../../../util';
+import { Map } from 'immutable';
 import * as Accessors from '../accessor';
 
 const _inst = {
-    rootState: null
+    rootState: Map()
 };
 
 export {
@@ -14,8 +14,7 @@ export {
 
 function init() {
     // All these references to `_inst.rootState` are required and intentional. Don't mess with them... you'll regret it.
-    _inst.rootState = {};
-    _inst.rootState = deepFreeze(Object.keys(Accessors)
+    _inst.rootState = Map(Object.keys(Accessors)
         .reduce((rootState, name) => {
             const accessor = Accessors[name];
             accessor.init();
@@ -28,11 +27,10 @@ function getRootState() {
 }
 
 function getState(id) {
-    return _inst.rootState[id];
+    return _inst.rootState.get(id);
 }
 
 function mutateState(id, state) {
-    const childState = Object.assign({}, getState(id), state);
-    _inst.rootState = deepFreeze(Object.assign({}, _inst.rootState, { [id]: childState }));
+    _inst.rootState = _inst.rootState.mergeIn([id], state);
     return getState(id);
 }

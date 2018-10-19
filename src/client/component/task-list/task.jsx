@@ -22,19 +22,20 @@ export default class Task extends Component {
         super(props);
     }
     render() {
-        const { task } = this.props;
+        const immTask = this.props.task;
         return (
-            <Media className={`cmp-task ${ determineClassNames(task) }`}>
-                { _createPriorityIndicator(task) }
+            <Media className={`cmp-task ${ determineClassNames(immTask) }`}>
+                { _createPriorityIndicator(immTask) }
                 <Media.Item renderAs="figure" position="left">
                     <Icon className="is-medium fa-2x">
-                        <FontAwesomeIcon icon={determineIcon(task)} className="task-icon" />
+                        <FontAwesomeIcon icon={determineIcon(immTask)} className="task-icon" />
                     </Icon>
                 </Media.Item>
                 <Media.Item>
                     <Content>
                         <p className="sub-description">
-                            <strong className="sub-title">[{ task.id }] { task.description }</strong>
+                            <strong className="sub-title"
+                            >[{ immTask.get('id') }] { immTask.get('description') }</strong>
                         </p>
                         <Level className="aux-bar-1">
                             <Level.Side align="left">
@@ -42,9 +43,9 @@ export default class Task extends Component {
                         </Level>
                         <Level>
                             <Level.Side align="left" className="tags">
-                                { _createDueItem(task) }
-                                { _createProjectItem(task) }
-                                <Level.Item><TagList tags={task.tags} /></Level.Item>
+                                { _createDueItem(immTask) }
+                                { _createProjectItem(immTask) }
+                                <Level.Item><TagList tags={immTask.get('tags')} /></Level.Item>
                             </Level.Side>
                         </Level>
                     </Content>
@@ -55,7 +56,7 @@ export default class Task extends Component {
                 </Media.Item>
                 <Media.Item position="right">
                     <Content>
-                        <small>{ task.urgency }</small>
+                        <small>{ immTask.get('urgency') }</small>
                     </Content>
                 </Media.Item>
             </Media>
@@ -64,21 +65,23 @@ export default class Task extends Component {
 }
 
 function _createProjectItem(task) {
-    if (!task.project) { return null; }
+    const project = task.get('project');
+    if (!project) { return null; }
     return (
         <Level.Item>
             <Tag.Group gapless className="tag-project">
                 <Tag color="dark">project</Tag>
-                <Tag color="info">{ task.project }</Tag>
+                <Tag color="info">{ project }</Tag>
             </Tag.Group>
         </Level.Item>
     );
 }
 
 function _createDueItem(task) {
-    if (!task.due) { return null; }
-    const dueUntil = moment(task.due).fromNow(),
-        classNameDue = task.due - Date.now() > 0 ? 'in-time' : 'overdue';
+    const due = task.get('due');
+    if (!due) { return null; }
+    const dueUntil = moment(due).fromNow(),
+        classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
     return (
         <Level.Item>
             <Tag.Group gapless className="tag-due">
@@ -90,5 +93,6 @@ function _createDueItem(task) {
 }
 
 function _createPriorityIndicator(task) {
-    return <div className={`priority ${ task.priority ? `prio-${ task.priority }` : '' }`} />;
+    const priority = task.get('priority');
+    return <div className={`priority ${ priority ? `prio-${ priority }` : '' }`} />;
 }

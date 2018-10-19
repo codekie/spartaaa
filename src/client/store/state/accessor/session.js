@@ -1,5 +1,6 @@
 // # IMPORTS
 
+import { Map } from 'immutable';
 import Session from '../../../../comm/session';
 import { getState, mutateState } from '../manager/state-manager';
 import * as TaskFilter from './session/task-filter';
@@ -12,7 +13,7 @@ const {
 // # CONSTANTS
 
 const ID = 'Session',
-    INITIAL_STATE = new Session();
+    INITIAL_STATE = Map(new Session());
 
 // # PUBLIC API
 
@@ -37,7 +38,7 @@ export {
 
 function init() {
     TaskFilter.init(
-        () => getState(ID).taskFilter,
+        () => getState(ID).get('taskFilter'),
         (criteria) => mutateState(ID, Object.assign(
             {}, getState(ID), { taskFilter: criteria }
         ))
@@ -56,7 +57,7 @@ function updateSession(action) {
 }
 
 function getTaskListView() {
-    return getSession().viewName;
+    return getSession().get('viewName');
 }
 
 function setTaskListView(action) {

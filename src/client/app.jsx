@@ -44,7 +44,7 @@ class App extends Component {
     }
     // TODO multilanguage
     render() {
-        const tasks = getTasks() || [],
+        const immTasks = getTasks() || [],
             loading = isLoading(),
             viewName = getTaskListView(),
             { fetchTasks } = this.props;
@@ -82,7 +82,7 @@ class App extends Component {
                     </Control>
                 </Panel.Block>
                 <TaskListSelector viewName={viewName} />
-                <TaskList tasks={tasks} />
+                <TaskList tasks={immTasks} />
             </Section>
         );
     }
