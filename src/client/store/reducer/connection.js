@@ -1,26 +1,34 @@
 // # IMPORTS
 
+import { Map } from 'immutable';
 import ActionType from '../action-type';
-import { applyMutation } from './utils';
-import { getRootState } from '../state/manager/state-manager';
-import { setConnected, setConnecting, setDisconnected } from '../state/accessor/connection';
 
 //  # CONSTANTS
 
-const Reducer = {
-    [ActionType.connect]: _connect,
-    [ActionType.handleConnected]: _handleConnected,
-    [ActionType.disconnect]: _disconnect
-};
+const STATE = {
+        disconnected: 'disconnected',
+        connecting: 'connecting',
+        connected: 'connected'
+    },
+    INITIAL_STATE = Map({
+        state: STATE.disconnected
+    }),
+    Reducer = {
+        [ActionType.connect]: _connect,
+        [ActionType.handleConnected]: _handleConnected,
+        [ActionType.disconnect]: _disconnect
+    };
 
 // # PUBLIC API
 
-export default function reduce(state = getRootState(), action) {
+export default function reduce(state = INITIAL_STATE, action) {
     const reducer = Reducer[action.type];
     if (!reducer) { return state; }
-    return reducer(action);
+    return reducer(state, action);
 }
 export {
+    STATE,
+
     Reducer
 };
 
@@ -28,20 +36,14 @@ export {
 
 // ## Reducer
 
-function _connect(action) {
-    return applyMutation(action, [
-        setConnecting
-    ]);
+function _connect(state/*, action*/) {
+    return state.merge({ state: STATE.connecting });
 }
 
-function _handleConnected(action) {
-    return applyMutation(action, [
-        setConnected
-    ]);
+function _handleConnected(state/*, action*/) {
+    return state.merge({ state: STATE.connected });
 }
 
-function _disconnect(action) {
-    return applyMutation(action, [
-        setDisconnected
-    ]);
+function _disconnect(state/*, action*/) {
+    return state.merge({ state: STATE.disconnected });
 }

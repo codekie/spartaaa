@@ -1,4 +1,3 @@
-import { List } from 'immutable';
 import { faBug, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 const ICON__DEFAULT = faTasks,
@@ -6,7 +5,7 @@ const ICON__DEFAULT = faTasks,
     TAG__BUG = 'bug';
 
 export default function determineIcon(task) {
-    const tags = task.get('tags') || List();
+    const tags = task.tags || [];
     if (tags.includes(TAG__BUG)) {
         return ICON__BUG;
     }

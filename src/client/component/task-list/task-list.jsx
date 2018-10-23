@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Task from './task.jsx';
 import PropTypes from 'prop-types';
 
-export default class TaskList extends Component {
+export default class TaskList extends PureComponent {
     static propTypes = {
+        filteredTaskUuids: PropTypes.array.isRequired,
         tasks: PropTypes.object.isRequired
     };
 
@@ -11,7 +12,7 @@ export default class TaskList extends Component {
         super(props);
     }
     render() {
-        const immTasks = this.props.tasks;
-        return immTasks.map((immTask) => <Task key={immTask.get('uuid')} task={immTask} />);
+        const { filteredTaskUuids, tasks } = this.props;
+        return filteredTaskUuids.map((uuid) => <Task key={uuid} {...tasks[uuid]} />);
     }
 }

@@ -1,10 +1,14 @@
-import reduceTasks from './tasks';
-import reduceConnection from './connection';
-import reduceSession from './session';
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
+import error from './error';
+import loader from './loader';
+import tasks from './tasks';
+import connection from './connection';
+import session from './session';
 
 export default combineReducers({
-    reduceConnection,
-    reduceSession,
-    reduceTasks
+    connection,
+    error,
+    loader,
+    session,
+    tasks
 });

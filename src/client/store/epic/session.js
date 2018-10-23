@@ -6,12 +6,13 @@ import ActionCreator from '../action-creators';
 import { WebSocketEvents } from '../../../comm';
 import { subscribe, send } from '../../controller/websocket';
 import { dispatch } from '..';
-import { getSession } from '../state/accessor/session';
 const { Event, getRequestEventName, getResponseEventName } = WebSocketEvents;
 
 const EVENT__SESSION_UPDATE = Event.session.update,
     WS_EVENT_REQ__SESSION_UPDATE = getRequestEventName(EVENT__SESSION_UPDATE),
     WS_EVENT_RES__SESSION_UPDATE = getResponseEventName(EVENT__SESSION_UPDATE);
+
+let _delegate = null;
 
 export {
     init,
@@ -19,8 +20,11 @@ export {
     setTaskListViewAndUpdateList
 };
 
-function init() {
-    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => dispatch(ActionCreator[ActionType.updateSession](session)));
+function init({ delegate }) {
+    _delegate = delegate;
+    subscribe(WS_EVENT_RES__SESSION_UPDATE, session => {
+        return dispatch(ActionCreator[ActionType.updateSession](session));
+    });
 }
 
 function sendSession(actions$) {
@@ -28,10 +32,15 @@ function sendSession(actions$) {
         .ofType(ActionType.sendSession)
         .pipe(
             switchMap((/*action*/) => {
-                send(WS_EVENT_REQ__SESSION_UPDATE, getSession());
+                send(WS_EVENT_REQ__SESSION_UPDATE, _delegate.getSession());
                 return EMPTY;
             }),
-            catchError((e) => console.error(e))
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
         );
 }
 

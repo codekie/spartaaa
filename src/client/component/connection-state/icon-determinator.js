@@ -1,5 +1,5 @@
 import { faQuestion, faPlug, faBolt, faBroadcastTower } from '@fortawesome/free-solid-svg-icons';
-import { STATE } from '../../store/state/accessor/connection';
+import { STATE } from '../../store/reducer/connection';
 
 const DEFAULT__CONNECTION_STATE = {
     title: 'Unknown',

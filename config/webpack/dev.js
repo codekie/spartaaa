@@ -1,4 +1,5 @@
-const appConfig = require('../app'),
+const webpack = require('webpack'),
+    appConfig = require('../app'),
     sharedConfig = require('./shared');
 
 const config = Object.assign(
@@ -12,7 +13,13 @@ const config = Object.assign(
                 [appConfig.server.basePathServices]: appConfig.server.host,
                 changeOrigin: true
             }
-        }
+        },
+        plugins: [
+            ...sharedConfig.plugins,
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify('development')
+            })
+        ]
     }
 );
 

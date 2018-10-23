@@ -2,6 +2,7 @@
 
 import { QueueingSubject } from 'queueing-subject';
 import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import appConfig from '../../../../config/app';
 import * as Store from '../../store';
@@ -45,10 +46,14 @@ function send(eventName, data) {
 }
 
 function subscribe(eventName, handler) {
-    return _inst.messages$.subscribe(eventData => {
-        const { type, data, timestamp } = eventData;
-        handler(data, { type, timestamp });
-    });
+    return _inst.messages$
+        .pipe(
+            filter((message) => message.type === eventName)
+        )
+        .subscribe(eventData => {
+            const { type, data, timestamp } = eventData;
+            handler(data, { type, timestamp });
+        });
 }
 
 function unsubscribe(subscription) {

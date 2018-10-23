@@ -1,25 +1,25 @@
 // # IMPORTS
 
+import { List, Map } from 'immutable';
+import createTask from '../../../comm/task';
 import ActionType from '../action-type';
-import { applyMutation } from './utils';
-import { getRootState } from '../state/manager/state-manager';
-import { startLoading, stopLoading } from '../state/accessor/loader';
-import { setTasks } from '../state/accessor/tasks';
 
 //  # CONSTANTS
 
-const Reducer = {
-    [ActionType.fetchTasks]: _fetchTasks,
-    [ActionType.fetchTasksSuccess]: _fetchTasksSuccess,
-    [ActionType.fetchTasksFailed]: _fetchTasksFailed
-};
+const INITIAL_STATE = Map({
+        filteredTaskUuids: List(),
+        tasks: Map()
+    }),
+    Reducer = {
+        [ActionType.setTasks]: _setTasks
+    };
 
 // # PUBLIC API
 
-export default function reduce(state = getRootState(), action) {
+export default function reduce(state = INITIAL_STATE, action) {
     const reducer = Reducer[action.type];
     if (!reducer) { return state; }
-    return reducer(action);
+    return reducer(state, action);
 }
 export {
     Reducer
@@ -29,21 +29,14 @@ export {
 
 // ## Reducer
 
-function _fetchTasks(action) {
-    return applyMutation(action, [
-        startLoading
-    ]);
-}
-
-function _fetchTasksSuccess(action) {
-    return applyMutation(action, [
-        stopLoading,
-        setTasks
-    ]);
-}
-
-function _fetchTasksFailed(action) {
-    return applyMutation(action, [
-        stopLoading
-    ]);
+function _setTasks(state, action) {
+    const { tasks } = action.payload;
+    let newState = state.set('filteredTaskUuids', List(tasks.map(task => task.uuid))),
+        newTasks = state.get('tasks');
+    tasks.forEach(task => {
+        newTasks = newTasks.merge({
+            [task.uuid]: createTask(task).set('tags', List(task.tags))
+        });
+    });
+    return newState.merge({ tasks: newTasks });
 }

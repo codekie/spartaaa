@@ -1,31 +1,21 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Panel from 'react-bulma-components/lib/components/panel';
 import * as TaskListView from '../../../comm/task-list-views';
-import ActionType from '../../store/action-type';
-import ActionCreator from '../../store/action-creators';
-import { getTaskListView } from '../../store/state/accessor/session';
 
 // CONSTANTS
 
-const MAP__DISPATCH_TO_PROPS = {
-    [ActionType.setTaskListViewAndUpdateList]: ActionCreator[ActionType.setTaskListViewAndUpdateList]
-};
-
-
-class TagList extends Component {
+export default class TagList extends Component {
     static propTypes = {
-        setTaskListViewAndUpdateList: PropTypes.func.isRequired
+        setTaskListViewAndUpdateList: PropTypes.func.isRequired,
+        viewName: PropTypes.string
     };
 
     constructor(props) {
         super(props);
     }
     render() {
-        const viewName = getTaskListView(),
-            { setTaskListViewAndUpdateList } = this.props;
+        const { viewName, setTaskListViewAndUpdateList } = this.props;
         return (
             <Panel.Tabs className="panel-tabs">
                 <Panel.Tabs.Tab
@@ -46,19 +36,4 @@ class TagList extends Component {
             </Panel.Tabs>
         );
     }
-}
-export default connect(
-    _mapStateToProps,
-    _mapDispatchToProps
-)(TagList);
-
-
-// IMPLEMENTATION DETAILS
-
-function _mapStateToProps(state) {
-    return { ...state };
-}
-
-function _mapDispatchToProps(dispatch) {
-    return bindActionCreators({ ...MAP__DISPATCH_TO_PROPS }, dispatch);
 }

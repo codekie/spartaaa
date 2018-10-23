@@ -1,21 +1,20 @@
-import { List } from 'immutable';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Tag from 'react-bulma-components/lib/components/tag';
 import PropTypes from 'prop-types';
 
-export default class TagList extends Component {
+export default class TagList extends PureComponent {
     static propTypes = {
-        tags: PropTypes.object
+        tags: PropTypes.array.isRequired
     };
 
     constructor(props) {
         super(props);
     }
     render() {
-        const imTags = this.props.tags || List();
+        const { tags } = this.props;
         return (
             <Tag.Group>{
-                imTags.map((tag) => (
+                tags.map((tag) => (
                     <Tag key={tag}>{ tag }</Tag>
                 ))
             }</Tag.Group>

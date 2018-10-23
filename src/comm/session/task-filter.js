@@ -1,5 +1,3 @@
-import { List } from 'immutable';
-
 const FILTER_CRITERION = {
     dueUntil: 'dueUntil',
     priority: 'priority',
@@ -15,7 +13,7 @@ const DEFAULT__VALS = {
     [FILTER_CRITERION.project]: null,
     [FILTER_CRITERION.searchTerm]: null,
     [FILTER_CRITERION.status]: null,
-    [FILTER_CRITERION.tags]: List()
+    [FILTER_CRITERION.tags]: []
 };
 
 export default class TaskFilter {

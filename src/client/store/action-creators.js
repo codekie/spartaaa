@@ -1,24 +1,38 @@
 import ActionType from './action-type';
-import { getSession } from './state/accessor/session';
 
 export default {
     // Epics
+    [ActionType.fetchTasks]: fetchTasks,
+    [ActionType.sendSession]: sendSession,
     [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
     // Connection
     [ActionType.connect]: connect,
     [ActionType.disconnect]: disconnect,
     [ActionType.handleConnected]: handleConnected,
+    // Error
+    [ActionType.setError]: setError,
+    // Loader
+    [ActionType.setLoading]: setLoading,
     // Session
-    [ActionType.sendSession]: sendSession,
     [ActionType.updateSession]: updateSession,
     [ActionType.clearTaskFilter]: clearTaskFilter,
     [ActionType.filterTasksBy]: filterTasksBy,
     [ActionType.setTaskListView]: setTaskListView,
     // Tasks
-    [ActionType.fetchTasks]: fetchTasks,
-    [ActionType.fetchTasksSuccess]: fetchTasksSuccess,
-    [ActionType.fetchTasksFailed]: fetchTasksFailed
+    [ActionType.setTasks]: setTasks
 };
+
+// Epics
+
+function fetchTasks() {
+    return { type: ActionType.fetchTasks };
+}
+
+function sendSession() {
+    return {
+        type: ActionType.sendSession
+    };
+}
 
 function setTaskListViewAndUpdateList(viewName) {
     return {
@@ -41,14 +55,25 @@ function handleConnected() {
     return { type: ActionType.handleConnected };
 }
 
-// Session
+// Error
 
-function sendSession() {
+function setError(e) {
     return {
-        type: ActionType.sendSession,
-        payload: getSession()
+        type: ActionType.setError,
+        payload: e
     };
 }
+
+// Loader
+
+function setLoading(loading) {
+    return {
+        type: ActionType.setLoading,
+        payload: !!loading
+    };
+}
+
+// Session
 
 function updateSession(session) {
     return {
@@ -83,17 +108,9 @@ function setTaskListView(viewName) {
 
 // Tasks
 
-function fetchTasks() {
-    return { type: ActionType.fetchTasks };
-}
-
-function fetchTasksSuccess(tasks) {
+function setTasks(tasks) {
     return {
-        type: ActionType.fetchTasksSuccess,
+        type: ActionType.setTasks,
         payload: { tasks }
     };
-}
-
-function fetchTasksFailed() {
-    return { type: ActionType.fetchTasksFailed };
 }

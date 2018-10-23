@@ -13,10 +13,7 @@ export default determineClassNames;
 
 function determineClassNames(task) {
     const classNames = [],
-        tags = task.get('tags') || [],
-        start = task.get('start'),
-        status = task.get('status'),
-        priority = task.get('priority');
+        { tags = [], start, status, priority } = task;
     tags.includes(TAG__BUG) && classNames.push(CLASS_NAME__TAG__BUG);
     tags.includes(TAG__NEXT) && classNames.push(CLASS_NAME__TAG__NEXT);
     start && classNames.push(CLASS_NAME__STATUS__ACTIVE);

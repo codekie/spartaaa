@@ -1,6 +1,5 @@
-import 'rxjs';
+import { from } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import ActionType from '../action-type';
 import ActionCreator from '../action-creators';
 import { WebSocketEvents } from '../../../comm';
@@ -18,7 +17,10 @@ export {
 };
 
 function init() {
-    subscribe(WS_EVENT_RES__GET_TASKS, tasks => dispatch(ActionCreator[ActionType.fetchTasksSuccess](tasks)));
+    subscribe(WS_EVENT_RES__GET_TASKS, tasks => {
+        dispatch(ActionCreator[ActionType.setLoading](false));
+        dispatch(ActionCreator[ActionType.setTasks](tasks));
+    });
 }
 
 function fetchTasks(actions$) {
@@ -27,8 +29,15 @@ function fetchTasks(actions$) {
         .pipe(
             switchMap((/*action*/) => {
                 send(WS_EVENT_REQ__GET_TASKS);
-                return EMPTY;
+                return from([
+                    ActionCreator[ActionType.setLoading](true)
+                ]);
             }),
-            catchError((e) => console.error(e))
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
         );
 }

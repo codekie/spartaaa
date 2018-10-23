@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Content from 'react-bulma-components/lib/components/content';
@@ -13,29 +13,39 @@ import determineIcon from './icon-determinator';
 import './task.sass';
 import PropTypes from 'prop-types';
 
-export default class Task extends Component {
+export default class Task extends PureComponent {
     static propTypes = {
-        task: PropTypes.object.isRequired
+        description: PropTypes.string,
+        due: PropTypes.number,
+        id: PropTypes.number.isRequired,
+        priority: PropTypes.string,
+        project: PropTypes.string,
+        start: PropTypes.number,
+        status: PropTypes.string,
+        tags: PropTypes.array.isRequired,
+        urgency: PropTypes.number,
+        uuid: PropTypes.string.isRequired
     };
 
     constructor(props) {
         super(props);
     }
     render() {
-        const immTask = this.props.task;
+        const props = this.props,
+            { id, description, due, tags, project, urgency } = props;
         return (
-            <Media className={`cmp-task ${ determineClassNames(immTask) }`}>
-                { _createPriorityIndicator(immTask) }
+            <Media className={`cmp-task ${ determineClassNames(props) }`}>
+                { _createPriorityIndicator(props) }
                 <Media.Item renderAs="figure" position="left">
                     <Icon className="is-medium fa-2x">
-                        <FontAwesomeIcon icon={determineIcon(immTask)} className="task-icon" />
+                        <FontAwesomeIcon icon={determineIcon(props)} className="task-icon" />
                     </Icon>
                 </Media.Item>
                 <Media.Item>
                     <Content>
                         <p className="sub-description">
                             <strong className="sub-title"
-                            >[{ immTask.get('id') }] { immTask.get('description') }</strong>
+                            >[{ id }] { description }</strong>
                         </p>
                         <Level className="aux-bar-1">
                             <Level.Side align="left">
@@ -43,9 +53,9 @@ export default class Task extends Component {
                         </Level>
                         <Level>
                             <Level.Side align="left" className="tags">
-                                { _createDueItem(immTask) }
-                                { _createProjectItem(immTask) }
-                                <Level.Item><TagList tags={immTask.get('tags')} /></Level.Item>
+                                { _createDueItem(due) }
+                                { _createProjectItem(project) }
+                                <Level.Item><TagList tags={tags} /></Level.Item>
                             </Level.Side>
                         </Level>
                     </Content>
@@ -56,7 +66,7 @@ export default class Task extends Component {
                 </Media.Item>
                 <Media.Item position="right">
                     <Content>
-                        <small>{ immTask.get('urgency') }</small>
+                        <small>{ urgency }</small>
                     </Content>
                 </Media.Item>
             </Media>
@@ -64,8 +74,7 @@ export default class Task extends Component {
     }
 }
 
-function _createProjectItem(task) {
-    const project = task.get('project');
+function _createProjectItem(project) {
     if (!project) { return null; }
     return (
         <Level.Item>
@@ -77,8 +86,7 @@ function _createProjectItem(task) {
     );
 }
 
-function _createDueItem(task) {
-    const due = task.get('due');
+function _createDueItem(due) {
     if (!due) { return null; }
     const dueUntil = moment(due).fromNow(),
         classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
@@ -93,6 +101,6 @@ function _createDueItem(task) {
 }
 
 function _createPriorityIndicator(task) {
-    const priority = task.get('priority');
+    const { priority } = task;
     return <div className={`priority ${ priority ? `prio-${ priority }` : '' }`} />;
 }

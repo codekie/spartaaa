@@ -1,27 +1,21 @@
 import { QueueingSubject } from 'queueing-subject';
-import * as StateManager from './state/manager/state-manager';
-import { isLoading } from './state/accessor/loader';
-import { getTasks } from './state/accessor/tasks';
-import { getTaskListView } from './state/accessor/session';
 import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware, compose, createStore } from 'redux';
 import reducer from './reducer';
 import epics, * as Epics from './epic';
 
-const _inst = _init();
+const _inst = _init(),
+    _storeController = {
+        getSession
+    };
 
 export {
     init,
-    dispatch,
-    // Accessors
-    isLoading,
-    getTasks,
-    getTaskListView
+    dispatch
 };
 
 function init() {
-    StateManager.init();
-    Epics.init();
+    Epics.init({ delegate: _storeController });
     const epicMiddleware = createEpicMiddleware(),
         composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose,
         store = createStore(
@@ -41,6 +35,10 @@ function init() {
 
 function dispatch(action) {
     _inst.dispatchQueue$.next(action);
+}
+
+function getSession() {
+    return _inst.store.getState().get('session').toJS();
 }
 
 function _init() {

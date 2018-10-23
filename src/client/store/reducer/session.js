@@ -1,25 +1,30 @@
 // # IMPORTS
 
+import _ from 'lodash';
+import { Map, List } from 'immutable';
 import ActionType from '../action-type';
-import { applyMutation } from './utils';
-import { getRootState } from '../state/manager/state-manager';
-import { updateSession, clearTaskFilter, filterTasksBy, setTaskListView } from '../state/accessor/session';
+import Session from '../../../comm/session';
+import TaskFilter from '../../../comm/session/task-filter';
 
 //  # CONSTANTS
 
-const Reducer = {
-    [ActionType.updateSession]: _updateSession,
-    [ActionType.clearTaskFilter]: _clearTaskFilter,
-    [ActionType.filterTasksBy]: _filterTasksBy,
-    [ActionType.setTaskListView]: _setTaskListView
-};
+const INITIAL_STATE__TASK_FILTER = Map(new TaskFilter())
+        .set('tags', List()),
+    INITIAL_STATE = Map(new Session())
+        .set('taskFilter', INITIAL_STATE__TASK_FILTER),
+    Reducer = {
+        [ActionType.updateSession]: _updateSession,
+        [ActionType.clearTaskFilter]: _clearTaskFilter,
+        [ActionType.filterTasksBy]: _filterTasksBy,
+        [ActionType.setTaskListView]: _setTaskListView
+    };
 
 // # PUBLIC API
 
-export default function reduce(state = getRootState(), action) {
+export default function reduce(state = INITIAL_STATE, action) {
     const reducer = Reducer[action.type];
     if (!reducer) { return state; }
-    return reducer(action);
+    return reducer(state, action);
 }
 export {
     Reducer
@@ -29,26 +34,31 @@ export {
 
 // ## Reducer
 
-function _updateSession(action) {
-    return applyMutation(action, [
-        updateSession
-    ]);
+function _updateSession(state, action) {
+    const payload = action.payload;
+    return state.merge({ ...payload, taskFilter: Map(payload.taskFilter) });
 }
 
-function _clearTaskFilter(action) {
-    return applyMutation(action, [
-        clearTaskFilter
-    ]);
+function _clearTaskFilter(state, action) {
+    const criterion = action.payload;
+    if (criterion == null) {
+        return state.merge({ taskFilter: INITIAL_STATE__TASK_FILTER });
+    }
+    return state.set(criterion, INITIAL_STATE__TASK_FILTER.get(criterion));
 }
 
-function _filterTasksBy(action) {
-    return applyMutation(action, [
-        filterTasksBy
-    ]);
+function _filterTasksBy(state, action) {
+    const criteria = _.cloneDeep(action.payload);
+    if (criteria == null) {
+        return _clearTaskFilter(state, action);
+    }
+    criteria.tags = criteria.tags ? List(criteria.tags) : criteria.tags;
+    return state.merge(
+        _clearTaskFilter(state, {})
+            .merge(criteria)
+    );
 }
 
-function _setTaskListView(action) {
-    return applyMutation(action, [
-        setTaskListView
-    ]);
+function _setTaskListView(state, action) {
+    return state.set('viewName', action.payload);
 }
