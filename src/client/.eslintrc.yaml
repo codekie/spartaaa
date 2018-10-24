@@ -3,3 +3,10 @@ extends:
   - react
 env:
   browser: true
+rules:
+  new-cap: off
+  one-var: off
+  operator-linebreak:
+    - 2
+    - before
+  prefer-reflect: off

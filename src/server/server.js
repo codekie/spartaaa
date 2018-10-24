@@ -1,6 +1,7 @@
 const express = require('express'),
+    addRequestId = require('express-request-id'),
     appConfig = require('../../config/app'),
-    { logger } = require('../util'),
+    { logger } = require('./util'),
     services = require('./service');
 
 const _inst = _init();
@@ -21,9 +22,14 @@ function stop() {
 
 function _init() {
     const app = express();
+    _useMiddlewares({ app });
     _mountStaticFolders({ app });
     _mountServices({ app });
     return { app };
+}
+
+function _useMiddlewares({ app }) {
+    app.use(addRequestId());
 }
 
 function _mountStaticFolders({ app }) {
@@ -34,9 +40,9 @@ function _mountServices({ app }) {
     Object.keys(services)
         .forEach(name => {
             const serviceConfig = services[name];
-            Object.keys(serviceConfig.methods)
+            Object.keys(serviceConfig.restMethods)
                 .forEach(httpMethod => {
-                    const handler = serviceConfig.methods[httpMethod];
+                    const handler = serviceConfig.restMethods[httpMethod];
                     app[httpMethod](`${ appConfig.server.basePathServices }/${ serviceConfig.name }`, handler);
                 });
         });

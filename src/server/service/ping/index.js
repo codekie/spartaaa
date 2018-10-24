@@ -4,10 +4,17 @@ const SERVICE_NAME = 'ping',
 module.exports = {
     name: SERVICE_NAME,
     methods: {
-        get: ping
+        ping
+    },
+    restMethods: {
+        get: handlePingRequest
     }
 };
 
-function ping(req, res) {
-    res.send(RESPONSE);
+function handlePingRequest(req, res) {
+    res.send(ping());
+}
+
+function ping() {
+    return RESPONSE;
 }

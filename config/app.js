@@ -1,20 +1,26 @@
-const path = require('path');
+const path = require('path'),
+    os = require('os');
 
 const DEFAULT__PORT__DEV_SERVER = 8080,
-    DEFAULT__PORT__SERVER = 3000,
-    DEFAULT__PORT__TEST__SERVER = 3001,
+    DEFAULT__PORT__SERVER = 3010,
+    DEFAULT__PORT__SERVER__WEBSOCKET = 40520,
+    DEFAULT__PORT__TEST__SERVER = 3020,
     DEFAULT__PROTOCOL__SERVER = 'http',
+    DEFAULT__PROTOCOL__SERVER__WEBSOCKET = 'ws',
     DEFAULT__HOSTNAME__SERVER = 'localhost',
+    DEFAULT__PATH__TASKWARRIOR_DATA = `${ os.homedir() }/.task`,
+    DEFAULT__FILE_WATCH__DEBOUNCE_DURATION = 10,
     ENV__PORT__SERVER = 'port',
+    ENV__PORT__SERVER__WEBSOCKET = 'port-websocket',
     ENV__PORT__DEV__SERVER = 'port-dev',
+    ENV__PATH__TASKWARRIOR_DATA = 'path-taskwarrior-data',
     BASE_PATH__SERVICES = '/api',
     PATH__PROJECT_BASE = path.join(__dirname, '..'),
     PATH__BUILD_OUTPUT = path.join(PATH__PROJECT_BASE, 'dist'),
     PATH__SERVER__STATIC_FILES = path.join(PATH__PROJECT_BASE, 'src/server/static'),
-    FILEPATH__DEV__ENTRY__CLIENT = path.join(PATH__PROJECT_BASE, 'src/client/index.js'),
+    FILEPATH__DEV__ENTRY__CLIENT = path.join(PATH__PROJECT_BASE, 'src/client/index.jsx'),
     FILEPATH__BUILD__CLIENT__TEMPLATE = path.join(PATH__PROJECT_BASE, 'src/client/index.html'),
     FILEPATH__OUTPUT__CLIENT__TEMPLATE = path.join(PATH__BUILD_OUTPUT, 'index.html'),
-    FILENAME__ENTRY__CLIENT = 'app.js',
     FILENAME__ENTRY__SERVER = 'server.js';
 
 const config = _createConfig();
@@ -35,18 +41,26 @@ function _createConfig() {
 
 function _createEntryConfig() {
     return {
-        server: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__SERVER),
-        client: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__CLIENT)
+        server: path.join(PATH__BUILD_OUTPUT, FILENAME__ENTRY__SERVER)
     };
 }
 
 function _createServerConfig() {
-    const port = process.env[ENV__PORT__SERVER] || DEFAULT__PORT__SERVER;
+    const port = process.env[ENV__PORT__SERVER] || DEFAULT__PORT__SERVER,
+        portWebSocket = process.env[ENV__PORT__SERVER__WEBSOCKET] || DEFAULT__PORT__SERVER__WEBSOCKET;
     return {
         port,
         host: `${ DEFAULT__PROTOCOL__SERVER }://${ DEFAULT__HOSTNAME__SERVER }:${ port }`,
         basePathServices: BASE_PATH__SERVICES,
-        pathStaticFiles: PATH__SERVER__STATIC_FILES
+        pathStaticFiles: PATH__SERVER__STATIC_FILES,
+        pathTaskwarriorData: process.env[ENV__PATH__TASKWARRIOR_DATA] || DEFAULT__PATH__TASKWARRIOR_DATA,
+        fileWatch: {
+            debounceDuration: DEFAULT__FILE_WATCH__DEBOUNCE_DURATION
+        },
+        websocket: {
+            port: portWebSocket,
+            host: `${ DEFAULT__PROTOCOL__SERVER__WEBSOCKET }://${ DEFAULT__HOSTNAME__SERVER }:${ portWebSocket }`
+        }
     };
 }
 
@@ -77,7 +91,6 @@ function _createBuildConfig() {
                 filepathTemplate: FILEPATH__BUILD__CLIENT__TEMPLATE
             },
             output: {
-                filenameScript: FILENAME__ENTRY__CLIENT,
                 filepathTemplate: FILEPATH__OUTPUT__CLIENT__TEMPLATE,
                 path: PATH__BUILD_OUTPUT
             }

@@ -1,9 +1,9 @@
 // IMPORTS
 
-const logger = require('./logger');
+const deepFreeze = require('./deep-freeze.js');
 
 // EXPORT API
 
 module.exports = {
-    logger
+    deepFreeze
 };

@@ -1,0 +1,116 @@
+import ActionType from './action-type';
+
+export default {
+    // Epics
+    [ActionType.fetchTasks]: fetchTasks,
+    [ActionType.sendSession]: sendSession,
+    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+    // Connection
+    [ActionType.connect]: connect,
+    [ActionType.disconnect]: disconnect,
+    [ActionType.handleConnected]: handleConnected,
+    // Error
+    [ActionType.setError]: setError,
+    // Loader
+    [ActionType.setLoading]: setLoading,
+    // Session
+    [ActionType.updateSession]: updateSession,
+    [ActionType.clearTaskFilter]: clearTaskFilter,
+    [ActionType.filterTasksBy]: filterTasksBy,
+    [ActionType.setTaskListView]: setTaskListView,
+    // Tasks
+    [ActionType.setTasks]: setTasks
+};
+
+// Epics
+
+function fetchTasks() {
+    return { type: ActionType.fetchTasks };
+}
+
+function sendSession() {
+    return {
+        type: ActionType.sendSession
+    };
+}
+
+function setTaskListViewAndUpdateList(viewName) {
+    return {
+        type: ActionType.setTaskListViewAndUpdateList,
+        payload: viewName
+    };
+}
+
+// Connection
+
+function connect() {
+    return { type: ActionType.connect };
+}
+
+function disconnect() {
+    return { type: ActionType.disconnect };
+}
+
+function handleConnected() {
+    return { type: ActionType.handleConnected };
+}
+
+// Error
+
+function setError(e) {
+    return {
+        type: ActionType.setError,
+        payload: e
+    };
+}
+
+// Loader
+
+function setLoading(loading) {
+    return {
+        type: ActionType.setLoading,
+        payload: !!loading
+    };
+}
+
+// Session
+
+function updateSession(session) {
+    return {
+        type: ActionType.updateSession,
+        payload: session
+    };
+}
+
+function clearTaskFilter(criterion) {
+    return {
+        type: ActionType.clearTaskFilter,
+        payload: criterion
+    };
+}
+
+function filterTasksBy(criterion, value) {
+    return {
+        type: ActionType.filterTasksBy,
+        payload: {
+            criterion,
+            value
+        }
+    };
+}
+
+function setTaskListView(viewName) {
+    return {
+        type: ActionType.setTaskListView,
+        payload: viewName
+    };
+}
+
+// Tasks
+
+function setTasks(tasks) {
+    return {
+        type: ActionType.setTasks,
+        payload: { tasks }
+    };
+}
