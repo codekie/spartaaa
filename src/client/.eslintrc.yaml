@@ -9,3 +9,4 @@ rules:
   operator-linebreak:
     - 2
     - before
+  prefer-reflect: off

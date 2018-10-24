@@ -17,15 +17,17 @@ import LOGO from '../../static/images/sparta.png';
 
 export default class Header extends PureComponent {
     static propTypes = {
-        loading: PropTypes.bool,
-        fetchTasks: PropTypes.func.isRequired
+        fetchTasks: PropTypes.func.isRequired,
+
+        connectionState: PropTypes.string,
+        loading: PropTypes.bool
     };
 
     constructor(props) {
         super(props);
     }
     render() {
-        const { fetchTasks, loading } = this.props;
+        const { connectionState, fetchTasks, loading } = this.props;
         return (
             <Panel.Header>
                 <Level renderAs="nav">
@@ -47,7 +49,7 @@ export default class Header extends PureComponent {
                             <Loader className={`${ loading ? 'is-loading' : '' }`} />
                         </Level.Item>
                         <Level.Item>
-                            <ConnectionState />
+                            <ConnectionState connectionState={connectionState} />
                         </Level.Item>
                     </Level.Side>
                 </Level>

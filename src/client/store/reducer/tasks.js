@@ -34,9 +34,10 @@ function _setTasks(state, action) {
     let newState = state.set('filteredTaskUuids', List(tasks.map(task => task.uuid))),
         newTasks = state.get('tasks');
     tasks.forEach(task => {
-        newTasks = newTasks.merge({
-            [task.uuid]: createTask(task).set('tags', List(task.tags))
-        });
+        newTasks = newTasks.set(
+            task.uuid,
+            createTask(task)
+        );
     });
     return newState.merge({ tasks: newTasks });
 }

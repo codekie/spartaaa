@@ -1,17 +1,26 @@
 import { Record, List } from 'immutable';
 
-export default Record({
-    uuid: null,
-    id: null,
+const EMPTY_TASK = Record({
     description: null,
-    start: null,
-    priority: null,
-    modified: null,
-    urgency: null,
-    recur: null,
-    entry: null,
-    status: null,
     due: null,
+    entry: null,
+    id: null,
+    mask: null,
+    modified: null,
+    priority: null,
     project: null,
-    tags: List()
-});
+    recur: null,
+    start: null,
+    status: null,
+    tags: List(),
+    urgency: null,
+    uuid: null,
+    wait: null
+})();
+
+// Merging the data with a base-immutable, will automatically map `Array`s to `List`s, in contrary to the
+// generated record-factory
+export default (data = {}) => EMPTY_TASK.merge(data);
+export {
+    EMPTY_TASK
+};

@@ -7,14 +7,13 @@ import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
 
-import TagList from '../tag-list';
-import determineClassNames from './css-class-determinator';
-import determineIcon from './icon-determinator';
+import ConnectedTaskTagList from '../../container/task-tag-list';
 import './task.sass';
 import PropTypes from 'prop-types';
 
 export default class Task extends PureComponent {
     static propTypes = {
+        // Raw-data
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,
@@ -22,9 +21,11 @@ export default class Task extends PureComponent {
         project: PropTypes.string,
         start: PropTypes.number,
         status: PropTypes.string,
-        tags: PropTypes.array.isRequired,
         urgency: PropTypes.number,
-        uuid: PropTypes.string.isRequired
+        uuid: PropTypes.string.isRequired,
+        // Pre-processed data
+        cssClassesString: PropTypes.string,
+        iconTask: PropTypes.object
     };
 
     constructor(props) {
@@ -32,13 +33,13 @@ export default class Task extends PureComponent {
     }
     render() {
         const props = this.props,
-            { id, description, due, tags, project, urgency } = props;
+            { uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority } = props;
         return (
-            <Media className={`cmp-task ${ determineClassNames(props) }`}>
-                { _createPriorityIndicator(props) }
+            <Media className={`cmp-task ${ cssClassesString }`}>
+                { _createPriorityIndicator(priority) }
                 <Media.Item renderAs="figure" position="left">
                     <Icon className="is-medium fa-2x">
-                        <FontAwesomeIcon icon={determineIcon(props)} className="task-icon" />
+                        <FontAwesomeIcon icon={taskIcon} className="task-icon" />
                     </Icon>
                 </Media.Item>
                 <Media.Item>
@@ -55,7 +56,7 @@ export default class Task extends PureComponent {
                             <Level.Side align="left" className="tags">
                                 { _createDueItem(due) }
                                 { _createProjectItem(project) }
-                                <Level.Item><TagList tags={tags} /></Level.Item>
+                                <Level.Item><ConnectedTaskTagList uuid={uuid} /></Level.Item>
                             </Level.Side>
                         </Level>
                     </Content>
@@ -100,7 +101,6 @@ function _createDueItem(due) {
     );
 }
 
-function _createPriorityIndicator(task) {
-    const { priority } = task;
+function _createPriorityIndicator(priority) {
     return <div className={`priority ${ priority ? `prio-${ priority }` : '' }`} />;
 }
