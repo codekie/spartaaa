@@ -1,3 +1,4 @@
+import { hot } from "react-hot-loader";
 import { PureComponent } from 'react';
 import Section from 'react-bulma-components/lib/components/section';
 import ConnectedHeader from '../../container/header';
@@ -8,7 +9,7 @@ import ConnectedTaskList from '../../container/task-list';
 import React from 'react';
 import './app.sass';
 
-export default class App extends PureComponent {
+class App extends PureComponent {
     constructor(props) {
         super(props);
     }
@@ -29,3 +30,5 @@ export default class App extends PureComponent {
         );
     }
 }
+
+export default hot(module)(App);
