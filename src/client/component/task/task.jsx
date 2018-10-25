@@ -6,6 +6,7 @@ import Icon from 'react-bulma-components/lib/components/icon';
 import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
+import { faFolder, faClock } from '@fortawesome/free-solid-svg-icons';
 
 import ConnectedTaskTagList from '../../container/task-tag-list';
 import './task.sass';
@@ -79,8 +80,12 @@ function _createProjectItem(project) {
     if (!project) { return null; }
     return (
         <Level.Item>
-            <Tag.Group gapless className="tag-project">
-                <Tag color="dark">project</Tag>
+            <Tag.Group gapless className="tag-project tag-icon">
+                <Tag color="dark">
+                    <Icon className="is-small">
+                        <FontAwesomeIcon icon={faFolder} />
+                    </Icon>
+                </Tag>
                 <Tag color="info">{ project }</Tag>
             </Tag.Group>
         </Level.Item>
@@ -93,8 +98,12 @@ function _createDueItem(due) {
         classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
     return (
         <Level.Item>
-            <Tag.Group gapless className="tag-due">
-                <Tag color="dark">due</Tag>
+            <Tag.Group gapless className="tag-due tag-icon">
+                <Tag color="dark">
+                    <Icon className="is-small">
+                        <FontAwesomeIcon icon={faClock} />
+                    </Icon>
+                </Tag>
                 <Tag className={classNameDue}>{ dueUntil }</Tag>
             </Tag.Group>
         </Level.Item>
