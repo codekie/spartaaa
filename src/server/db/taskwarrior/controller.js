@@ -1,6 +1,6 @@
-const spawn = require('child_process').spawn,
-    { logger } = require('../../util'),
-    { mapTasks } = require('./map-tasks');
+import { spawn } from 'child_process';
+import { logger } from '../../util';
+import { mapTasks } from './map-tasks';
 
 const COMMAND__TASKWARRIOR = 'task',
     ARG__EXPORT = 'export',
@@ -10,7 +10,17 @@ const COMMAND__TASKWARRIOR = 'task',
     EVT__EXIT = 'exit',
     EVT__ERROR = 'error';
 
-module.exports = fetchTasks;
+//let _delegate = null;
+
+export {
+    initDB,
+    fetchTasks
+};
+
+function initDB({ /*delegate*/ }) {
+//    _delegate = delegate;
+    return Promise.resolve();
+}
 
 function fetchTasks() {
     return new Promise((resolve, reject) => {
