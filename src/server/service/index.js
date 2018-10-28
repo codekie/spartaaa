@@ -1,7 +1,5 @@
-const ping = require('./ping'),
-    fetchTasks = require('./tasks');
+const ping = require('./ping');
 
 module.exports = {
-    ping,
-    fetchTasks
+    ping
 };

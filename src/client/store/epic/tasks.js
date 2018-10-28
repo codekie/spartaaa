@@ -7,13 +7,16 @@ import { subscribe, send } from '../../controller/websocket';
 import { dispatch } from '..';
 const { Event, getRequestEventName, getResponseEventName } = WebSocketEvents;
 
-const EVENT__GET_TASKS = Event.tasks.get,
-    WS_EVENT_REQ__GET_TASKS = getRequestEventName(EVENT__GET_TASKS),
-    WS_EVENT_RES__GET_TASKS = getResponseEventName(EVENT__GET_TASKS);
+const WS_EVENT_REQ__GET_TASKS = getRequestEventName(Event.tasks.get),
+    WS_EVENT_RES__GET_TASKS = getResponseEventName(Event.tasks.get),
+    WS_EVENT_REQ__ACTIVATE_TASK = getRequestEventName(Event.tasks.activateTask),
+    WS_EVENT_REQ__DEACTIVATE_TASK = getRequestEventName(Event.tasks.deactivateTask);
 
 export {
     init,
-    fetchTasks
+    fetchTasks,
+    activateTask,
+    deactivateTask
 };
 
 function init() {
@@ -29,6 +32,44 @@ function fetchTasks(actions$) {
         .pipe(
             switchMap((/*action*/) => {
                 send(WS_EVENT_REQ__GET_TASKS);
+                return from([
+                    ActionCreator[ActionType.setLoading](true)
+                ]);
+            }),
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
+        );
+}
+
+function activateTask(actions$) {
+    return actions$
+        .ofType(ActionType.activateTask)
+        .pipe(
+            switchMap((action) => {
+                send(WS_EVENT_REQ__ACTIVATE_TASK, action.payload);
+                return from([
+                    ActionCreator[ActionType.setLoading](true)
+                ]);
+            }),
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
+        );
+}
+
+function deactivateTask(actions$) {
+    return actions$
+        .ofType(ActionType.deactivateTask)
+        .pipe(
+            switchMap((action) => {
+                send(WS_EVENT_REQ__DEACTIVATE_TASK, action.payload);
                 return from([
                     ActionCreator[ActionType.setLoading](true)
                 ]);

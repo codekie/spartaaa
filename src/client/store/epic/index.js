@@ -9,6 +9,8 @@ const EPICS = {
 
 export default combineEpics(
     Tasks.fetchTasks,
+    Tasks.activateTask,
+    Tasks.deactivateTask,
     Session.sendSession,
     Session.setTaskListViewAndUpdateList
 );

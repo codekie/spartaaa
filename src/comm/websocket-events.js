@@ -5,7 +5,9 @@ const REQUEST = 'Request',
     SESSION = 'session',
     SESSION__UPDATE = `${ SESSION }.update`,
     TASKS = 'tasks',
-    TASKS__GET = `${ TASKS }.get`;
+    TASKS__GET = `${ TASKS }.get`,
+    TASKS__ACTIVATE = `${ TASKS }.activate`,
+    TASKS__DEACTIVATE = `${ TASKS }.deactivate`;
 
 // PUBLIC API
 
@@ -19,7 +21,9 @@ export const Event = {
     },
     tasks: {
         default: TASKS,
-        get: TASKS__GET
+        get: TASKS__GET,
+        activateTask: TASKS__ACTIVATE,
+        deactivateTask: TASKS__DEACTIVATE
     }
 };
 

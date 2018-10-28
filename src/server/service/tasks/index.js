@@ -3,7 +3,7 @@
 const { from, of } = require('rxjs'),
     { filter, toArray, catchError, tap } = require('rxjs/operators'),
     { logger } = require('../../util'),
-    { fetchTasks } = require('../../db'),
+    DB = require('../../db'),
     View = require('./task-list-view').default;
 
 // # CONSTANTS
@@ -15,10 +15,10 @@ const SERVICE_NAME = 'tasks';
 module.exports = {
     name: SERVICE_NAME,
     methods: {
-        exportTasks
-    },
-    restMethods: {
-        get: handleExportTasksRequest
+        activateTask,
+        deactivateTask,
+        fetchTasks,
+        filterTasks
     }
 };
 
@@ -26,23 +26,13 @@ module.exports = {
 
 // ## Public
 
-// TODO remove this function
-/** @deprecated Don't use this anymore. It probably won't work */
-async function handleExportTasksRequest(req, res) {
-    try {
-        const result = await exportTasks();
-        res.send(result);
-    } catch (e) {
-        logger.error(e);
-        // TODO send proper error
-        res.send('error');
-    }
+async function fetchTasks() {
+    return await DB.fetchTasks();
 }
 
-async function exportTasks(session) {
+async function filterTasks(session, tasks) {
     const { viewName, taskFilter } = session,
-        orderBy = View[viewName].sort || _orderUrgencyDesc,
-        tasks = await fetchTasks();
+        orderBy = View[viewName].sort || _orderUrgencyDesc;
     return await new Promise((resolve, reject) => {
         try {
             from(tasks)
@@ -58,13 +48,21 @@ async function exportTasks(session) {
                     })
                 )
                 .subscribe((result) => {
-                    logger.verbose('Finished processing tasks');
+                    logger.verbose('Finished processing tasks for session');
                     resolve(result);
                 });
         } catch (e) {
             reject(e);
         }
     });
+}
+
+async function activateTask(taskId) {
+    return await DB.activateTask(taskId);
+}
+
+async function deactivateTask(taskId) {
+    return await DB.deactivateTask(taskId);
 }
 
 // ## Private

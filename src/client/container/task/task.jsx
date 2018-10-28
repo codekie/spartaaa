@@ -10,10 +10,15 @@ import { extractImmutable } from '../../util';
 import { createDispatchMapper } from '../../util/prop-mapper';
 import determineClassNames from './css-class-determinator';
 import determineIcon from './icon-determinator';
+import ActionType from '../../store/action-type';
+import ActionCreator from '../../store/action-creators';
 
 // # CONSTANTS
 
-const MAP__DISPATCH_TO_PROPS = {};
+const MAP__DISPATCH_TO_PROPS = {
+    [ActionType.activateTask]: ActionCreator[ActionType.activateTask],
+    [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask]
+};
 
 
 // # EXPORT PUBLIC API

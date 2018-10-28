@@ -17,5 +17,7 @@ export default {
     filterTasksBy: 'filterTasksBy',
     setTaskListView: 'setTaskListView',
     // Tasks
+    activateTask: 'activateTask',
+    deactivateTask: 'deactivateTask',
     setTasks: 'setTasks'
 };
