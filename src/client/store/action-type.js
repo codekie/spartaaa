@@ -1,6 +1,8 @@
 export default {
     // Epics
     fetchTasks: 'fetchTasks',
+    finishTask: 'finishTask',
+    unfinishTask: 'unfinishTask',
     sendSession: 'sendSession',
     setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
     // Connection

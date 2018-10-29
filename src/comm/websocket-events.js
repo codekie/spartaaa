@@ -7,7 +7,9 @@ const REQUEST = 'Request',
     TASKS = 'tasks',
     TASKS__GET = `${ TASKS }.get`,
     TASKS__ACTIVATE = `${ TASKS }.activate`,
-    TASKS__DEACTIVATE = `${ TASKS }.deactivate`;
+    TASKS__DEACTIVATE = `${ TASKS }.deactivate`,
+    TASKS__FINISH = `${ TASKS }.finish`,
+    TASKS__UNFINISH = `${ TASKS }.unfinish`;
 
 // PUBLIC API
 
@@ -23,7 +25,9 @@ export const Event = {
         default: TASKS,
         get: TASKS__GET,
         activateTask: TASKS__ACTIVATE,
-        deactivateTask: TASKS__DEACTIVATE
+        deactivateTask: TASKS__DEACTIVATE,
+        finishTask: TASKS__FINISH,
+        unfinishTask: TASKS__UNFINISH
     }
 };
 

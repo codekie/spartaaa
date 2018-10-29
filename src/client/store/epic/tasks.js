@@ -10,13 +10,17 @@ const { Event, getRequestEventName, getResponseEventName } = WebSocketEvents;
 const WS_EVENT_REQ__GET_TASKS = getRequestEventName(Event.tasks.get),
     WS_EVENT_RES__GET_TASKS = getResponseEventName(Event.tasks.get),
     WS_EVENT_REQ__ACTIVATE_TASK = getRequestEventName(Event.tasks.activateTask),
-    WS_EVENT_REQ__DEACTIVATE_TASK = getRequestEventName(Event.tasks.deactivateTask);
+    WS_EVENT_REQ__DEACTIVATE_TASK = getRequestEventName(Event.tasks.deactivateTask),
+    WS_EVENT_REQ__FINISH_TASK = getRequestEventName(Event.tasks.finishTask),
+    WS_EVENT_REQ__UNFINISH_TASK = getRequestEventName(Event.tasks.unfinishTask);
 
 export {
     init,
-    fetchTasks,
     activateTask,
-    deactivateTask
+    deactivateTask,
+    fetchTasks,
+    finishTask,
+    unfinishTask
 };
 
 function init() {
@@ -70,6 +74,44 @@ function deactivateTask(actions$) {
         .pipe(
             switchMap((action) => {
                 send(WS_EVENT_REQ__DEACTIVATE_TASK, action.payload);
+                return from([
+                    ActionCreator[ActionType.setLoading](true)
+                ]);
+            }),
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
+        );
+}
+
+function finishTask(actions$) {
+    return actions$
+        .ofType(ActionType.finishTask)
+        .pipe(
+            switchMap((action) => {
+                send(WS_EVENT_REQ__FINISH_TASK, action.payload);
+                return from([
+                    ActionCreator[ActionType.setLoading](true)
+                ]);
+            }),
+            catchError((e) => {
+                console.error(e);
+                return from([
+                    ActionCreator[ActionType.setError](e)
+                ]);
+            })
+        );
+}
+
+function unfinishTask(actions$) {
+    return actions$
+        .ofType(ActionType.unfinishTask)
+        .pipe(
+            switchMap((action) => {
+                send(WS_EVENT_REQ__UNFINISH_TASK, action.payload);
                 return from([
                     ActionCreator[ActionType.setLoading](true)
                 ]);

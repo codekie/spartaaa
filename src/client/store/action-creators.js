@@ -5,6 +5,8 @@ export default {
     [ActionType.activateTask]: activateTask,
     [ActionType.deactivateTask]: deactivateTask,
     [ActionType.fetchTasks]: fetchTasks,
+    [ActionType.finishTask]: finishTask,
+    [ActionType.unfinishTask]: unfinishTask,
     [ActionType.sendSession]: sendSession,
     [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
     // Connection
@@ -42,6 +44,20 @@ function deactivateTask(taskId) {
 
 function fetchTasks() {
     return { type: ActionType.fetchTasks };
+}
+
+function finishTask(taskId) {
+    return {
+        type: ActionType.finishTask,
+        payload: taskId
+    };
+}
+
+function unfinishTask(uuid) {
+    return {
+        type: ActionType.unfinishTask,
+        payload: uuid
+    };
 }
 
 function sendSession() {
