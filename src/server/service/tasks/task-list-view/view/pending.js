@@ -6,7 +6,7 @@ export {
 };
 
 function filter(task) {
-    return task.tags
-        && !task.tags.includes(Tag.postponed)
+    const tags = task.tags || [];
+    return !tags.includes(Tag.postponed)
         && task.status === TaskStatus.pending;
 }
