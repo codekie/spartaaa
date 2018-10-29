@@ -5,5 +5,6 @@ export {
 };
 
 function filter(task) {
-    return task.tags && task.tags.includes(Tags.postponed);
+    const tags = task.tags || [];
+    return tags.includes(Tags.postponed);
 }
