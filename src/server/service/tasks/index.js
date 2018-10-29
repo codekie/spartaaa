@@ -3,7 +3,7 @@
 const { from, of } = require('rxjs'),
     { filter, toArray, catchError, tap } = require('rxjs/operators'),
     { logger } = require('../../util'),
-    fetchTasks = require('./fetch-tasks.js'),
+    { fetchTasks } = require('../../db'),
     View = require('./task-list-view').default;
 
 // # CONSTANTS
