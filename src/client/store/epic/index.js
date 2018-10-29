@@ -11,6 +11,8 @@ export default combineEpics(
     Tasks.fetchTasks,
     Tasks.activateTask,
     Tasks.deactivateTask,
+    Tasks.finishTask,
+    Tasks.unfinishTask,
     Session.sendSession,
     Session.setTaskListViewAndUpdateList
 );

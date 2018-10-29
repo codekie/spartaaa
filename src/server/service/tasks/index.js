@@ -18,7 +18,9 @@ module.exports = {
         activateTask,
         deactivateTask,
         fetchTasks,
-        filterTasks
+        filterTasks,
+        finishTask,
+        unfinishTask
     }
 };
 
@@ -63,6 +65,14 @@ async function activateTask(taskId) {
 
 async function deactivateTask(taskId) {
     return await DB.deactivateTask(taskId);
+}
+
+async function finishTask(taskId) {
+    return await DB.finishTask(taskId);
+}
+
+async function unfinishTask(uuid) {
+    return await DB.unfinishTask(uuid);
 }
 
 // ## Private

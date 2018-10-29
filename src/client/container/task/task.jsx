@@ -17,7 +17,9 @@ import ActionCreator from '../../store/action-creators';
 
 const MAP__DISPATCH_TO_PROPS = {
     [ActionType.activateTask]: ActionCreator[ActionType.activateTask],
-    [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask]
+    [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
+    [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
+    [ActionType.unfinishTask]: ActionCreator[ActionType.unfinishTask]
 };
 
 

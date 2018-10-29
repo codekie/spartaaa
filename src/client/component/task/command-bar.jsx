@@ -13,7 +13,8 @@ export default class Task extends PureComponent {
         activateTask: PropTypes.func.isRequired,
         deactivateTask: PropTypes.func.isRequired,
 
-        isActive: PropTypes.string,
+        isActive: PropTypes.bool,
+        isCompleted: PropTypes.bool,
         taskId: PropTypes.number
     };
 
@@ -22,19 +23,26 @@ export default class Task extends PureComponent {
     }
     render() {
         const props = this.props,
-            { isActive, activateTask, deactivateTask } = props;
+            { isActive, isCompleted, activateTask, deactivateTask } = props;
         return (
             <Panel className="task-command-bar">
-                <Button className="is-grouped" onClick={() => (
-                    isActive
-                        ? deactivateTask()
-                        : activateTask()
-                )}>
-                    <Icon className="is-small">
-                        <FontAwesomeIcon icon={isActive ? faStop : faPlay} className="task-icon" />
-                    </Icon>
-                </Button>
+                { _createStartStopButton({ isCompleted, isActive, deactivateTask, activateTask }) }
             </Panel>
         );
     }
+}
+
+function _createStartStopButton({ isCompleted, isActive, deactivateTask, activateTask } = {}) {
+    if (isCompleted) { return null; }
+    return (
+        <Button className="is-grouped" onClick={() => (
+            isActive
+                ? deactivateTask()
+                : activateTask()
+        )}>
+            <Icon className="is-small">
+                <FontAwesomeIcon icon={isActive ? faStop : faPlay} className="task-icon" />
+            </Icon>
+        </Button>
+    );
 }
