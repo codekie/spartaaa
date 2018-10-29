@@ -2,6 +2,8 @@ import ActionType from './action-type';
 
 export default {
     // Epics
+    [ActionType.activateTask]: activateTask,
+    [ActionType.deactivateTask]: deactivateTask,
     [ActionType.fetchTasks]: fetchTasks,
     [ActionType.sendSession]: sendSession,
     [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
@@ -23,6 +25,20 @@ export default {
 };
 
 // Epics
+
+function activateTask(taskId) {
+    return {
+        type: ActionType.activateTask,
+        payload: taskId
+    };
+}
+
+function deactivateTask(taskId) {
+    return {
+        type: ActionType.deactivateTask,
+        payload: taskId
+    };
+}
 
 function fetchTasks() {
     return { type: ActionType.fetchTasks };

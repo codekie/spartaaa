@@ -1,4 +1,4 @@
-import { initDB, fetchTasks } from './taskwarrior';
+import { initDB, fetchTasks, activateTask, deactivateTask } from './taskwarrior';
 
 const _inst = {
 
@@ -6,6 +6,8 @@ const _inst = {
 
 export {
     init,
+    activateTask,
+    deactivateTask,
     fetchTasks
 };
 

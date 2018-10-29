@@ -8,12 +8,17 @@ import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
 import { faFolder, faClock } from '@fortawesome/free-solid-svg-icons';
 
+import CommandBar from './command-bar.jsx';
 import ConnectedTaskTagList from '../../container/task-tag-list';
 import './task.sass';
 import PropTypes from 'prop-types';
 
 export default class Task extends PureComponent {
     static propTypes = {
+        // Functions
+        activateTask: PropTypes.func.isRequired,
+        deactivateTask: PropTypes.func.isRequired,
+
         // Raw-data
         description: PropTypes.string,
         due: PropTypes.number,
@@ -34,7 +39,10 @@ export default class Task extends PureComponent {
     }
     render() {
         const props = this.props,
-            { uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority } = props;
+            {
+                uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, activateTask,
+                deactivateTask
+            } = props;
         return (
             <Media className={`cmp-task ${ cssClassesString }`}>
                 { _createPriorityIndicator(priority) }
@@ -49,15 +57,19 @@ export default class Task extends PureComponent {
                             <strong className="sub-title"
                             >[{ id }] { description }</strong>
                         </p>
-                        <Level className="aux-bar-1">
-                            <Level.Side align="left">
-                            </Level.Side>
-                        </Level>
                         <Level>
                             <Level.Side align="left" className="tags">
                                 { _createDueItem(due) }
                                 { _createProjectItem(project) }
                                 <Level.Item><ConnectedTaskTagList uuid={uuid} /></Level.Item>
+                            </Level.Side>
+                        </Level>
+                        <Level className="aux-bar-1">
+                            <Level.Side align="left">
+                                <CommandBar taskId={id}
+                                    isActive={!!start}
+                                    activateTask={() => activateTask(id)}
+                                    deactivateTask={() => deactivateTask(id)} />
                             </Level.Side>
                         </Level>
                     </Content>
