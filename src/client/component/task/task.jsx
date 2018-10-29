@@ -65,7 +65,7 @@ export default class Task extends PureComponent {
                     <Content>
                         <p className="sub-description">
                             <strong className="sub-title"
-                            >[{ id }] { description }</strong>
+                            >[{ id || uuid }] { description }</strong>
                         </p>
                         <Level>
                             <Level.Side align="left" className="tags">
