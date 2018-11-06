@@ -25,9 +25,27 @@ const MAP__DISPATCH_TO_PROPS = {
 
 // # EXPORT PUBLIC API
 
-class TaskContainer extends PureComponent {
+export class TaskContainer extends PureComponent {
     static propTypes = {
-        uuid: PropTypes.string.isRequired
+        // Functions
+        activateTask: PropTypes.func.isRequired,
+        deactivateTask: PropTypes.func.isRequired,
+        finishTask: PropTypes.func.isRequired,
+        unfinishTask: PropTypes.func.isRequired,
+
+        // Raw-data
+        description: PropTypes.string,
+        due: PropTypes.number,
+        id: PropTypes.number.isRequired,
+        priority: PropTypes.string,
+        project: PropTypes.string,
+        start: PropTypes.number,
+        status: PropTypes.string,
+        urgency: PropTypes.number,
+        uuid: PropTypes.string.isRequired,
+        // Pre-processed data
+        cssClassesString: PropTypes.string,
+        iconTask: PropTypes.object
     };
 
     render() {

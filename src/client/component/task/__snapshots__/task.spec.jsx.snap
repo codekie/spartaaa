@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Media
+  className="cmp-task undefined"
+  renderAs="article"
+  style={Object {}}
+>
+  <div
+    className="priority "
+  />
+  <MediaItem
+    className=""
+    position="left"
+    renderAs="figure"
+    style={Object {}}
+  >
+    <div>
+      <Icon
+        align={null}
+        className="is-medium fa-2x"
+        color={null}
+        icon={null}
+        size={null}
+        style={Object {}}
+      >
+        <FontAwesomeIcon
+          border={false}
+          className="task-icon"
+          fixedWidth={false}
+          flip={null}
+          icon={null}
+          inverse={false}
+          listItem={false}
+          mask={null}
+          pull={null}
+          pulse={false}
+          rotation={null}
+          size={null}
+          spin={false}
+          symbol={false}
+          title=""
+          transform={null}
+        />
+      </Icon>
+    </div>
+    <div>
+      <Button
+        className="btn-check"
+        color={null}
+        disabled={false}
+        fullwidth={false}
+        inverted={false}
+        isStatic={false}
+        loading={false}
+        onClick={[Function]}
+        outlined={false}
+        remove={false}
+        renderAs="button"
+        reset={false}
+        rounded={false}
+        size={null}
+        state={null}
+        style={Object {}}
+        submit={false}
+        text={false}
+      >
+        <Icon
+          align={null}
+          className=""
+          color={null}
+          icon={null}
+          size={null}
+          style={Object {}}
+        >
+          <FontAwesomeIcon
+            border={false}
+            className="check-icon"
+            fixedWidth={false}
+            flip={null}
+            icon={
+              Object {
+                "icon": Array [
+                  512,
+                  512,
+                  Array [],
+                  "f00c",
+                  "M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z",
+                ],
+                "iconName": "check",
+                "prefix": "fas",
+              }
+            }
+            inverse={false}
+            listItem={false}
+            mask={null}
+            pull={null}
+            pulse={false}
+            rotation={null}
+            size={null}
+            spin={false}
+            symbol={false}
+            title=""
+            transform={null}
+          />
+        </Icon>
+      </Button>
+    </div>
+  </MediaItem>
+  <MediaItem
+    className=""
+    position="center"
+    renderAs="div"
+    style={Object {}}
+  >
+    <Content
+      renderAs="div"
+      size={null}
+      style={Object {}}
+    >
+      <p
+        className="sub-description"
+      >
+        <strong
+          className="sub-title"
+        >
+          [
+          1
+          ] 
+        </strong>
+      </p>
+      <Level
+        breakpoint={null}
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        <LevelSide
+          align="left"
+          className="tags"
+          renderAs="div"
+          style={Object {}}
+        >
+          <LevelItem
+            className=""
+            renderAs="div"
+            style={Object {}}
+          >
+            <Connect(Component)
+              uuid="ABC"
+            />
+          </LevelItem>
+        </LevelSide>
+      </Level>
+      <Level
+        breakpoint={null}
+        className="aux-bar-1"
+        renderAs="div"
+        style={Object {}}
+      >
+        <LevelSide
+          align="left"
+          className=""
+          renderAs="div"
+          style={Object {}}
+        >
+          <Task
+            activateTask={[Function]}
+            deactivateTask={[Function]}
+            isActive={false}
+            isCompleted={false}
+            taskId={1}
+          />
+        </LevelSide>
+      </Level>
+    </Content>
+    <Level
+      breakpoint="mobile"
+      className=""
+      renderAs="div"
+      style={Object {}}
+    >
+      <LevelSide
+        align="left"
+        className=""
+        renderAs="div"
+        style={Object {}}
+      />
+    </Level>
+  </MediaItem>
+  <MediaItem
+    className=""
+    position="right"
+    renderAs="div"
+    style={Object {}}
+  >
+    <Content
+      renderAs="div"
+      size={null}
+      style={Object {}}
+    >
+      <small />
+    </Content>
+  </MediaItem>
+</Media>
+`;

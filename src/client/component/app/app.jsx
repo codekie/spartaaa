@@ -9,7 +9,7 @@ import ConnectedTaskList from '../../container/task-list';
 import React from 'react';
 import './app.sass';
 
-class App extends PureComponent {
+export class App extends PureComponent {
     constructor(props) {
         super(props);
     }

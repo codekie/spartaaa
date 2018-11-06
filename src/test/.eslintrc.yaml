@@ -2,7 +2,6 @@ extends:
   - ../../.eslintrc.yaml
   - react
 env:
-  browser: true
   jest: true
 rules:
   new-cap: off

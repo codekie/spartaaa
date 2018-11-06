@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly \`all\`-task-list-selector should render the element 1`] = `
+<PanelTabs
+  className="panel-tabs"
+  renderAs="div"
+>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-pending"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Pending
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-next"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Next
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-postponed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Postponed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-completed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Completed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={true}
+    className="view-tab-all"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    All
+  </PanelTabsTab>
+</PanelTabs>
+`;
+
+exports[`renders correctly \`completed\`-task-list-selector should render the element 1`] = `
+<PanelTabs
+  className="panel-tabs"
+  renderAs="div"
+>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-pending"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Pending
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-next"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Next
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-postponed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Postponed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={true}
+    className="view-tab-completed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Completed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-all"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    All
+  </PanelTabsTab>
+</PanelTabs>
+`;
+
+exports[`renders correctly \`next\`-task-list-selector should render the element 1`] = `
+<PanelTabs
+  className="panel-tabs"
+  renderAs="div"
+>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-pending"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Pending
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={true}
+    className="view-tab-next"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Next
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-postponed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Postponed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-completed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Completed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-all"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    All
+  </PanelTabsTab>
+</PanelTabs>
+`;
+
+exports[`renders correctly \`pending\`-task-list-selector should render the element 1`] = `
+<PanelTabs
+  className="panel-tabs"
+  renderAs="div"
+>
+  <PanelTabsTab
+    active={true}
+    className="view-tab-pending"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Pending
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-next"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Next
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-postponed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Postponed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-completed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Completed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-all"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    All
+  </PanelTabsTab>
+</PanelTabs>
+`;
+
+exports[`renders correctly \`postponed\`-task-list-selector should render the element 1`] = `
+<PanelTabs
+  className="panel-tabs"
+  renderAs="div"
+>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-pending"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Pending
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-next"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Next
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={true}
+    className="view-tab-postponed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Postponed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-completed"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    Completed
+  </PanelTabsTab>
+  <PanelTabsTab
+    active={false}
+    className="view-tab-all"
+    onClick={[Function]}
+    renderAs="a"
+  >
+    All
+  </PanelTabsTab>
+</PanelTabs>
+`;

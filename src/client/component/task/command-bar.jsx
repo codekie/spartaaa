@@ -35,7 +35,7 @@ export default class Task extends PureComponent {
 function _createStartStopButton({ isCompleted, isActive, deactivateTask, activateTask } = {}) {
     if (isCompleted) { return null; }
     return (
-        <Button className="is-grouped" onClick={() => (
+        <Button className="is-grouped btn-activation" onClick={() => (
             isActive
                 ? deactivateTask()
                 : activateTask()

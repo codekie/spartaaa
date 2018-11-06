@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Section
+  className=""
+  renderAs="section"
+  size={null}
+  style={Object {}}
+>
+  <Connect(Component) />
+  <PanelBlock
+    active={false}
+    className=""
+    renderAs="div"
+  >
+    <Control
+      className=""
+      fullwidth={false}
+      iconLeft={false}
+      iconRight={false}
+      loading={false}
+      renderAs="div"
+      size={null}
+      style={Object {}}
+    >
+      <Input
+        className=""
+        color={null}
+        disabled={false}
+        isStatic={false}
+        name={null}
+        placeholder="search"
+        readOnly={true}
+        size="small"
+        style={Object {}}
+        type="text"
+        value=""
+      />
+    </Control>
+  </PanelBlock>
+  <Connect(Component) />
+  <Connect(Component) />
+</Section>
+`;
