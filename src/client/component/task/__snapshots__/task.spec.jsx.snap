@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders correctly default 1`] = `
 <Media
   className="cmp-task undefined"
   renderAs="article"
@@ -209,7 +209,7 @@ exports[`renders correctly 1`] = `
                 size={null}
                 style={Object {}}
               >
-                an hour ago
+                a few seconds ago
               </Tag>
             </TagGroup>
           </LevelItem>
@@ -309,8 +309,8 @@ exports[`renders correctly 1`] = `
           style={Object {}}
         >
           <Task
-            activateTask={[Function]}
-            deactivateTask={[Function]}
+            activateTask={[MockFunction]}
+            deactivateTask={[MockFunction]}
             isActive={false}
             isCompleted={false}
             taskId={1}

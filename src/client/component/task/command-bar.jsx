@@ -23,22 +23,22 @@ export default class Task extends PureComponent {
     }
     render() {
         const props = this.props,
-            { isActive, isCompleted, activateTask, deactivateTask } = props;
+            { isActive, isCompleted, activateTask, deactivateTask, taskId } = props;
         return (
             <Panel className="task-command-bar">
-                { _createStartStopButton({ isCompleted, isActive, deactivateTask, activateTask }) }
+                { _createStartStopButton({ taskId, isCompleted, isActive, deactivateTask, activateTask }) }
             </Panel>
         );
     }
 }
 
-function _createStartStopButton({ isCompleted, isActive, deactivateTask, activateTask } = {}) {
+function _createStartStopButton({ taskId, isCompleted, isActive, deactivateTask, activateTask } = {}) {
     if (isCompleted) { return null; }
     return (
         <Button className="is-grouped btn-activation" onClick={() => (
             isActive
-                ? deactivateTask()
-                : activateTask()
+                ? deactivateTask(taskId)
+                : activateTask(taskId)
         )}>
             <Icon className="is-small">
                 <FontAwesomeIcon icon={isActive ? faStop : faPlay} className="task-icon" />

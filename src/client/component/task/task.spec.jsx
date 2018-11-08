@@ -1,21 +1,72 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Task from './task.jsx';
+import TaskStatus from '../../../comm/task-status';
 
 const TIMESTAMP__DUE = 1541687666487;
 
-it('renders correctly', () => {
-    let _origNow = Date.now;
-
+describe('renders correctly', () => {
+    // Local variables
+    let _origNow = Date.now,
+        _context = null;
+    // Setup / teardown
     beforeEach(() => {
         Date.now = jest.fn(() => TIMESTAMP__DUE + 1000);
+        _context = _createContext();
     });
-    afterEach(() => {
-        Date.now = _origNow;
-    });
-
-    expect(shallow(
-        <Task deactivateTask={jest.fn()} activateTask={jest.fn()} finishTask={jest.fn()} id={1}
-            unfinishTask={jest.fn()} uuid="ABC" project="spartaaa" due={TIMESTAMP__DUE} />)
-    ).toMatchSnapshot();
+    afterEach(() => { Date.now = _origNow; });
+    // Specs
+    it('default', () => { expect(_context.createElement()).toMatchSnapshot(); });
 });
+
+describe('click handlers', () => {
+    let _context = null;
+
+    beforeEach(() => { _context = _createContext(); });
+
+    describe('`finishTask`-handler', () => {
+        let _elmt = null;
+
+        beforeEach(() => { _elmt = _context.createElement(); });
+
+        it('should call the handler', () => {
+            _elmt.find('.btn-check').simulate('click');
+            expect(_context.finishTask.mock.calls.length).toBe(1);
+            expect(_context.unfinishTask.mock.calls.length).toBe(0);
+        });
+    });
+    describe('`unfinishTask`-handler', () => {
+        let _elmt = null;
+
+        beforeEach(() => { _elmt = _context.createElement({ status: TaskStatus.completed }); });
+
+        it('should call the handler', () => {
+            _elmt.find('.btn-check').simulate('click');
+            expect(_context.finishTask.mock.calls.length).toBe(0);
+            expect(_context.unfinishTask.mock.calls.length).toBe(1);
+        });
+    });
+});
+
+// UTILITIES
+
+function _createContext() {
+    const deactivateTask = jest.fn(),
+        activateTask = jest.fn(),
+        finishTask = jest.fn(),
+        unfinishTask = jest.fn();
+    return {
+        createElement: ({ status = TaskStatus.pending } = {}) => (
+            _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask })
+        ),
+        deactivateTask,
+        activateTask,
+        finishTask,
+        unfinishTask
+    };
+}
+
+function _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask }) {
+    return shallow(<Task deactivateTask={deactivateTask} activateTask={activateTask} finishTask={finishTask} id={1}
+        unfinishTask={unfinishTask} uuid="ABC" project="spartaaa" due={TIMESTAMP__DUE} status={status} />);
+}
