@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "babel-node src/server/index.js",
-    "test": "jest --roots=src --config=jest.config.js",
-    "coverage": "yarn run coverage:run",
+    "test": "cross-env LOG_LEVEL=error jest --roots=src --config=jest.config.js",
+    "coverage": "cross-env LOG_LEVEL=error yarn run coverage:run",
     "coverage-html": "yarn run coverage:run --coverageReporters=html --coverageDirectory=coverage",
     "coverage-lcov": "yarn run coverage:run --coverageReporters=lcov --coverageDirectory=coverage",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
@@ -39,6 +39,7 @@
     "babel-loader": "^8.0.4",
     "concurrently": "^4.0.1",
     "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
