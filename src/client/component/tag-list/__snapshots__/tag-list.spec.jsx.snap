@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<TagGroup
+  className=""
+  gapless={false}
+  style={Object {}}
+>
+  <Tag
+    className=""
+    color={null}
+    key="tüdlidü"
+    remove={false}
+    renderAs="span"
+    rounded={false}
+    size={null}
+    style={Object {}}
+  >
+    tüdlidü
+  </Tag>
+</TagGroup>
+`;

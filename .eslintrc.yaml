@@ -6,6 +6,8 @@ globals: {}
 parser: babel-eslint
 parserOptions:
   sourceType: module
+plugins:
+  - jest
 rules:
   array-bracket-spacing:
     - 2

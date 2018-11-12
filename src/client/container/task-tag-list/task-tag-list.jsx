@@ -16,7 +16,7 @@ const MAP__DISPATCH_TO_PROPS = {};
 
 // # EXPORT PUBLIC API
 
-class TaskTagListContainer extends PureComponent {
+export class TaskTagListContainer extends PureComponent {
     static propTypes = {
         uuid: PropTypes.string.isRequired,
         tags: PropTypes.array

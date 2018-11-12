@@ -79,8 +79,8 @@ export default class Task extends PureComponent {
                                 <CommandBar taskId={id}
                                     isCompleted={isCompleted}
                                     isActive={!!start}
-                                    activateTask={() => activateTask(id)}
-                                    deactivateTask={() => deactivateTask(id)} />
+                                    activateTask={activateTask}
+                                    deactivateTask={deactivateTask} />
                             </Level.Side>
                         </Level>
                     </Content>

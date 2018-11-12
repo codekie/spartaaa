@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<PanelHeader
+  className=""
+  renderAs="div"
+>
+  <Level
+    breakpoint={null}
+    className=""
+    renderAs="nav"
+    style={Object {}}
+  >
+    <LevelSide
+      align="left"
+      className=""
+      renderAs="div"
+      style={Object {}}
+    >
+      <LevelItem
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        <Image
+          alt="32x32"
+          className=""
+          fallback="http//bulma.io/images/placeholders/480x480.png"
+          size={32}
+          src="test-file-stub"
+          style={Object {}}
+        />
+      </LevelItem>
+      <LevelItem
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        This is Spartaaa!!!
+      </LevelItem>
+      <LevelItem
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        <Button
+          className=""
+          color={null}
+          disabled={false}
+          fullwidth={false}
+          inverted={false}
+          isStatic={false}
+          loading={false}
+          onClick={[MockFunction]}
+          outlined={false}
+          remove={false}
+          renderAs="button"
+          reset={false}
+          rounded={false}
+          size={null}
+          state={null}
+          style={Object {}}
+          submit={false}
+          text={false}
+        >
+          Refresh
+        </Button>
+      </LevelItem>
+    </LevelSide>
+    <LevelSide
+      align="right"
+      className=""
+      renderAs="div"
+      style={Object {}}
+    >
+      <LevelItem
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        <Loader
+          className=""
+          renderAs="div"
+          style={Object {}}
+        />
+      </LevelItem>
+      <LevelItem
+        className=""
+        renderAs="div"
+        style={Object {}}
+      >
+        <ConnectionState
+          connectionState="pending"
+        />
+      </LevelItem>
+    </LevelSide>
+  </Level>
+</PanelHeader>
+`;
