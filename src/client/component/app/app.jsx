@@ -7,7 +7,7 @@ import { Control, Input } from 'react-bulma-components/lib/components/form';
 import ConnectedTaskListSelector from '../../container/task-list-selector';
 import ConnectedTaskList from '../../container/task-list';
 import React from 'react';
-import './app.sass';
+import './app.scss';
 
 export class App extends PureComponent {
     constructor(props) {

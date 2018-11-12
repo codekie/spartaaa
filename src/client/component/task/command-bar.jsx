@@ -5,7 +5,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import Icon from 'react-bulma-components/lib/components/icon';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 
-import './command-bar.sass';
+import './command-bar.scss';
 import PropTypes from 'prop-types';
 
 export default class Task extends PureComponent {

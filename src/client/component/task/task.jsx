@@ -10,7 +10,7 @@ import { faFolder, faClock, faCheck, faTimesCircle } from '@fortawesome/free-sol
 
 import CommandBar from './command-bar.jsx';
 import ConnectedTaskTagList from '../../container/task-tag-list';
-import './task.sass';
+import './task.scss';
 import PropTypes from 'prop-types';
 import Button from 'react-bulma-components/lib/components/button';
 import TaskStatus from '../../../comm/task-status';
