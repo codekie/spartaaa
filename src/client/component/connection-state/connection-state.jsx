@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import Icon from 'react-bulma-components/lib/components/icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import determineIcon from './icon-determinator';
-import './connection-state.sass';
+import './connection-state.scss';
 import PropTypes from 'prop-types';
 
 export default class ConnectionState extends PureComponent {
