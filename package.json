@@ -82,7 +82,7 @@
     "queueing-subject": "^0.3.0",
     "react": "^16.6.2",
     "react-bulma-components": "^2.3.0",
-    "react-dom": "^16.5.2",
+    "react-dom": "^16.6.2",
     "react-hot-loader": "^4.3.11",
     "react-redux": "6.0.0",
     "redux": "^4.0.0",
