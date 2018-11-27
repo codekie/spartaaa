@@ -51,6 +51,7 @@ exports[`renders correctly default 1`] = `
         disabled={false}
         fullwidth={false}
         inverted={false}
+        isSelected={false}
         isStatic={false}
         loading={false}
         onClick={[Function]}

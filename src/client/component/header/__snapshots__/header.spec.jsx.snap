@@ -49,6 +49,7 @@ exports[`renders correctly 1`] = `
           disabled={false}
           fullwidth={false}
           inverted={false}
+          isSelected={false}
           isStatic={false}
           loading={false}
           onClick={[MockFunction]}
