@@ -6200,9 +6200,10 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-bulma-components@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-2.2.0.tgz#77f916749fd4b3d052d031815441cb944e637b44"
+react-bulma-components@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-bulma-components/-/react-bulma-components-2.3.0.tgz#a25fd8f57b5748b0969673dfbfd2cd9186287522"
+  integrity sha512-gt1SeJmknPTET9HOcn+Z3kweYSkxswRgMYgMYOkUUKCtqc70fJfz5+FPZmczUzxej0sTXzwXIVWUqm1ftVu31g==
   dependencies:
     bulma "0.7.1"
     classnames "2.2.6"
