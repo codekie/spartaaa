@@ -2,8 +2,9 @@ import { hot } from "react-hot-loader";
 import { PureComponent } from 'react';
 import Section from 'react-bulma-components/lib/components/section';
 import ConnectedHeader from '../../container/header';
+import ConnectedOmnibox from '../../container/omnibox';
 import Panel from 'react-bulma-components/lib/components/panel';
-import { Control, Input } from 'react-bulma-components/lib/components/form';
+import { Control } from 'react-bulma-components/lib/components/form';
 import ConnectedTaskListSelector from '../../container/task-list-selector';
 import ConnectedTaskList from '../../container/task-list';
 import React from 'react';
@@ -20,8 +21,7 @@ export class App extends PureComponent {
                 <ConnectedHeader/>
                 <Panel.Block>
                     <Control>
-                        {/* TODO remove `readOnly` */}
-                        <Input size="small" type="text" placeholder="search" readOnly />
+                        <ConnectedOmnibox />
                     </Control>
                 </Panel.Block>
                 <ConnectedTaskListSelector />

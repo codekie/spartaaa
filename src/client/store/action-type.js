@@ -13,6 +13,8 @@ export default {
     setError: 'setError',
     // Loader
     setLoading: 'setLoading',
+    // Omnibox
+    setOmniboxRawValue: 'setOmniboxRawValue',
     // Session
     updateSession: 'updateSession',
     clearTaskFilter: 'clearTaskFilter',

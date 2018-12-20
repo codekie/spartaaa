@@ -17,6 +17,8 @@ export default {
     [ActionType.setError]: setError,
     // Loader
     [ActionType.setLoading]: setLoading,
+    // Omnibox
+    [ActionType.setOmniboxRawValue]: setOmniboxRawValue,
     // Session
     [ActionType.updateSession]: updateSession,
     [ActionType.clearTaskFilter]: clearTaskFilter,
@@ -102,6 +104,15 @@ function setLoading(loading) {
     return {
         type: ActionType.setLoading,
         payload: !!loading
+    };
+}
+
+// Omnibox
+
+function setOmniboxRawValue(rawValue) {
+    return {
+        type: ActionType.setOmniboxRawValue,
+        payload: rawValue
     };
 }
 
