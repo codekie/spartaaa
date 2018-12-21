@@ -18,6 +18,7 @@ export default {
     // Loader
     [ActionType.setLoading]: setLoading,
     // Omnibox
+    [ActionType.parseOmniboxRawValue]: parseOmniboxRawValue,
     [ActionType.setOmniboxRawValue]: setOmniboxRawValue,
     // Session
     [ActionType.updateSession]: updateSession,
@@ -113,6 +114,12 @@ function setOmniboxRawValue(rawValue) {
     return {
         type: ActionType.setOmniboxRawValue,
         payload: rawValue
+    };
+}
+
+function parseOmniboxRawValue() {
+    return {
+        type: ActionType.parseOmniboxRawValue
     };
 }
 

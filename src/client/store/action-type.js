@@ -14,6 +14,7 @@ export default {
     // Loader
     setLoading: 'setLoading',
     // Omnibox
+    parseOmniboxRawValue: 'parseOmniboxRawValue',
     setOmniboxRawValue: 'setOmniboxRawValue',
     // Session
     updateSession: 'updateSession',

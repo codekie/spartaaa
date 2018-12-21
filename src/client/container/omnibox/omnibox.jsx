@@ -15,7 +15,8 @@ const MAP__STATE_TO_PROPS = {
         rawValue: (state) => state.get('omnibox').get('rawValue')
     },
     MAP__DISPATCH_TO_PROPS = {
-        setRawValue: ActionCreator[ActionType.setOmniboxRawValue]
+        setRawValue: ActionCreator[ActionType.setOmniboxRawValue],
+        parse: ActionCreator[ActionType.parseOmniboxRawValue]
     };
 
 // # EXPORT PUBLIC API
