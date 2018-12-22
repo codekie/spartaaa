@@ -1,14 +1,22 @@
 import ActionType from './action-type';
 
 export default {
-    // Epics
+    // EPICS
+
+    // Omnibox
+    [ActionType.applyOmniboxFilter]: applyOmniboxFilter,
+    // Session
+    [ActionType.sendSession]: sendSession,
+    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+    // Tasks
     [ActionType.activateTask]: activateTask,
     [ActionType.deactivateTask]: deactivateTask,
     [ActionType.fetchTasks]: fetchTasks,
     [ActionType.finishTask]: finishTask,
     [ActionType.unfinishTask]: unfinishTask,
-    [ActionType.sendSession]: sendSession,
-    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+
+    // REDUCER
+
     // Connection
     [ActionType.connect]: connect,
     [ActionType.disconnect]: disconnect,
@@ -25,6 +33,7 @@ export default {
     [ActionType.clearTaskFilter]: clearTaskFilter,
     [ActionType.filterTasksBy]: filterTasksBy,
     [ActionType.setTaskListView]: setTaskListView,
+    [ActionType.updateSession]: updateSession,
     // Tasks
     [ActionType.setTasks]: setTasks
 };
@@ -35,6 +44,13 @@ function activateTask(taskId) {
     return {
         type: ActionType.activateTask,
         payload: taskId
+    };
+}
+
+function applyOmniboxFilter(criteria) {
+    return {
+        type: ActionType.applyOmniboxFilter,
+        payload: criteria
     };
 }
 
@@ -139,13 +155,10 @@ function clearTaskFilter(criterion) {
     };
 }
 
-function filterTasksBy(criterion, value) {
+function filterTasksBy(criteria) {
     return {
         type: ActionType.filterTasksBy,
-        payload: {
-            criterion,
-            value
-        }
+        payload: criteria
     };
 }
 

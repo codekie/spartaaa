@@ -1,20 +1,23 @@
-import * as Tasks from './tasks';
+import * as Omnibox from './omnibox';
 import * as Session from './session';
+import * as Tasks from './tasks';
 import { combineEpics } from 'redux-observable';
 
 const EPICS = {
+    Omnibox,
     Session,
     Tasks
 };
 
 export default combineEpics(
-    Tasks.fetchTasks,
+    Omnibox.filterByOmnibox,
+    Session.sendSession,
+    Session.setTaskListViewAndUpdateList,
     Tasks.activateTask,
     Tasks.deactivateTask,
+    Tasks.fetchTasks,
     Tasks.finishTask,
     Tasks.unfinishTask,
-    Session.sendSession,
-    Session.setTaskListViewAndUpdateList
 );
 export {
     init

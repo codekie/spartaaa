@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<Input
+  className=""
+  color={null}
+  disabled={false}
+  isStatic={false}
+  name={null}
+  onChange={[Function]}
+  onKeyDown={[Function]}
+  placeholder="search"
+  readOnly={false}
+  size="small"
+  style={Object {}}
+  type="text"
+  value=""
+/>
+`;

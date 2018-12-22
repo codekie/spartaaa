@@ -6,6 +6,7 @@ import ActionType from '../action-type';
 //  # CONSTANTS
 
 const PROP__RAW_VALUE = 'rawValue',
+    PROP__PARSED = 'parsed',
     PROP__TAGS = 'tags',
     PROP__PRIORITY = 'priority',
     PROP__PROJECT = 'project',
@@ -18,10 +19,12 @@ const PROP__RAW_VALUE = 'rawValue',
 // Reducer constants
 const INITIAL_STATE = Map({
         [PROP__RAW_VALUE]: '',
-        [PROP__TAGS]: Set(),
-        [PROP__PRIORITY]: null,
-        [PROP__PROJECT]: null,
-        [REGEX__STATUS]: null
+        [PROP__PARSED]: Map({
+            [PROP__TAGS]: Set(),
+            [PROP__PRIORITY]: null,
+            [PROP__PROJECT]: null,
+            [PROP__STATUS]: null
+        })
     }),
     Reducer = {
         [ActionType.parseOmniboxRawValue]: _parseOmniboxRawValue,
@@ -48,18 +51,21 @@ function _setOmniboxRawValue(state, action) {
 }
 
 function _parseOmniboxRawValue(state) {
-    state.get(PROP__RAW_VALUE).split(' ')
-        .forEach(segment => {
+    let stateClearedParsed = _clearParsedValues(state);
+    return state.get(PROP__RAW_VALUE)
+        .split(' ')
+        .reduce((resState, segment) => {
             const tag = _getTag(segment),
                 priority = _getPriority(segment),
                 project = _getProject(segment),
                 status = _getStatus(segment);
-            state = tag ? state.set(PROP__TAGS, state.get(PROP__TAGS).add(tag)) : state;
-            state = priority ? state.set(PROP__PRIORITY, priority) : state;
-            state = project ? state.set(PROP__PROJECT, project) : state;
-            state = status ? state.set(PROP__STATUS, status) : state;
-        });
-    return state;
+            let parsed = resState.get(PROP__PARSED);
+            parsed = tag ? parsed.set(PROP__TAGS, parsed.get(PROP__TAGS).add(tag)) : parsed;
+            parsed = priority ? parsed.set(PROP__PRIORITY, priority) : parsed;
+            parsed = project ? parsed.set(PROP__PROJECT, project) : parsed;
+            parsed = status ? parsed.set(PROP__STATUS, status) : parsed;
+            return resState.set(PROP__PARSED, parsed);
+        }, stateClearedParsed);
 }
 
 function _getTag(expr) {
@@ -81,4 +87,8 @@ function _getStatus(expr) {
 function _getRegExVal(regex, expr) {
     const res = regex.exec(expr);
     return res && res[1];
+}
+
+function _clearParsedValues(state) {
+    return state.set(PROP__PARSED, INITIAL_STATE.get(PROP__PARSED));
 }

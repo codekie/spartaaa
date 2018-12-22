@@ -1,10 +1,18 @@
 export default {
-    // Epics
+    // EPICS
+
+    // Omnibox
+    applyOmniboxFilter: 'applyOmniboxFilter',
+    // Session
+    sendSession: 'sendSession',
+    setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
+    // Tasks
     fetchTasks: 'fetchTasks',
     finishTask: 'finishTask',
     unfinishTask: 'unfinishTask',
-    sendSession: 'sendSession',
-    setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
+
+    // REDUCER
+
     // Connection
     connect: 'connect',
     disconnect: 'disconnect',
@@ -17,10 +25,10 @@ export default {
     parseOmniboxRawValue: 'parseOmniboxRawValue',
     setOmniboxRawValue: 'setOmniboxRawValue',
     // Session
-    updateSession: 'updateSession',
     clearTaskFilter: 'clearTaskFilter',
     filterTasksBy: 'filterTasksBy',
     setTaskListView: 'setTaskListView',
+    updateSession: 'updateSession',
     // Tasks
     activateTask: 'activateTask',
     deactivateTask: 'deactivateTask',

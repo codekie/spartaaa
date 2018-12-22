@@ -5,18 +5,31 @@ import { Input } from 'react-bulma-components/lib/components/form';
 
 export default class Omnibox extends PureComponent {
     static propTypes = {
+        applyFilter: PropTypes.func,
+        parse: PropTypes.func,
+        parsedValues: PropTypes.shape({
+            tags: PropTypes.arrayOf(PropTypes.string),
+            priority: PropTypes.string,
+            project: PropTypes.string,
+            status: PropTypes.string
+        }),
         rawValue: PropTypes.string,
-        setRawValue: PropTypes.func,
-        parse: PropTypes.func
+        setRawValue: PropTypes.func
     };
 
     constructor(props) {
         super(props);
     }
-    handleKeyPress(event) {
+    handleKeyDown(event) {
+        switch (event.key) {
+            case 'Enter':
+            case ' ':
+            case 'Tab':
+                this.props.parse();
+                break;
+        }
         if (event.key === 'Enter') {
-            this.props.parse();
-            return;
+            this.props.applyFilter();
         }
     }
     render() {
@@ -24,7 +37,7 @@ export default class Omnibox extends PureComponent {
         return (
             <Input size="small" type="text" placeholder="search" value={rawValue}
                 onChange={(event) => setRawValue(event.target.value)}
-                onKeyPress={(event) => this.handleKeyPress(event)} />
+                onKeyDown={(event) => this.handleKeyDown(event)} />
         );
     }
 }

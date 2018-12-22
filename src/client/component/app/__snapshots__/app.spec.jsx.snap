@@ -23,19 +23,7 @@ exports[`renders correctly 1`] = `
       size={null}
       style={Object {}}
     >
-      <Input
-        className=""
-        color={null}
-        disabled={false}
-        isStatic={false}
-        name={null}
-        placeholder="search"
-        readOnly={true}
-        size="small"
-        style={Object {}}
-        type="text"
-        value=""
-      />
+      <Connect(Component) />
     </Control>
   </PanelBlock>
   <Connect(Component) />
