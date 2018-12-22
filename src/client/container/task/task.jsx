@@ -19,6 +19,7 @@ const MAP__DISPATCH_TO_PROPS = {
     [ActionType.activateTask]: ActionCreator[ActionType.activateTask],
     [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
     [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
+    handleProjectClick: ActionCreator[ActionType.toggleProjectFilter],
     [ActionType.unfinishTask]: ActionCreator[ActionType.unfinishTask]
 };
 
@@ -31,9 +32,11 @@ export class TaskContainer extends PureComponent {
         activateTask: PropTypes.func.isRequired,
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
+        handleProjectClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
+        taskFilter: PropTypes.object,
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,
@@ -61,6 +64,7 @@ export default connect(
 
 function _mapStateToProps(state, ownProps) {
     const task = state.get('tasks').get('tasks').get(ownProps.uuid).toJS(),
+        taskFilter = state.get('session').get('taskFilter').toJS(),
         cssClassesString = determineClassNames(task),
         taskIcon = determineIcon(task);
     // Don't pass the `tags` property, since this will cause the component always to re-render, since the tags-array
@@ -69,6 +73,7 @@ function _mapStateToProps(state, ownProps) {
     delete task.tags;
     return {
         ...task,
+        taskFilter,
         cssClassesString,
         taskIcon
     };

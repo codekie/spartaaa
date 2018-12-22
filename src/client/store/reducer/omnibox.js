@@ -11,10 +11,15 @@ const PROP__RAW_VALUE = 'rawValue',
     PROP__PRIORITY = 'priority',
     PROP__PROJECT = 'project',
     PROP__STATUS = 'status',
-    REGEX__TAG = /^\+(.+)/,
-    REGEX__PRIORITY = /^priority:(.+)/,
-    REGEX__PROJECT = /^project:(.+)/,
-    REGEX__STATUS = /^status:(.*)/;
+    PROP__SEARCH_TERM = 'searchTerm',
+    PREFIX__TAG = '+',
+    PREFIX__PRIORITY = 'priority:',
+    PREFIX__PROJECT = 'project:',
+    PREFIX__STATUS = 'status:',
+    REGEX__TAG = new RegExp(`^${ '\\' + PREFIX__TAG }(.+)`),
+    REGEX__PRIORITY = new RegExp(`^${ PREFIX__PRIORITY }(.+)`),
+    REGEX__PROJECT = new RegExp(`^${ PREFIX__PROJECT }(.+)`),
+    REGEX__STATUS = new RegExp(`^${ PREFIX__STATUS }(.*)`);
 
 // Reducer constants
 const INITIAL_STATE = Map({
@@ -23,12 +28,15 @@ const INITIAL_STATE = Map({
             [PROP__TAGS]: Set(),
             [PROP__PRIORITY]: null,
             [PROP__PROJECT]: null,
-            [PROP__STATUS]: null
+            [PROP__STATUS]: null,
+            [PROP__SEARCH_TERM]: ''
         })
     }),
     Reducer = {
+        [ActionType.buildRawFromParsed]: _buildRawFromParsed,
         [ActionType.parseOmniboxRawValue]: _parseOmniboxRawValue,
-        [ActionType.setOmniboxRawValue]: _setOmniboxRawValue
+        [ActionType.setOmniboxRawValue]: _setOmniboxRawValue,
+        [ActionType.toggleOmniboxProject]: _toggleProject
     };
 
 // # PUBLIC API
@@ -50,9 +58,26 @@ function _setOmniboxRawValue(state, action) {
     return state.merge({ rawValue: action.payload });
 }
 
+function _buildRawFromParsed(state) {
+    const stateParsed = state.get(PROP__PARSED),
+        priority = stateParsed.get(PROP__PRIORITY) || '',
+        project = stateParsed.get(PROP__PROJECT) || '',
+        tags = Array.from(stateParsed.get(PROP__TAGS)).join(' +'),
+        status = stateParsed.get(PROP__STATUS) || '',
+        searchTerm = stateParsed.get(PROP__SEARCH_TERM) || '';
+    let fragments = [];
+    priority.length && fragments.push(`${ PREFIX__PRIORITY }${ priority }`);
+    project.length && fragments.push(`${ PREFIX__PROJECT }${ project }`);
+    tags.length && fragments.push(`${ PREFIX__TAG }${ tags }`);
+    status.length && fragments.push(`${ PREFIX__STATUS }${ status }`);
+    searchTerm.length && fragments.push(searchTerm);
+    return state.set(PROP__RAW_VALUE, fragments.join(' '));
+}
+
 function _parseOmniboxRawValue(state) {
-    let stateClearedParsed = _clearParsedValues(state);
-    return state.get(PROP__RAW_VALUE)
+    let stateClearedParsed = _clearParsedValues(state),
+        textSegments = [];
+    let resultState = state.get(PROP__RAW_VALUE)
         .split(' ')
         .reduce((resState, segment) => {
             const tag = _getTag(segment),
@@ -60,12 +85,22 @@ function _parseOmniboxRawValue(state) {
                 project = _getProject(segment),
                 status = _getStatus(segment);
             let parsed = resState.get(PROP__PARSED);
-            parsed = tag ? parsed.set(PROP__TAGS, parsed.get(PROP__TAGS).add(tag)) : parsed;
-            parsed = priority ? parsed.set(PROP__PRIORITY, priority) : parsed;
-            parsed = project ? parsed.set(PROP__PROJECT, project) : parsed;
-            parsed = status ? parsed.set(PROP__STATUS, status) : parsed;
+            if (tag) {
+                parsed = parsed.set(PROP__TAGS, parsed.get(PROP__TAGS).add(tag));
+            } else if (priority) {
+                parsed = parsed.set(PROP__PRIORITY, priority);
+            } else if (project) {
+                parsed = parsed.set(PROP__PROJECT, project);
+            } else if (status) {
+                parsed = parsed.set(PROP__STATUS, status);
+            } else if (segment.length) {
+                textSegments.push(segment);
+            }
             return resState.set(PROP__PARSED, parsed);
         }, stateClearedParsed);
+    return resultState.set(PROP__PARSED,
+        resultState.get(PROP__PARSED).set(PROP__SEARCH_TERM, textSegments.join(' '))
+    );
 }
 
 function _getTag(expr) {
@@ -91,4 +126,13 @@ function _getRegExVal(regex, expr) {
 
 function _clearParsedValues(state) {
     return state.set(PROP__PARSED, INITIAL_STATE.get(PROP__PARSED));
+}
+
+function _toggleProject(state, action) {
+    const project = action.payload;
+    let selectedProject = project;
+    if (state.get(PROP__PARSED).get(PROP__PROJECT) === project) {
+        selectedProject = null;
+    }
+    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PROJECT, selectedProject));
 }

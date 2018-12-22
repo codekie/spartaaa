@@ -82,7 +82,8 @@ function _filter(task, taskFilter) {
         _filterByTags(taskFilter, task),
         _filterByStatus(taskFilter, task),
         _filterByProject(taskFilter, task),
-        _filterByPriority(taskFilter, task)
+        _filterByPriority(taskFilter, task),
+        _filterBySearchTerm(taskFilter, task)
     ].every(res => res);
 }
 
@@ -106,6 +107,11 @@ function _filterByProject(taskFilter, task) {
 function _filterByPriority(taskFilter, task) {
     if (taskFilter.priority == null) { return true; }
     return task.priority === taskFilter.priority;
+}
+
+function _filterBySearchTerm(taskFilter, task) {
+    if (taskFilter.searchTerm == null) { return true; }
+    return task.description.toLowerCase().includes(taskFilter.searchTerm.toLowerCase());
 }
 
 function _orderUrgencyDesc(task1, task2) {

@@ -15,15 +15,20 @@ import PropTypes from 'prop-types';
 import Button from 'react-bulma-components/lib/components/button';
 import TaskStatus from '../../../comm/task-status';
 
+const COLOR__TAG__PROJECT_SELECTED = 'white',
+    COLOR__TAG__PROJECT = 'info';
+
 export default class Task extends PureComponent {
     static propTypes = {
         // Functions
         activateTask: PropTypes.func.isRequired,
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
+        handleProjectClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
+        taskFilter: PropTypes.object,
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,
@@ -45,7 +50,7 @@ export default class Task extends PureComponent {
         const props = this.props,
             {
                 uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, status,
-                activateTask, deactivateTask, finishTask, unfinishTask
+                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick
             } = props,
             isCompleted = status === TaskStatus.completed;
         return (
@@ -70,7 +75,7 @@ export default class Task extends PureComponent {
                         <Level>
                             <Level.Side align="left" className="tags">
                                 { _createDueItem(due) }
-                                { _createProjectItem(project) }
+                                { _createProjectItem(project, taskFilter, handleProjectClick) }
                                 <Level.Item><ConnectedTaskTagList uuid={uuid} /></Level.Item>
                             </Level.Side>
                         </Level>
@@ -99,17 +104,18 @@ export default class Task extends PureComponent {
     }
 }
 
-function _createProjectItem(project) {
+function _createProjectItem(project, taskFilter, clickHandler) {
     if (!project) { return null; }
+    const colorTag = project === taskFilter.project ? COLOR__TAG__PROJECT_SELECTED : COLOR__TAG__PROJECT;
     return (
         <Level.Item>
-            <Tag.Group gapless className="tag-project tag-icon">
+            <Tag.Group gapless className="tag-project tag-icon" onClick={() => clickHandler(project)}>
                 <Tag color="dark">
                     <Icon className="is-small">
                         <FontAwesomeIcon icon={faFolder} />
                     </Icon>
                 </Tag>
-                <Tag color="info">{ project }</Tag>
+                <Tag color={colorTag}>{ project }</Tag>
             </Tag.Group>
         </Level.Item>
     );

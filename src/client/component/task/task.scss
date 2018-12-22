@@ -26,6 +26,7 @@
       .in-time { background-color: $green; color: $grey-light; }
       .overdue { background-color: $red; color: $grey-light; }
     }
+    .tag-project { cursor: pointer; }
   }
   &.tag-bug {
     .task-icon { color: $red; }

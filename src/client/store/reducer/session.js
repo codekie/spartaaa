@@ -49,7 +49,9 @@ function _clearTaskFilter(state, action) {
     if (criterion == null) {
         return state.merge({ taskFilter: INITIAL_STATE__TASK_FILTER });
     }
-    return state.set(criterion, INITIAL_STATE__TASK_FILTER.get(criterion));
+    return state.set(PROP__TASK_FILTER,
+        state.get(PROP__TASK_FILTER).set(criterion, INITIAL_STATE__TASK_FILTER.get(criterion))
+    );
 }
 
 function _filterTasksBy(state, action) {
@@ -60,7 +62,7 @@ function _filterTasksBy(state, action) {
     criteria.tags = criteria.tags ? Set(criteria.tags) : criteria.tags;
     return state.merge(
         _clearTaskFilter(state, {})
-            .set(PROP__TASK_FILTER, criteria)
+            .set(PROP__TASK_FILTER, INITIAL_STATE__TASK_FILTER.merge(criteria))
     );
 }
 

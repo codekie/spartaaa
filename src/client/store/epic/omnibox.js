@@ -7,7 +7,8 @@ let _delegate = null;
 
 export {
     init,
-    filterByOmnibox
+    filterByOmnibox,
+    toggleProjectFilter
 };
 
 function init({ delegate }) {
@@ -24,6 +25,21 @@ function filterByOmnibox(actions$) {
                     ActionCreator[ActionType.filterTasksBy](parsedValues),
                     ActionCreator[ActionType.sendSession](),
                     ActionCreator[ActionType.fetchTasks]()
+                ]);
+            }),
+            catchError((e) => console.error(e))
+        );
+}
+
+function toggleProjectFilter(actions$) {
+    return actions$
+        .ofType(ActionType.toggleProjectFilter)
+        .pipe(
+            switchMap((action) => {
+                return from([
+                    ActionCreator[ActionType.toggleOmniboxProject](action.payload),
+                    ActionCreator[ActionType.buildRawFromParsed](),
+                    ActionCreator[ActionType.applyOmniboxFilter]()
                 ]);
             }),
             catchError((e) => console.error(e))

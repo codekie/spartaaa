@@ -3,6 +3,7 @@ export default {
 
     // Omnibox
     applyOmniboxFilter: 'applyOmniboxFilter',
+    toggleProjectFilter: 'toggleProjectFilter',
     // Session
     sendSession: 'sendSession',
     setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
@@ -22,8 +23,10 @@ export default {
     // Loader
     setLoading: 'setLoading',
     // Omnibox
+    buildRawFromParsed: 'buildRawFromParsed',
     parseOmniboxRawValue: 'parseOmniboxRawValue',
     setOmniboxRawValue: 'setOmniboxRawValue',
+    toggleOmniboxProject: 'toggleOmniboxProject',
     // Session
     clearTaskFilter: 'clearTaskFilter',
     filterTasksBy: 'filterTasksBy',
