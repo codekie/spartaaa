@@ -36,7 +36,8 @@ const INITIAL_STATE = Map({
         [ActionType.buildRawFromParsed]: _buildRawFromParsed,
         [ActionType.parseOmniboxRawValue]: _parseOmniboxRawValue,
         [ActionType.setOmniboxRawValue]: _setOmniboxRawValue,
-        [ActionType.toggleOmniboxProject]: _toggleProject
+        [ActionType.toggleOmniboxProject]: _toggleOmniboxProject,
+        [ActionType.toggleOmniboxTag]: _toggleOmniboxTag
     };
 
 // # PUBLIC API
@@ -128,11 +129,22 @@ function _clearParsedValues(state) {
     return state.set(PROP__PARSED, INITIAL_STATE.get(PROP__PARSED));
 }
 
-function _toggleProject(state, action) {
+function _toggleOmniboxProject(state, action) {
     const project = action.payload;
     let selectedProject = project;
     if (state.get(PROP__PARSED).get(PROP__PROJECT) === project) {
         selectedProject = null;
     }
     return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PROJECT, selectedProject));
+}
+
+function _toggleOmniboxTag(state, action) {
+    const tag = action.payload;
+    let selectedTags = state.get(PROP__PARSED).get(PROP__TAGS);
+    if (selectedTags.includes(tag)) {
+        selectedTags = selectedTags.delete(tag);
+    } else {
+        selectedTags = selectedTags.add(tag);
+    }
+    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__TAGS, selectedTags));
 }

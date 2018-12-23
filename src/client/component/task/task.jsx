@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import Button from 'react-bulma-components/lib/components/button';
 import TaskStatus from '../../../comm/task-status';
 
-const COLOR__TAG__PROJECT_SELECTED = 'white',
+const COLOR__TAG__PROJECT_SELECTED = 'primary',
     COLOR__TAG__PROJECT = 'info';
 
 export default class Task extends PureComponent {
@@ -25,6 +25,7 @@ export default class Task extends PureComponent {
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
         handleProjectClick: PropTypes.func.isRequired,
+        handleTagClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
@@ -50,7 +51,7 @@ export default class Task extends PureComponent {
         const props = this.props,
             {
                 uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, status,
-                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick
+                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick
             } = props,
             isCompleted = status === TaskStatus.completed;
         return (
@@ -76,7 +77,8 @@ export default class Task extends PureComponent {
                             <Level.Side align="left" className="tags">
                                 { _createDueItem(due) }
                                 { _createProjectItem(project, taskFilter, handleProjectClick) }
-                                <Level.Item><ConnectedTaskTagList uuid={uuid} /></Level.Item>
+                                <Level.Item><ConnectedTaskTagList uuid={uuid}
+                                    handleClick={handleTagClick} taskFilter={taskFilter} /></Level.Item>
                             </Level.Side>
                         </Level>
                         <Level className="aux-bar-1">

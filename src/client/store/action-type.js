@@ -4,6 +4,7 @@ export default {
     // Omnibox
     applyOmniboxFilter: 'applyOmniboxFilter',
     toggleProjectFilter: 'toggleProjectFilter',
+    toggleTagFilter: 'toggleTagFilter',
     // Session
     sendSession: 'sendSession',
     setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
@@ -27,6 +28,7 @@ export default {
     parseOmniboxRawValue: 'parseOmniboxRawValue',
     setOmniboxRawValue: 'setOmniboxRawValue',
     toggleOmniboxProject: 'toggleOmniboxProject',
+    toggleOmniboxTag: 'toggleOmniboxTag',
     // Session
     clearTaskFilter: 'clearTaskFilter',
     filterTasksBy: 'filterTasksBy',

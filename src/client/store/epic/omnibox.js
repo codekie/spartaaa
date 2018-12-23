@@ -8,7 +8,8 @@ let _delegate = null;
 export {
     init,
     filterByOmnibox,
-    toggleProjectFilter
+    toggleProjectFilter,
+    toggleTagFilter
 };
 
 function init({ delegate }) {
@@ -38,6 +39,21 @@ function toggleProjectFilter(actions$) {
             switchMap((action) => {
                 return from([
                     ActionCreator[ActionType.toggleOmniboxProject](action.payload),
+                    ActionCreator[ActionType.buildRawFromParsed](),
+                    ActionCreator[ActionType.applyOmniboxFilter]()
+                ]);
+            }),
+            catchError((e) => console.error(e))
+        );
+}
+
+function toggleTagFilter(actions$) {
+    return actions$
+        .ofType(ActionType.toggleTagFilter)
+        .pipe(
+            switchMap((action) => {
+                return from([
+                    ActionCreator[ActionType.toggleOmniboxTag](action.payload),
                     ActionCreator[ActionType.buildRawFromParsed](),
                     ActionCreator[ActionType.applyOmniboxFilter]()
                 ]);

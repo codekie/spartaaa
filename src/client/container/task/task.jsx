@@ -20,6 +20,7 @@ const MAP__DISPATCH_TO_PROPS = {
     [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
     [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
     handleProjectClick: ActionCreator[ActionType.toggleProjectFilter],
+    handleTagClick: ActionCreator[ActionType.toggleTagFilter],
     [ActionType.unfinishTask]: ActionCreator[ActionType.unfinishTask]
 };
 
@@ -33,6 +34,7 @@ export class TaskContainer extends PureComponent {
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
         handleProjectClick: PropTypes.func.isRequired,
+        handleTagClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data

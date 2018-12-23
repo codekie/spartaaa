@@ -6,6 +6,7 @@ export default {
     // Omnibox
     [ActionType.applyOmniboxFilter]: applyOmniboxFilter,
     [ActionType.toggleProjectFilter]: toggleProjectFilter,
+    [ActionType.toggleTagFilter]: toggleTagFilter,
     // Session
     [ActionType.sendSession]: sendSession,
     [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
@@ -31,6 +32,7 @@ export default {
     [ActionType.parseOmniboxRawValue]: parseOmniboxRawValue,
     [ActionType.setOmniboxRawValue]: setOmniboxRawValue,
     [ActionType.toggleOmniboxProject]: toggleOmniboxProject,
+    [ActionType.toggleOmniboxTag]: toggleOmniboxTag,
     // Session
     [ActionType.updateSession]: updateSession,
     [ActionType.clearTaskFilter]: clearTaskFilter,
@@ -61,6 +63,13 @@ function toggleProjectFilter(project) {
     return {
         type: ActionType.toggleProjectFilter,
         payload: project
+    };
+}
+
+function toggleTagFilter(tag) {
+    return {
+        type: ActionType.toggleTagFilter,
+        payload: tag
     };
 }
 
@@ -153,6 +162,13 @@ function toggleOmniboxProject(project) {
     return {
         type: ActionType.toggleOmniboxProject,
         payload: project
+    };
+}
+
+function toggleOmniboxTag(tag) {
+    return {
+        type: ActionType.toggleOmniboxTag,
+        payload: tag
     };
 }
 
