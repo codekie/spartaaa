@@ -27,7 +27,7 @@ const MAP__DISPATCH_TO_PROPS = {
 
 // # EXPORT PUBLIC API
 
-export class TaskContainer extends PureComponent {
+export class ConnectedTask extends PureComponent {
     static propTypes = {
         // Functions
         activateTask: PropTypes.func.isRequired,
@@ -61,7 +61,7 @@ export class TaskContainer extends PureComponent {
 export default connect(
     _mapStateToProps,
     createDispatchMapper(MAP__DISPATCH_TO_PROPS)
-)(extractImmutable(TaskContainer));
+)(extractImmutable(ConnectedTask));
 
 
 function _mapStateToProps(state, ownProps) {

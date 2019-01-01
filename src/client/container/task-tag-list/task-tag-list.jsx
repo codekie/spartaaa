@@ -16,7 +16,7 @@ const MAP__DISPATCH_TO_PROPS = {};
 
 // # EXPORT PUBLIC API
 
-export class TaskTagListContainer extends PureComponent {
+export class ConnectedTaskTagList extends PureComponent {
     static propTypes = {
         uuid: PropTypes.string.isRequired,
         tags: PropTypes.array.isRequired,
@@ -33,7 +33,7 @@ export class TaskTagListContainer extends PureComponent {
 export default connect(
     _mapStateToProps,
     createDispatchMapper(MAP__DISPATCH_TO_PROPS)
-)(extractImmutable(TaskTagListContainer));
+)(extractImmutable(ConnectedTaskTagList));
 
 
 function _mapStateToProps(state, ownProps) {
