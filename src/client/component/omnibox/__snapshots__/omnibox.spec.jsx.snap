@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <Input
-  className=""
+  className="cmp-sub-input"
   color={null}
   disabled={false}
   isStatic={false}

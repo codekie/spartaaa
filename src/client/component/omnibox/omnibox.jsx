@@ -35,7 +35,7 @@ export default class Omnibox extends PureComponent {
     render() {
         const { rawValue, setRawValue } = this.props;
         return (
-            <Input size="small" type="text" placeholder="search" value={rawValue}
+            <Input size="small" type="text" className="cmp-sub-input" placeholder="search" value={rawValue}
                 onChange={(event) => setRawValue(event.target.value)}
                 onKeyDown={(event) => this.handleKeyDown(event)} />
         );
