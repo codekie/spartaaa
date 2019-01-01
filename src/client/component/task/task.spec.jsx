@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Task from './task.jsx';
 import TaskStatus from '../../../comm/task-status';
+import TaskFilter from '../../../comm/session/task-filter';
 
 const TIMESTAMP__DUE = 1541687666487;
 
@@ -54,10 +55,15 @@ function _createContext() {
     const deactivateTask = jest.fn(),
         activateTask = jest.fn(),
         finishTask = jest.fn(),
-        unfinishTask = jest.fn();
+        unfinishTask = jest.fn(),
+        handleTagClick = jest.fn(),
+        handleProjectClick = jest.fn(),
+        taskFilter = new TaskFilter();
     return {
         createElement: ({ status = TaskStatus.pending } = {}) => (
-            _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask })
+            _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask, handleTagClick,
+                handleProjectClick, taskFilter
+            })
         ),
         deactivateTask,
         activateTask,
@@ -66,7 +72,10 @@ function _createContext() {
     };
 }
 
-function _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask }) {
+function _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask, handleTagClick,
+    handleProjectClick, taskFilter
+}) {
     return shallow(<Task deactivateTask={deactivateTask} activateTask={activateTask} finishTask={finishTask} id={1}
-        unfinishTask={unfinishTask} uuid="ABC" project="spartaaa" due={TIMESTAMP__DUE} status={status} />);
+        unfinishTask={unfinishTask} handleTagClick={handleTagClick} handleProjectClick={handleProjectClick} uuid="ABC"
+        project="spartaaa" due={TIMESTAMP__DUE} status={status} taskFilter={taskFilter} />);
 }

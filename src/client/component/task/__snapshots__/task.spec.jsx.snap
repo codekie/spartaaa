@@ -222,6 +222,7 @@ exports[`renders correctly default 1`] = `
             <TagGroup
               className="tag-project tag-icon"
               gapless={true}
+              onClick={[Function]}
               style={Object {}}
             >
               <Tag
@@ -292,6 +293,17 @@ exports[`renders correctly default 1`] = `
             style={Object {}}
           >
             <Connect(Component)
+              handleClick={[MockFunction]}
+              taskFilter={
+                TaskFilter {
+                  "dueUntil": null,
+                  "priority": null,
+                  "project": null,
+                  "searchTerm": null,
+                  "status": null,
+                  "tags": Array [],
+                }
+              }
               uuid="ABC"
             />
           </LevelItem>

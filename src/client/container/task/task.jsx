@@ -38,7 +38,7 @@ export class TaskContainer extends PureComponent {
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
-        taskFilter: PropTypes.object,
+        taskFilter: PropTypes.object.isRequired,
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,

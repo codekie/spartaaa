@@ -10,7 +10,7 @@ export default class TagList extends PureComponent {
     static propTypes = {
         tags: PropTypes.array.isRequired,
         handleClick: PropTypes.func.isRequired,
-        taskFilter: PropTypes.object
+        taskFilter: PropTypes.object.isRequired
     };
 
     constructor(props) {

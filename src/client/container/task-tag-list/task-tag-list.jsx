@@ -19,9 +19,9 @@ const MAP__DISPATCH_TO_PROPS = {};
 export class TaskTagListContainer extends PureComponent {
     static propTypes = {
         uuid: PropTypes.string.isRequired,
-        tags: PropTypes.array,
+        tags: PropTypes.array.isRequired,
         handleClick: PropTypes.func.isRequired,
-        taskFilter: PropTypes.object
+        taskFilter: PropTypes.object.isRequired
     };
 
     render() {
