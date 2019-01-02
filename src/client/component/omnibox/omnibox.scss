@@ -1,5 +1,22 @@
 @import '../../bulma-variables';
 
-input.cmp-sub-input {
-  color: $grey-dark;
+.cmp-omnibox {
+    $spacing-items: 0.1rem;
+    display: flex; flex-flow: row wrap; justify-content: flex-start; align-items: center;
+    align-content: flex-start; background-color: $light; border-radius: 3px; padding: $spacing-items;
+    border: 1px solid $grey-lighter;
+  & > * { padding: $spacing-items; }
+  .tags {
+    &:not(:last-child) { margin-bottom: 0; }
+    .tag { margin-bottom: 0; cursor: pointer;
+      &:not(:last-child) { margin-right: 2 * $spacing-items; }
+    }
+    &.has-addons {
+      .tag:not(:last-child) { margin-right: 0; }
+    }
+  }
+  .tag-project { padding: $spacing-items; }
+  .cmp-sub-input { display: flex; flex-grow: 1; padding: calc(0.375em - 1px); margin: $spacing-items;
+    color: $grey-dark; width: auto; border-color: transparent;
+  }
 }
