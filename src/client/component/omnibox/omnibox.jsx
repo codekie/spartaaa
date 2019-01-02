@@ -19,6 +19,7 @@ const getFocusableRefs = memoize(
         (parsedValues.tags || []).forEach(() => refs.push(React.createRef()));
         // Ref, for the search-field
         // Ref-forwarding is not supported yet, with the current version of `react-bulma-components`
+        // This requires version `3+`
         // refs.push(React.createRef());
         return refs;
     }
