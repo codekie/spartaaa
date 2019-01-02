@@ -5,5 +5,6 @@ import { shallow } from 'enzyme';
 const VAL = '';
 
 it('renders correctly', () => {
-    expect(shallow(<Omnibox rawValue={VAL} />)).toMatchSnapshot();
+    const parsedValues = { tags: [] };
+    expect(shallow(<Omnibox rawValue={VAL} parsedValues={parsedValues} />)).toMatchSnapshot();
 });

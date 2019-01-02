@@ -1,19 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Input
-  className="cmp-sub-input"
-  color={null}
-  disabled={false}
-  isStatic={false}
-  name={null}
-  onChange={[Function]}
-  onKeyDown={[Function]}
-  placeholder="search"
-  readOnly={false}
-  size="small"
-  style={Object {}}
-  type="text"
-  value=""
-/>
+<Panel
+  className="cmp-omnibox"
+  renderAs="nav"
+>
+  <Input
+    className="cmp-sub-input sub-focusable"
+    color={null}
+    disabled={false}
+    isStatic={false}
+    name={null}
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    placeholder="search"
+    readOnly={false}
+    size="small"
+    style={Object {}}
+    type="text"
+    value=""
+  />
+</Panel>
 `;

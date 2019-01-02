@@ -18,7 +18,9 @@ const MAP__STATE_TO_PROPS = {
     MAP__DISPATCH_TO_PROPS = {
         applyFilter: ActionCreator[ActionType.applyOmniboxFilter],
         setRawValue: ActionCreator[ActionType.setOmniboxRawValue],
-        parse: ActionCreator[ActionType.parseOmniboxRawValue]
+        parse: ActionCreator[ActionType.parseOmniboxRawValue],
+        removeTag: ActionCreator[ActionType.toggleTagFilter],
+        clearProject: ActionCreator[ActionType.toggleProjectFilter]
     };
 
 // # EXPORT PUBLIC API
