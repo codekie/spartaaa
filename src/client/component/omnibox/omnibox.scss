@@ -6,16 +6,23 @@
     align-content: flex-start; background-color: $light; border-radius: 3px; padding: $spacing-items;
     border: 1px solid $grey-lighter;
   & > * { padding: $spacing-items; }
-  .tags {
-    &:not(:last-child) { margin-bottom: 0; }
-    .tag { margin-bottom: 0; cursor: pointer;
-      &:not(:last-child) { margin-right: 2 * $spacing-items; }
+  .sub-cont-project { padding: $spacing-items;
+    .tags { margin-bottom: 0;
+      .tag { margin-bottom: 0; }
     }
+  }
+  .tags {
+    .sub-cont-tag { margin-right: 2 * $spacing-items;
+      .tag { margin-bottom: 0; cursor: pointer;
+        &:not(:last-child) { margin-bottom: 0; }
+      }
+    }
+    &:not(:last-child) { margin-bottom: 0; }
     &.has-addons {
       .tag:not(:last-child) { margin-right: 0; }
     }
   }
-  .tag-project { padding: $spacing-items; }
+  .tag-project {  }
   .cmp-sub-input { display: flex; flex-grow: 1; padding: calc(0.375em - 1px); margin: $spacing-items;
     color: $grey-dark; width: auto; border-color: transparent;
   }
