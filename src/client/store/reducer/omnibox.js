@@ -61,47 +61,39 @@ function _setOmniboxRawValue(state, action) {
 
 function _buildRawFromParsed(state) {
     const stateParsed = state.get(PROP__PARSED),
-        priority = stateParsed.get(PROP__PRIORITY) || '',
-        project = stateParsed.get(PROP__PROJECT) || '',
-        tags = Array.from(stateParsed.get(PROP__TAGS)).join(' +'),
-        status = stateParsed.get(PROP__STATUS) || '',
         searchTerm = stateParsed.get(PROP__SEARCH_TERM) || '';
     let fragments = [];
-    priority.length && fragments.push(`${ PREFIX__PRIORITY }${ priority }`);
-    project.length && fragments.push(`${ PREFIX__PROJECT }${ project }`);
-    tags.length && fragments.push(`${ PREFIX__TAG }${ tags }`);
-    status.length && fragments.push(`${ PREFIX__STATUS }${ status }`);
     searchTerm.length && fragments.push(searchTerm);
     return state.set(PROP__RAW_VALUE, fragments.join(' '));
 }
 
 function _parseOmniboxRawValue(state) {
-    let stateClearedParsed = _clearParsedValues(state),
-        textSegments = [];
-    let resultState = state.get(PROP__RAW_VALUE)
-        .split(' ')
-        .reduce((resState, segment) => {
-            const tag = _getTag(segment),
-                priority = _getPriority(segment),
-                project = _getProject(segment),
-                status = _getStatus(segment);
-            let parsed = resState.get(PROP__PARSED);
-            if (tag) {
-                parsed = parsed.set(PROP__TAGS, parsed.get(PROP__TAGS).add(tag));
-            } else if (priority) {
-                parsed = parsed.set(PROP__PRIORITY, priority);
-            } else if (project) {
-                parsed = parsed.set(PROP__PROJECT, project);
-            } else if (status) {
-                parsed = parsed.set(PROP__STATUS, status);
-            } else if (segment.length) {
-                textSegments.push(segment);
-            }
-            return resState.set(PROP__PARSED, parsed);
-        }, stateClearedParsed);
-    return resultState.set(PROP__PARSED,
-        resultState.get(PROP__PARSED).set(PROP__SEARCH_TERM, textSegments.join(' '))
-    );
+    let textSegments = [],
+        resultState = state.get(PROP__RAW_VALUE)
+            .split(' ')
+            .reduce((resState, segment) => {
+                const tag = _getTag(segment),
+                    priority = _getPriority(segment),
+                    project = _getProject(segment),
+                    status = _getStatus(segment);
+                let parsed = resState.get(PROP__PARSED);
+                if (tag) {
+                    parsed = parsed.set(PROP__TAGS, parsed.get(PROP__TAGS).add(tag));
+                } else if (priority) {
+                    parsed = parsed.set(PROP__PRIORITY, priority);
+                } else if (project) {
+                    parsed = parsed.set(PROP__PROJECT, project);
+                } else if (status) {
+                    parsed = parsed.set(PROP__STATUS, status);
+                } else if (segment.length) {
+                    textSegments.push(segment);
+                }
+                return resState.set(PROP__PARSED, parsed);
+            }, state);
+    const searchTerm = textSegments.join(' ');
+    return resultState
+        .set(PROP__PARSED, resultState.get(PROP__PARSED).set(PROP__SEARCH_TERM, searchTerm))
+        .set(PROP__RAW_VALUE, searchTerm);
 }
 
 function _getTag(expr) {
@@ -123,10 +115,6 @@ function _getStatus(expr) {
 function _getRegExVal(regex, expr) {
     const res = regex.exec(expr);
     return res && res[1];
-}
-
-function _clearParsedValues(state) {
-    return state.set(PROP__PARSED, INITIAL_STATE.get(PROP__PARSED));
 }
 
 function _toggleOmniboxProject(state, action) {
