@@ -141,6 +141,7 @@ exports[`renders correctly 1`] = `
     disabled={false}
     isStatic={false}
     name={null}
+    onBlur={[Function]}
     onChange={[Function]}
     onKeyDown={[Function]}
     placeholder="search"

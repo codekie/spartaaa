@@ -90,6 +90,10 @@ export default class Omnibox extends PureComponent {
 
     // Implementation details
 
+    parseAndFilter() {
+        this.props.parse();
+        this.props.applyFilter();
+    }
     removeTagOnDelete(event, tag) {
         if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
         this.removeCriterion(event, this.props.removeTag, tag);
@@ -207,7 +211,7 @@ export default class Omnibox extends PureComponent {
                 }</div>
                 <Input size="small" type="text" className="cmp-sub-input sub-focusable" placeholder="search"
                     value={rawValue} onChange={(event) => setRawValue(event.target.value)}
-                    onKeyDown={(event) => this.handleKeyDown(event)} />
+                    onKeyDown={(event) => this.handleKeyDown(event)} onBlur={() => this.parseAndFilter()} />
             </Panel>
         );
     }
