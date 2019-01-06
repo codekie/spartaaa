@@ -13,7 +13,8 @@ import { createStateMapper, createDispatchMapper } from '../../util/prop-mapper'
 
 const MAP__STATE_TO_PROPS = {
         parsedValues: (state) => state.get('omnibox').get('parsed').toJS(),
-        rawValue: (state) => state.get('omnibox').get('rawValue')
+        rawValue: (state) => state.get('omnibox').get('rawValue'),
+        serializedValue: (state) => state.get('omnibox').get('serializedValue')
     },
     MAP__DISPATCH_TO_PROPS = {
         applyFilter: ActionCreator[ActionType.applyOmniboxFilter],

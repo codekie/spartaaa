@@ -12,6 +12,7 @@ const PROP__RAW_VALUE = 'rawValue',
     PROP__PROJECT = 'project',
     PROP__STATUS = 'status',
     PROP__SEARCH_TERM = 'searchTerm',
+    PROP__SERIALIZED_VALUE = 'serializedValue',
     PREFIX__TAG = '+',
     PREFIX__PRIORITY = 'priority:',
     PREFIX__PROJECT = 'project:',
@@ -30,7 +31,8 @@ const INITIAL_STATE = Map({
             [PROP__PROJECT]: null,
             [PROP__STATUS]: null,
             [PROP__SEARCH_TERM]: ''
-        })
+        }),
+        [PROP__SERIALIZED_VALUE]: ''
     }),
     Reducer = {
         [ActionType.buildRawFromParsed]: _buildRawFromParsed,
@@ -68,6 +70,22 @@ function _buildRawFromParsed(state) {
     return state.set(PROP__RAW_VALUE, fragments.join(' '));
 }
 
+function _serializeValue(state) {
+    const fragments = [],
+        parsed = state.get(PROP__PARSED),
+        priority = parsed.get(PROP__PRIORITY),
+        project = parsed.get(PROP__PROJECT),
+        status = parsed.get(PROP__STATUS),
+        searchTerm = parsed.get(PROP__SEARCH_TERM),
+        tags = parsed.get(PROP__TAGS) || [];
+    priority && fragments.push(`${ PREFIX__PRIORITY }${ priority }`);
+    status && fragments.push(`${ PREFIX__STATUS }${ status }`);
+    project && fragments.push(`${ PREFIX__PROJECT }${ project }`);
+    tags.forEach((tag) => fragments.push(`${ PREFIX__TAG }${ tag }`));
+    fragments.push(searchTerm);
+    return fragments.join(' ');
+}
+
 function _parseOmniboxRawValue(state) {
     let textSegments = [],
         resultState = state.get(PROP__RAW_VALUE)
@@ -92,9 +110,10 @@ function _parseOmniboxRawValue(state) {
                 return resState.set(PROP__PARSED, parsed);
             }, state);
     const searchTerm = textSegments.join(' ');
-    return resultState
+    resultState = resultState
         .set(PROP__PARSED, resultState.get(PROP__PARSED).set(PROP__SEARCH_TERM, searchTerm))
         .set(PROP__RAW_VALUE, searchTerm);
+    return resultState.set(PROP__SERIALIZED_VALUE, _serializeValue(resultState));
 }
 
 function _getTag(expr) {

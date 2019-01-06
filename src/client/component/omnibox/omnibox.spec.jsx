@@ -9,5 +9,5 @@ it('renders correctly', () => {
         project: 'foo',
         tags: ['bar']
     };
-    expect(shallow(<Omnibox rawValue={VAL} parsedValues={parsedValues} />)).toMatchSnapshot();
+    expect(shallow(<Omnibox rawValue={VAL} parsedValues={parsedValues} serializedValue={''} />)).toMatchSnapshot();
 });

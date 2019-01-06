@@ -41,7 +41,8 @@ export default class Omnibox extends PureComponent {
             searchTerm: PropTypes.string
         }).isRequired,
         rawValue: PropTypes.string,
-        setRawValue: PropTypes.func
+        setRawValue: PropTypes.func,
+        serializedValue: PropTypes.string.isRequired
     };
 
     // Constructor and initialization
@@ -50,7 +51,9 @@ export default class Omnibox extends PureComponent {
         super(props);
         this.state = {
             idxFocus: null,
-            refsFocusable: null
+            refsFocusable: null,
+            inputText: '',
+            prevSerializedValue: ''
         };
     }
 
@@ -61,8 +64,13 @@ export default class Omnibox extends PureComponent {
         if (idxFocus == null) { return; }
         refsFocusable[idxFocus].current.focus();
     }
-    static getDerivedStateFromProps(props/*, state*/) {
+    static getDerivedStateFromProps(props, state) {
+        const { serializedValue, parsedValues } = props;
         return {
+            inputText: state.prevSerializedValue !== serializedValue
+                ? parsedValues.searchTerm
+                : state.inputText,
+            prevSerializedValue: serializedValue,
             refsFocusable: getFocusableRefs(props.parsedValues)
         };
     }
@@ -74,6 +82,7 @@ export default class Omnibox extends PureComponent {
             case 'Enter':
             case ' ':
             case 'Tab':
+                this.props.setRawValue(this.state.inputText);
                 this.props.parse();
                 break;
         }
@@ -91,6 +100,7 @@ export default class Omnibox extends PureComponent {
     // Implementation details
 
     parseAndFilter() {
+        this.props.setRawValue(this.state.inputText);
         this.props.parse();
         this.props.applyFilter();
     }
@@ -171,7 +181,7 @@ export default class Omnibox extends PureComponent {
     // Rendering
 
     render() {
-        const { rawValue, setRawValue, parsedValues, removeTag } = this.props,
+        const { parsedValues, removeTag } = this.props,
             tags = parsedValues.tags,
             refsFocusable = this.state.refsFocusable;
         let offsetIdxRef = 0;
@@ -210,7 +220,7 @@ export default class Omnibox extends PureComponent {
                     )
                 }</div>
                 <Input size="small" type="text" className="cmp-sub-input sub-focusable" placeholder="search"
-                    value={rawValue} onChange={(event) => setRawValue(event.target.value)}
+                    value={this.state.inputText} onChange={(event) => this.setState({ inputText: event.target.value })}
                     onKeyDown={(event) => this.handleKeyDown(event)} onBlur={() => this.parseAndFilter()} />
             </Panel>
         );
