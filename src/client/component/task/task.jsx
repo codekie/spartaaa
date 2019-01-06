@@ -6,7 +6,7 @@ import Icon from 'react-bulma-components/lib/components/icon';
 import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
-import { faFolder, faClock, faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faClock, faFlagCheckered, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 import CommandBar from './command-bar.jsx';
 import ConnectedTaskTagList from '../../container/task-tag-list';
@@ -161,7 +161,7 @@ function _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finish
                 <FontAwesomeIcon
                     icon={isCompleted
                         ? faTimesCircle
-                        : faCheck}
+                        : faFlagCheckered}
                     className="check-icon" />
             </Icon>
         </Button>
