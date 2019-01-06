@@ -20,6 +20,7 @@ const MAP__STATE_TO_PROPS = {
         setRawValue: ActionCreator[ActionType.setOmniboxRawValue],
         parse: ActionCreator[ActionType.parseOmniboxRawValue],
         removeTag: ActionCreator[ActionType.toggleTagFilter],
+        clearPriority: ActionCreator[ActionType.togglePriorityFilter],
         clearProject: ActionCreator[ActionType.toggleProjectFilter]
     };
 

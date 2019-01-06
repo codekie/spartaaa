@@ -3,6 +3,7 @@ export default {
 
     // Omnibox
     applyOmniboxFilter: 'applyOmniboxFilter',
+    togglePriorityFilter: 'togglePriorityFilter',
     toggleProjectFilter: 'toggleProjectFilter',
     toggleTagFilter: 'toggleTagFilter',
     // Session
@@ -28,6 +29,7 @@ export default {
     parseOmniboxRawValue: 'parseOmniboxRawValue',
     setOmniboxRawValue: 'setOmniboxRawValue',
     toggleOmniboxProject: 'toggleOmniboxProject',
+    toggleOmniboxPriority: 'toggleOmniboxPriority',
     toggleOmniboxTag: 'toggleOmniboxTag',
     // Session
     clearTaskFilter: 'clearTaskFilter',

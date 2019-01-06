@@ -5,6 +5,7 @@ export default {
 
     // Omnibox
     [ActionType.applyOmniboxFilter]: applyOmniboxFilter,
+    [ActionType.togglePriorityFilter]: togglePriorityFilter,
     [ActionType.toggleProjectFilter]: toggleProjectFilter,
     [ActionType.toggleTagFilter]: toggleTagFilter,
     // Session
@@ -32,6 +33,7 @@ export default {
     [ActionType.parseOmniboxRawValue]: parseOmniboxRawValue,
     [ActionType.setOmniboxRawValue]: setOmniboxRawValue,
     [ActionType.toggleOmniboxProject]: toggleOmniboxProject,
+    [ActionType.toggleOmniboxPriority]: toggleOmniboxPriority,
     [ActionType.toggleOmniboxTag]: toggleOmniboxTag,
     // Session
     [ActionType.updateSession]: updateSession,
@@ -56,6 +58,13 @@ function applyOmniboxFilter(criteria) {
     return {
         type: ActionType.applyOmniboxFilter,
         payload: criteria
+    };
+}
+
+function togglePriorityFilter(priority) {
+    return {
+        type: ActionType.togglePriorityFilter,
+        payload: priority
     };
 }
 
@@ -155,6 +164,13 @@ function setOmniboxRawValue(rawValue) {
     return {
         type: ActionType.setOmniboxRawValue,
         payload: rawValue
+    };
+}
+
+function toggleOmniboxPriority(priority) {
+    return {
+        type: ActionType.toggleOmniboxPriority,
+        payload: priority
     };
 }
 

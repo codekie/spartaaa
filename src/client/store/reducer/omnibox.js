@@ -37,6 +37,7 @@ const INITIAL_STATE = Map({
         [ActionType.parseOmniboxRawValue]: _parseOmniboxRawValue,
         [ActionType.setOmniboxRawValue]: _setOmniboxRawValue,
         [ActionType.toggleOmniboxProject]: _toggleOmniboxProject,
+        [ActionType.toggleOmniboxPriority]: _toggleOmniboxPriority,
         [ActionType.toggleOmniboxTag]: _toggleOmniboxTag
     };
 
@@ -124,6 +125,15 @@ function _toggleOmniboxProject(state, action) {
         selectedProject = null;
     }
     return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PROJECT, selectedProject));
+}
+
+function _toggleOmniboxPriority(state, action) {
+    const priority = action.payload;
+    let selectedPriority = priority;
+    if (state.get(PROP__PARSED).get(PROP__PRIORITY) === priority) {
+        selectedPriority = null;
+    }
+    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PRIORITY, selectedPriority));
 }
 
 function _toggleOmniboxTag(state, action) {

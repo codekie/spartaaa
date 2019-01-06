@@ -4,7 +4,7 @@
   strong { color: $grey; }
   &:first-of-type { margin-top: 1rem; }
   &.media + &.media { margin-top: 0; padding-top: 1px; }
-  .priority { width: 0.3rem; margin-right: 0.2rem;
+  .priority { width: 0.3rem; margin-right: 0.2rem; cursor: pointer;
     &.prio-L { background-color: $blue; }
     &.prio-H { background-color: $red; }
   }

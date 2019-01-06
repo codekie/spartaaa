@@ -20,6 +20,7 @@ const MAP__DISPATCH_TO_PROPS = {
     [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
     [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
     handleProjectClick: ActionCreator[ActionType.toggleProjectFilter],
+    handlePriorityClick: ActionCreator[ActionType.togglePriorityFilter],
     handleTagClick: ActionCreator[ActionType.toggleTagFilter],
     [ActionType.unfinishTask]: ActionCreator[ActionType.unfinishTask]
 };

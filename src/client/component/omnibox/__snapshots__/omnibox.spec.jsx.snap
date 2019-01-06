@@ -6,7 +6,7 @@ exports[`renders correctly 1`] = `
   renderAs="nav"
 >
   <div
-    className="sub-cont-project sub-focusable"
+    className="sub-cont-taggroup sub-focusable"
     onBlur={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -77,34 +77,64 @@ exports[`renders correctly 1`] = `
       >
         foo
       </Tag>
-    </TagGroup>
-  </div>
-  <TagGroup
-    className="cmp-sub-tags"
-    gapless={false}
-    style={Object {}}
-  >
-    <div
-      className="sub-cont-tag sub-focusable"
-      key="bar"
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      tabIndex={0}
-    >
       <Tag
         className=""
-        color="primary"
-        remove={false}
+        color={null}
+        onClick={[Function]}
+        remove={true}
         renderAs="span"
         rounded={false}
         size={null}
         style={Object {}}
+      />
+    </TagGroup>
+  </div>
+  <div
+    className="sub-cont-taggroup"
+  >
+    <TagGroup
+      className="cmp-sub-tags"
+      gapless={true}
+      style={Object {}}
+    >
+      <div
+        className="sub-cont-tag sub-focusable"
+        key="bar"
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        tabIndex={0}
       >
-        bar
-      </Tag>
-    </div>
-  </TagGroup>
+        <TagGroup
+          className="cmp-sub-tags"
+          gapless={true}
+          style={Object {}}
+        >
+          <Tag
+            className=""
+            color="primary"
+            remove={false}
+            renderAs="span"
+            rounded={false}
+            size={null}
+            style={Object {}}
+          >
+            bar
+          </Tag>
+          <Tag
+            className=""
+            color={null}
+            onClick={[Function]}
+            remove={true}
+            renderAs="span"
+            rounded={false}
+            size={null}
+            style={Object {}}
+          />
+        </TagGroup>
+      </div>
+    </TagGroup>
+  </div>
   <Input
     className="cmp-sub-input sub-focusable"
     color={null}

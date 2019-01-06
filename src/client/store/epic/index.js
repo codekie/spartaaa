@@ -11,6 +11,7 @@ const EPICS = {
 
 export default combineEpics(
     Omnibox.filterByOmnibox,
+    Omnibox.togglePriorityFilter,
     Omnibox.toggleProjectFilter,
     Omnibox.toggleTagFilter,
     Session.sendSession,

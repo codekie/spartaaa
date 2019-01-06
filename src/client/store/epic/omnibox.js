@@ -8,6 +8,7 @@ let _delegate = null;
 export {
     init,
     filterByOmnibox,
+    togglePriorityFilter,
     toggleProjectFilter,
     toggleTagFilter
 };
@@ -26,6 +27,21 @@ function filterByOmnibox(actions$) {
                     ActionCreator[ActionType.filterTasksBy](parsedValues),
                     ActionCreator[ActionType.sendSession](),
                     ActionCreator[ActionType.fetchTasks]()
+                ]);
+            }),
+            catchError((e) => console.error(e))
+        );
+}
+
+function togglePriorityFilter(actions$) {
+    return actions$
+        .ofType(ActionType.togglePriorityFilter)
+        .pipe(
+            switchMap((action) => {
+                return from([
+                    ActionCreator[ActionType.toggleOmniboxPriority](action.payload),
+                    ActionCreator[ActionType.buildRawFromParsed](),
+                    ActionCreator[ActionType.applyOmniboxFilter]()
                 ]);
             }),
             catchError((e) => console.error(e))

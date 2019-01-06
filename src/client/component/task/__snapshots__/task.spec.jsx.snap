@@ -8,6 +8,7 @@ exports[`renders correctly default 1`] = `
 >
   <div
     className="priority "
+    onClick={[Function]}
   />
   <MediaItem
     className=""

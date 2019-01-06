@@ -25,6 +25,7 @@ export default class Task extends PureComponent {
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
         handleProjectClick: PropTypes.func.isRequired,
+        handlePriorityClick: PropTypes.func.isRequired,
         handleTagClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
@@ -51,12 +52,13 @@ export default class Task extends PureComponent {
         const props = this.props,
             {
                 uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, status,
-                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick
+                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick,
+                handlePriorityClick
             } = props,
             isCompleted = status === TaskStatus.completed;
         return (
             <Media className={`cmp-task ${ cssClassesString }`}>
-                { _createPriorityIndicator(priority) }
+                { _createPriorityIndicator(priority, handlePriorityClick) }
                 <Media.Item renderAs="figure" position="left">
                     <div>
                         <Icon className="is-medium fa-2x">
@@ -141,8 +143,11 @@ function _createDueItem(due) {
     );
 }
 
-function _createPriorityIndicator(priority) {
-    return <div className={`priority ${ priority ? `prio-${ priority }` : '' }`} />;
+function _createPriorityIndicator(priority, handlePriorityClick) {
+    return (
+        <div className={`priority ${ priority ? `prio-${ priority }` : '' }`}
+            onClick={() => handlePriorityClick(priority)} />
+    );
 }
 
 function _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask } = {}) {

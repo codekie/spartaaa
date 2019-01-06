@@ -57,12 +57,13 @@ function _createContext() {
         finishTask = jest.fn(),
         unfinishTask = jest.fn(),
         handleTagClick = jest.fn(),
+        handlePriorityClick = jest.fn(),
         handleProjectClick = jest.fn(),
         taskFilter = new TaskFilter();
     return {
         createElement: ({ status = TaskStatus.pending } = {}) => (
             _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask, handleTagClick,
-                handleProjectClick, taskFilter
+                handleProjectClick, handlePriorityClick, taskFilter
             })
         ),
         deactivateTask,
@@ -73,9 +74,10 @@ function _createContext() {
 }
 
 function _createElement({ status, deactivateTask, activateTask, finishTask, unfinishTask, handleTagClick,
-    handleProjectClick, taskFilter
+    handleProjectClick, handlePriorityClick, taskFilter
 }) {
     return shallow(<Task deactivateTask={deactivateTask} activateTask={activateTask} finishTask={finishTask} id={1}
         unfinishTask={unfinishTask} handleTagClick={handleTagClick} handleProjectClick={handleProjectClick} uuid="ABC"
-        project="spartaaa" due={TIMESTAMP__DUE} status={status} taskFilter={taskFilter} />);
+        project="spartaaa" due={TIMESTAMP__DUE} status={status} taskFilter={taskFilter}
+        handlePriorityClick={handlePriorityClick} />);
 }

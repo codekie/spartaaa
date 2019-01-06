@@ -7,7 +7,7 @@ import { Input } from 'react-bulma-components/lib/components/form';
 import Tag from 'react-bulma-components/lib/components/tag';
 import Icon from 'react-bulma-components/lib/components/icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faFolder } from '@fortawesome/free-solid-svg-icons';
 
 const COLOR__TAG__PROJECT = 'info',
     COLOR__TAG = 'primary';
@@ -15,6 +15,7 @@ const COLOR__TAG__PROJECT = 'info',
 const getFocusableRefs = memoize(
     (parsedValues) => {
         const refs = [];
+        parsedValues.priority && refs.push(React.createRef());
         parsedValues.project && refs.push(React.createRef());
         (parsedValues.tags || []).forEach(() => refs.push(React.createRef()));
         // Ref, for the search-field
@@ -30,6 +31,7 @@ export default class Omnibox extends PureComponent {
         applyFilter: PropTypes.func,
         parse: PropTypes.func,
         removeTag: PropTypes.func,
+        clearPriority: PropTypes.func,
         clearProject: PropTypes.func,
         parsedValues: PropTypes.shape({
             tags: PropTypes.arrayOf(PropTypes.string),
@@ -90,35 +92,62 @@ export default class Omnibox extends PureComponent {
 
     removeTagOnDelete(event, tag) {
         if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
+        this.removeCriterion(event, this.props.removeTag, tag);
+    }
+    clearPriorityOnDelete(event) {
+        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
+        this.removeCriterion(event, this.props.clearPriority);
+    }
+    clearProjectOnDelete(event) {
+        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
+        this.removeCriterion(event, this.props.clearProject);
+    }
+    removeCriterion(event, removeHandler, value = null) {
         this.updateFocusableRefIndex(event);
-        this.props.removeTag(tag);
+        removeHandler(value);
     }
     updateFocusableRefIndex(event) {
         const amountFocusableRefsBeforeRemoval = this.state.refsFocusable.length,
             lastRef = amountFocusableRefsBeforeRemoval === 1;
-        if (event.key === 'Backspace') {
-            this.setState({
-                idxFocus: !lastRef
-                    ? Math.max(this.state.idxFocus - 1, 0)
-                    : null
-            });
-        } else if (event.key === 'Delete') {
+        if (event.key === 'Delete') {
             this.setState({
                 idxFocus: !lastRef
                     ? Math.min(this.state.idxFocus, amountFocusableRefsBeforeRemoval - 2)
                     : null
             });
+            return;
         }
+        this.setState({
+            idxFocus: !lastRef
+                ? Math.max(this.state.idxFocus - 1, 0)
+                : null
+        });
     }
-    clearProjectOnDelete(event) {
-        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
-        this.updateFocusableRefIndex(event);
-        this.props.clearProject();
+    createPriorityItem(priority, idxRef, ref) {
+        if (!priority) { return null; }
+        const { clearPriority } = this.props;
+        return (
+            <div ref={ref} className="sub-cont-taggroup sub-focusable" tabIndex={0}
+                onKeyDown={(event) => this.clearPriorityOnDelete(event)}
+                onFocus={(event) => this.handleFocus(event, idxRef)}
+                onBlur={(event) => this.handleBlur(event)}>
+                <Tag.Group gapless className="tag-priority tag-icon">
+                    <Tag color="dark">
+                        <Icon className="is-small">
+                            <FontAwesomeIcon icon={faExclamationCircle} />
+                        </Icon>
+                    </Tag>
+                    <Tag color={COLOR__TAG__PROJECT}>{ priority }</Tag>
+                    <Tag remove onClick={(event) => this.removeCriterion(event, clearPriority)} />
+                </Tag.Group>
+            </div>
+        );
     }
     createProjectItem(project, idxRef, ref) {
         if (!project) { return null; }
+        const { clearProject } = this.props;
         return (
-            <div ref={ref} className="sub-cont-project sub-focusable" tabIndex={0}
+            <div ref={ref} className="sub-cont-taggroup sub-focusable" tabIndex={0}
                 onKeyDown={(event) => this.clearProjectOnDelete(event)}
                 onFocus={(event) => this.handleFocus(event, idxRef)}
                 onBlur={(event) => this.handleBlur(event)}>
@@ -129,6 +158,7 @@ export default class Omnibox extends PureComponent {
                         </Icon>
                     </Tag>
                     <Tag color={COLOR__TAG__PROJECT}>{ project }</Tag>
+                    <Tag remove onClick={(event) => this.removeCriterion(event, clearProject)} />
                 </Tag.Group>
             </div>
         );
@@ -137,20 +167,25 @@ export default class Omnibox extends PureComponent {
     // Rendering
 
     render() {
-        const { rawValue, setRawValue, parsedValues } = this.props,
+        const { rawValue, setRawValue, parsedValues, removeTag } = this.props,
             tags = parsedValues.tags,
             refsFocusable = this.state.refsFocusable;
         let offsetIdxRef = 0;
         return (
             <Panel className="cmp-omnibox">
                 {
+                    parsedValues.priority != null && this.createPriorityItem(
+                        parsedValues.priority, offsetIdxRef, refsFocusable[offsetIdxRef++]
+                    )
+                }
+                {
                     parsedValues.project != null && this.createProjectItem(
                         parsedValues.project, offsetIdxRef, refsFocusable[offsetIdxRef++]
                     )
                 }
-                {
+                <div className="sub-cont-taggroup">{
                     tags.length > 0 && (
-                        <Tag.Group className="cmp-sub-tags">{
+                        <Tag.Group gapless className="cmp-sub-tags">{
                             tags.map((tag, idx) => {
                                 const idxRef = offsetIdxRef + idx;
                                 return (
@@ -159,13 +194,17 @@ export default class Omnibox extends PureComponent {
                                         onKeyDown={(event) => this.removeTagOnDelete(event, tag)}
                                         onFocus={(event) => this.handleFocus(event, idxRef)}
                                         onBlur={(event) => this.handleBlur(event)}>
-                                        <Tag color={COLOR__TAG}>{ tag }</Tag>
+                                        <Tag.Group gapless className="cmp-sub-tags">
+                                            <Tag color={COLOR__TAG}>{tag}</Tag>
+                                            <Tag remove
+                                                onClick={(event) => this.removeCriterion(event, removeTag, tag)} />
+                                        </Tag.Group>
                                     </div>
                                 );
                             })
                         }</Tag.Group>
                     )
-                }
+                }</div>
                 <Input size="small" type="text" className="cmp-sub-input sub-focusable" placeholder="search"
                     value={rawValue} onChange={(event) => setRawValue(event.target.value)}
                     onKeyDown={(event) => this.handleKeyDown(event)} />
