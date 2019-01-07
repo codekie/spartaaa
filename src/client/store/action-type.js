@@ -1,10 +1,21 @@
 export default {
-    // Epics
+    // EPICS
+
+    // Omnibox
+    applyOmniboxFilter: 'applyOmniboxFilter',
+    togglePriorityFilter: 'togglePriorityFilter',
+    toggleProjectFilter: 'toggleProjectFilter',
+    toggleTagFilter: 'toggleTagFilter',
+    // Session
+    sendSession: 'sendSession',
+    setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
+    // Tasks
     fetchTasks: 'fetchTasks',
     finishTask: 'finishTask',
     unfinishTask: 'unfinishTask',
-    sendSession: 'sendSession',
-    setTaskListViewAndUpdateList: 'setTaskListViewAndUpdateList',
+
+    // REDUCER
+
     // Connection
     connect: 'connect',
     disconnect: 'disconnect',
@@ -13,11 +24,18 @@ export default {
     setError: 'setError',
     // Loader
     setLoading: 'setLoading',
+    // Omnibox
+    buildRawFromParsed: 'buildRawFromParsed',
+    parseOmniboxRawValue: 'parseOmniboxRawValue',
+    setOmniboxRawValue: 'setOmniboxRawValue',
+    toggleOmniboxProject: 'toggleOmniboxProject',
+    toggleOmniboxPriority: 'toggleOmniboxPriority',
+    toggleOmniboxTag: 'toggleOmniboxTag',
     // Session
-    updateSession: 'updateSession',
     clearTaskFilter: 'clearTaskFilter',
     filterTasksBy: 'filterTasksBy',
     setTaskListView: 'setTaskListView',
+    updateSession: 'updateSession',
     // Tasks
     activateTask: 'activateTask',
     deactivateTask: 'deactivateTask',

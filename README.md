@@ -11,7 +11,7 @@
 # Requirements
 
 - `Taskwarrior` pre-installed
-- NodeJS `8`
+- NodeJS `10`
 - macOS
 
 If the app is not run on a `macOS`, the path to the Taskwarrior-data, has to be set as env-variable

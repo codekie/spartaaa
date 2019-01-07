@@ -6,7 +6,7 @@ import Icon from 'react-bulma-components/lib/components/icon';
 import Level from 'react-bulma-components/lib/components/level';
 import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
-import { faFolder, faClock, faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faFolder, faClock, faFlagCheckered, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 import CommandBar from './command-bar.jsx';
 import ConnectedTaskTagList from '../../container/task-tag-list';
@@ -15,15 +15,22 @@ import PropTypes from 'prop-types';
 import Button from 'react-bulma-components/lib/components/button';
 import TaskStatus from '../../../comm/task-status';
 
+const COLOR__TAG__PROJECT_SELECTED = 'primary',
+    COLOR__TAG__PROJECT = 'info';
+
 export default class Task extends PureComponent {
     static propTypes = {
         // Functions
         activateTask: PropTypes.func.isRequired,
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
+        handleProjectClick: PropTypes.func.isRequired,
+        handlePriorityClick: PropTypes.func.isRequired,
+        handleTagClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
+        taskFilter: PropTypes.object.isRequired,
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,
@@ -45,12 +52,13 @@ export default class Task extends PureComponent {
         const props = this.props,
             {
                 uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, status,
-                activateTask, deactivateTask, finishTask, unfinishTask
+                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick,
+                handlePriorityClick
             } = props,
             isCompleted = status === TaskStatus.completed;
         return (
             <Media className={`cmp-task ${ cssClassesString }`}>
-                { _createPriorityIndicator(priority) }
+                { _createPriorityIndicator(priority, handlePriorityClick) }
                 <Media.Item renderAs="figure" position="left">
                     <div>
                         <Icon className="is-medium fa-2x">
@@ -70,8 +78,9 @@ export default class Task extends PureComponent {
                         <Level>
                             <Level.Side align="left" className="tags">
                                 { _createDueItem(due) }
-                                { _createProjectItem(project) }
-                                <Level.Item><ConnectedTaskTagList uuid={uuid} /></Level.Item>
+                                { _createProjectItem(project, taskFilter, handleProjectClick) }
+                                <Level.Item><ConnectedTaskTagList uuid={uuid}
+                                    handleClick={handleTagClick} taskFilter={taskFilter} /></Level.Item>
                             </Level.Side>
                         </Level>
                         <Level className="aux-bar-1">
@@ -99,17 +108,18 @@ export default class Task extends PureComponent {
     }
 }
 
-function _createProjectItem(project) {
+function _createProjectItem(project, taskFilter, clickHandler) {
     if (!project) { return null; }
+    const colorTag = project === taskFilter.project ? COLOR__TAG__PROJECT_SELECTED : COLOR__TAG__PROJECT;
     return (
         <Level.Item>
-            <Tag.Group gapless className="tag-project tag-icon">
+            <Tag.Group gapless className="tag-project tag-icon" onClick={() => clickHandler(project)}>
                 <Tag color="dark">
                     <Icon className="is-small">
                         <FontAwesomeIcon icon={faFolder} />
                     </Icon>
                 </Tag>
-                <Tag color="info">{ project }</Tag>
+                <Tag color={colorTag}>{ project }</Tag>
             </Tag.Group>
         </Level.Item>
     );
@@ -133,8 +143,11 @@ function _createDueItem(due) {
     );
 }
 
-function _createPriorityIndicator(priority) {
-    return <div className={`priority ${ priority ? `prio-${ priority }` : '' }`} />;
+function _createPriorityIndicator(priority, handlePriorityClick) {
+    return (
+        <div className={`priority ${ priority ? `prio-${ priority }` : '' }`}
+            onClick={() => handlePriorityClick(priority)} />
+    );
 }
 
 function _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask } = {}) {
@@ -148,7 +161,7 @@ function _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finish
                 <FontAwesomeIcon
                     icon={isCompleted
                         ? faTimesCircle
-                        : faCheck}
+                        : faFlagCheckered}
                     className="check-icon" />
             </Icon>
         </Button>

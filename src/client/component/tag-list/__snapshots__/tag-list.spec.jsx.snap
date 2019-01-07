@@ -2,7 +2,7 @@
 
 exports[`renders correctly 1`] = `
 <TagGroup
-  className=""
+  className="cmp-tag-list"
   gapless={false}
   style={Object {}}
 >
@@ -10,6 +10,7 @@ exports[`renders correctly 1`] = `
     className=""
     color={null}
     key="tüdlidü"
+    onClick={[Function]}
     remove={false}
     renderAs="span"
     rounded={false}

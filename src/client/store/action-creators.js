@@ -1,14 +1,25 @@
 import ActionType from './action-type';
 
 export default {
-    // Epics
+    // EPICS
+
+    // Omnibox
+    [ActionType.applyOmniboxFilter]: applyOmniboxFilter,
+    [ActionType.togglePriorityFilter]: togglePriorityFilter,
+    [ActionType.toggleProjectFilter]: toggleProjectFilter,
+    [ActionType.toggleTagFilter]: toggleTagFilter,
+    // Session
+    [ActionType.sendSession]: sendSession,
+    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+    // Tasks
     [ActionType.activateTask]: activateTask,
     [ActionType.deactivateTask]: deactivateTask,
     [ActionType.fetchTasks]: fetchTasks,
     [ActionType.finishTask]: finishTask,
     [ActionType.unfinishTask]: unfinishTask,
-    [ActionType.sendSession]: sendSession,
-    [ActionType.setTaskListViewAndUpdateList]: setTaskListViewAndUpdateList,
+
+    // REDUCER
+
     // Connection
     [ActionType.connect]: connect,
     [ActionType.disconnect]: disconnect,
@@ -17,11 +28,19 @@ export default {
     [ActionType.setError]: setError,
     // Loader
     [ActionType.setLoading]: setLoading,
+    // Omnibox
+    [ActionType.buildRawFromParsed]: buildRawFromParsed,
+    [ActionType.parseOmniboxRawValue]: parseOmniboxRawValue,
+    [ActionType.setOmniboxRawValue]: setOmniboxRawValue,
+    [ActionType.toggleOmniboxProject]: toggleOmniboxProject,
+    [ActionType.toggleOmniboxPriority]: toggleOmniboxPriority,
+    [ActionType.toggleOmniboxTag]: toggleOmniboxTag,
     // Session
     [ActionType.updateSession]: updateSession,
     [ActionType.clearTaskFilter]: clearTaskFilter,
     [ActionType.filterTasksBy]: filterTasksBy,
     [ActionType.setTaskListView]: setTaskListView,
+    [ActionType.updateSession]: updateSession,
     // Tasks
     [ActionType.setTasks]: setTasks
 };
@@ -32,6 +51,34 @@ function activateTask(taskId) {
     return {
         type: ActionType.activateTask,
         payload: taskId
+    };
+}
+
+function applyOmniboxFilter(criteria) {
+    return {
+        type: ActionType.applyOmniboxFilter,
+        payload: criteria
+    };
+}
+
+function togglePriorityFilter(priority) {
+    return {
+        type: ActionType.togglePriorityFilter,
+        payload: priority
+    };
+}
+
+function toggleProjectFilter(project) {
+    return {
+        type: ActionType.toggleProjectFilter,
+        payload: project
+    };
+}
+
+function toggleTagFilter(tag) {
+    return {
+        type: ActionType.toggleTagFilter,
+        payload: tag
     };
 }
 
@@ -105,6 +152,48 @@ function setLoading(loading) {
     };
 }
 
+// Omnibox
+
+function buildRawFromParsed() {
+    return {
+        type: ActionType.buildRawFromParsed
+    };
+}
+
+function setOmniboxRawValue(rawValue) {
+    return {
+        type: ActionType.setOmniboxRawValue,
+        payload: rawValue
+    };
+}
+
+function toggleOmniboxPriority(priority) {
+    return {
+        type: ActionType.toggleOmniboxPriority,
+        payload: priority
+    };
+}
+
+function toggleOmniboxProject(project) {
+    return {
+        type: ActionType.toggleOmniboxProject,
+        payload: project
+    };
+}
+
+function toggleOmniboxTag(tag) {
+    return {
+        type: ActionType.toggleOmniboxTag,
+        payload: tag
+    };
+}
+
+function parseOmniboxRawValue() {
+    return {
+        type: ActionType.parseOmniboxRawValue
+    };
+}
+
 // Session
 
 function updateSession(session) {
@@ -121,13 +210,10 @@ function clearTaskFilter(criterion) {
     };
 }
 
-function filterTasksBy(criterion, value) {
+function filterTasksBy(criteria) {
     return {
         type: ActionType.filterTasksBy,
-        payload: {
-            criterion,
-            value
-        }
+        payload: criteria
     };
 }
 

@@ -19,21 +19,27 @@ const MAP__DISPATCH_TO_PROPS = {
     [ActionType.activateTask]: ActionCreator[ActionType.activateTask],
     [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
     [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
+    handleProjectClick: ActionCreator[ActionType.toggleProjectFilter],
+    handlePriorityClick: ActionCreator[ActionType.togglePriorityFilter],
+    handleTagClick: ActionCreator[ActionType.toggleTagFilter],
     [ActionType.unfinishTask]: ActionCreator[ActionType.unfinishTask]
 };
 
 
 // # EXPORT PUBLIC API
 
-export class TaskContainer extends PureComponent {
+export class ConnectedTask extends PureComponent {
     static propTypes = {
         // Functions
         activateTask: PropTypes.func.isRequired,
         deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
+        handleProjectClick: PropTypes.func.isRequired,
+        handleTagClick: PropTypes.func.isRequired,
         unfinishTask: PropTypes.func.isRequired,
 
         // Raw-data
+        taskFilter: PropTypes.object.isRequired,
         description: PropTypes.string,
         due: PropTypes.number,
         id: PropTypes.number.isRequired,
@@ -56,11 +62,12 @@ export class TaskContainer extends PureComponent {
 export default connect(
     _mapStateToProps,
     createDispatchMapper(MAP__DISPATCH_TO_PROPS)
-)(extractImmutable(TaskContainer));
+)(extractImmutable(ConnectedTask));
 
 
 function _mapStateToProps(state, ownProps) {
     const task = state.get('tasks').get('tasks').get(ownProps.uuid).toJS(),
+        taskFilter = state.get('session').get('taskFilter').toJS(),
         cssClassesString = determineClassNames(task),
         taskIcon = determineIcon(task);
     // Don't pass the `tags` property, since this will cause the component always to re-render, since the tags-array
@@ -69,6 +76,7 @@ function _mapStateToProps(state, ownProps) {
     delete task.tags;
     return {
         ...task,
+        taskFilter,
         cssClassesString,
         taskIcon
     };

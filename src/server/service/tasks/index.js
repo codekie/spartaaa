@@ -80,7 +80,10 @@ async function unfinishTask(uuid) {
 function _filter(task, taskFilter) {
     return [
         _filterByTags(taskFilter, task),
-        _filterByStatus(taskFilter, task)
+        _filterByStatus(taskFilter, task),
+        _filterByProject(taskFilter, task),
+        _filterByPriority(taskFilter, task),
+        _filterBySearchTerm(taskFilter, task)
     ].every(res => res);
 }
 
@@ -88,12 +91,27 @@ function _filterByTags(taskFilter, task) {
     //noinspection JSMismatchedCollectionQueryUpdate
     const { tags = [] } = taskFilter;
     if (!tags.length) { return true; }
-    return tags.some((tag) => task.tags && task.tags.includes(tag));
+    return tags.every((tag) => task.tags && task.tags.includes(tag));
 }
 
 function _filterByStatus(taskFilter, task) {
     if (taskFilter.status == null) { return true; }
     return task.status === taskFilter.status;
+}
+
+function _filterByProject(taskFilter, task) {
+    if (taskFilter.project == null) { return true; }
+    return task.project === taskFilter.project;
+}
+
+function _filterByPriority(taskFilter, task) {
+    if (taskFilter.priority == null) { return true; }
+    return task.priority === taskFilter.priority;
+}
+
+function _filterBySearchTerm(taskFilter, task) {
+    if (taskFilter.searchTerm == null) { return true; }
+    return task.description.toLowerCase().includes(taskFilter.searchTerm.toLowerCase());
 }
 
 function _orderUrgencyDesc(task1, task2) {

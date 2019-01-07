@@ -16,22 +16,24 @@ const MAP__DISPATCH_TO_PROPS = {};
 
 // # EXPORT PUBLIC API
 
-export class TaskTagListContainer extends PureComponent {
+export class ConnectedTaskTagList extends PureComponent {
     static propTypes = {
         uuid: PropTypes.string.isRequired,
-        tags: PropTypes.array
+        tags: PropTypes.array.isRequired,
+        handleClick: PropTypes.func.isRequired,
+        taskFilter: PropTypes.object.isRequired
     };
 
     render() {
-        const tags = this.props.tags;
-        return <TagList tags={tags} />;
+        const { tags, handleClick, taskFilter } = this.props;
+        return <TagList tags={tags} handleClick={handleClick} taskFilter={taskFilter} />;
     }
 }
 
 export default connect(
     _mapStateToProps,
     createDispatchMapper(MAP__DISPATCH_TO_PROPS)
-)(extractImmutable(TaskTagListContainer));
+)(extractImmutable(ConnectedTaskTagList));
 
 
 function _mapStateToProps(state, ownProps) {

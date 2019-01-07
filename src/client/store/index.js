@@ -6,7 +6,8 @@ import epics, * as Epics from './epic';
 
 const _inst = _init(),
     _storeController = {
-        getSession
+        getSession,
+        getOmniboxParsedValues
     };
 
 export {
@@ -39,6 +40,10 @@ function dispatch(action) {
 
 function getSession() {
     return _inst.store.getState().get('session').toJS();
+}
+
+function getOmniboxParsedValues() {
+    return _inst.store.getState().get('omnibox').get('parsed').toJS();
 }
 
 function _init() {

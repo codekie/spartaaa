@@ -77,6 +77,7 @@
     "express-request-id": "^1.4.1",
     "immutable": "^3.8.2",
     "lodash": "^4.17.11",
+    "memoize-one": "^5.0.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "queueing-subject": "^0.3.0",
