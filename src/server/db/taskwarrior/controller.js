@@ -138,11 +138,13 @@ async function toggleNext(taskId) {
     } catch (e) {
         throw new Error(`Task with id "${ taskId }" does not exist.`);
     }
-    const hasNext = tags.includes(TAG__NEXT),
+    const hasNext = !!tags && tags.includes(TAG__NEXT),
         taskArguments = new TaskArguments();
     if (hasNext) {
+        logger.info(`Remove "next"-tag from task: ${ taskId }`);
         taskArguments.removeTag(TAG__NEXT);
     } else {
+        logger.info(`Add "next"-tag to task: ${ taskId }`);
         taskArguments.addTag(TAG__NEXT);
     }
     return (await _modifyTask(taskId, taskArguments)).includes(MSG__SUCCESS_MODIFICATION);
