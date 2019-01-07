@@ -16,8 +16,6 @@ import ActionCreator from '../../store/action-creators';
 // # CONSTANTS
 
 const MAP__DISPATCH_TO_PROPS = {
-    [ActionType.activateTask]: ActionCreator[ActionType.activateTask],
-    [ActionType.deactivateTask]: ActionCreator[ActionType.deactivateTask],
     [ActionType.finishTask]: ActionCreator[ActionType.finishTask],
     handleProjectClick: ActionCreator[ActionType.toggleProjectFilter],
     handlePriorityClick: ActionCreator[ActionType.togglePriorityFilter],
@@ -31,8 +29,6 @@ const MAP__DISPATCH_TO_PROPS = {
 export class ConnectedTask extends PureComponent {
     static propTypes = {
         // Functions
-        activateTask: PropTypes.func.isRequired,
-        deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
         handleProjectClick: PropTypes.func.isRequired,
         handleTagClick: PropTypes.func.isRequired,
@@ -45,7 +41,6 @@ export class ConnectedTask extends PureComponent {
         id: PropTypes.number.isRequired,
         priority: PropTypes.string,
         project: PropTypes.string,
-        start: PropTypes.number,
         status: PropTypes.string,
         urgency: PropTypes.number,
         uuid: PropTypes.string.isRequired,

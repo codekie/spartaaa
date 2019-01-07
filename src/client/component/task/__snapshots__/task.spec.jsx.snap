@@ -322,12 +322,8 @@ exports[`renders correctly default 1`] = `
           renderAs="div"
           style={Object {}}
         >
-          <Task
-            activateTask={[MockFunction]}
-            deactivateTask={[MockFunction]}
-            isActive={false}
-            isCompleted={false}
-            taskId={1}
+          <Connect(Component)
+            uuid="ABC"
           />
         </LevelSide>
       </Level>

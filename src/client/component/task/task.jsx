@@ -8,7 +8,7 @@ import Media from 'react-bulma-components/lib/components/media';
 import Tag from 'react-bulma-components/lib/components/tag';
 import { faFolder, faClock, faFlagCheckered, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
-import CommandBar from './command-bar.jsx';
+import { ConnectedCommandBar } from '../../container/task';
 import ConnectedTaskTagList from '../../container/task-tag-list';
 import './task.scss';
 import PropTypes from 'prop-types';
@@ -21,8 +21,6 @@ const COLOR__TAG__PROJECT_SELECTED = 'primary',
 export default class Task extends PureComponent {
     static propTypes = {
         // Functions
-        activateTask: PropTypes.func.isRequired,
-        deactivateTask: PropTypes.func.isRequired,
         finishTask: PropTypes.func.isRequired,
         handleProjectClick: PropTypes.func.isRequired,
         handlePriorityClick: PropTypes.func.isRequired,
@@ -36,7 +34,6 @@ export default class Task extends PureComponent {
         id: PropTypes.number.isRequired,
         priority: PropTypes.string,
         project: PropTypes.string,
-        start: PropTypes.number,
         status: PropTypes.string,
         urgency: PropTypes.number,
         uuid: PropTypes.string.isRequired,
@@ -51,9 +48,8 @@ export default class Task extends PureComponent {
     render() {
         const props = this.props,
             {
-                uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, start, status,
-                activateTask, deactivateTask, finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick,
-                handlePriorityClick
+                uuid, id, description, due, project, urgency, cssClassesString, taskIcon, priority, status,
+                finishTask, unfinishTask, taskFilter, handleProjectClick, handleTagClick, handlePriorityClick
             } = props,
             isCompleted = status === TaskStatus.completed;
         return (
@@ -85,11 +81,7 @@ export default class Task extends PureComponent {
                         </Level>
                         <Level className="aux-bar-1">
                             <Level.Side align="left">
-                                <CommandBar taskId={id}
-                                    isCompleted={isCompleted}
-                                    isActive={!!start}
-                                    activateTask={activateTask}
-                                    deactivateTask={deactivateTask} />
+                                <ConnectedCommandBar uuid={uuid} />
                             </Level.Side>
                         </Level>
                     </Content>

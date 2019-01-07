@@ -20,6 +20,7 @@ export default combineEpics(
     Tasks.deactivateTask,
     Tasks.fetchTasks,
     Tasks.finishTask,
+    Tasks.toggleNext,
     Tasks.unfinishTask,
 );
 export {

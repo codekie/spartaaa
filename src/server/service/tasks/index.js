@@ -20,6 +20,7 @@ module.exports = {
         fetchTasks,
         filterTasks,
         finishTask,
+        toggleNext,
         unfinishTask
     }
 };
@@ -69,6 +70,10 @@ async function deactivateTask(taskId) {
 
 async function finishTask(taskId) {
     return await DB.finishTask(taskId);
+}
+
+async function toggleNext(taskId) {
+    return await DB.toggleNext(taskId);
 }
 
 async function unfinishTask(uuid) {
