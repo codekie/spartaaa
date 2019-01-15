@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import { logger } from '../../util';
 import { mapTasks } from './map-tasks';
+import TaskArguments from './task-arguments';
 
 const COMMAND__TASKWARRIOR = 'task',
     ARG__DONE = 'done',
@@ -18,7 +19,8 @@ const COMMAND__TASKWARRIOR = 'task',
     MSG__SUCCESS_ACTIVATION = 'Started 1 task.',
     MSG__SUCCESS_DEACTIVATION = 'Stopped 1 task.',
     MSG__SUCCESS_FINISHED = 'Completed 1 task.',
-    MSG__SUCCESS_MODIFICATION = 'Modified 1 task.';
+    MSG__SUCCESS_MODIFICATION = 'Modified 1 task.',
+    TAG__NEXT = 'next';
 
 //let _delegate = null;
 
@@ -26,6 +28,7 @@ export {
     initDB,
     activateTask,
     deactivateTask,
+    toggleNext,
     fetchTasks,
     finishTask,
     unfinishTask
@@ -127,6 +130,26 @@ function deactivateTask(taskId) {
     });
 }
 
+async function toggleNext(taskId) {
+    const task = await _getTask(taskId);
+    let tags = null;
+    try {
+        tags = task.tags;
+    } catch (e) {
+        throw new Error(`Task with id "${ taskId }" does not exist.`);
+    }
+    const hasNext = !!tags && tags.includes(TAG__NEXT),
+        taskArguments = new TaskArguments();
+    if (hasNext) {
+        logger.info(`Remove "next"-tag from task: ${ taskId }`);
+        taskArguments.removeTag(TAG__NEXT);
+    } else {
+        logger.info(`Add "next"-tag to task: ${ taskId }`);
+        taskArguments.addTag(TAG__NEXT);
+    }
+    return (await _modifyTask(taskId, taskArguments)).includes(MSG__SUCCESS_MODIFICATION);
+}
+
 function finishTask(taskId) {
     return new Promise((resolve, reject) => {
         try {
@@ -168,6 +191,69 @@ function unfinishTask(uuid) {
                 try {
                     logger.verbose(rawData);
                     resolve(rawData.includes(MSG__SUCCESS_MODIFICATION));
+                } catch (e) {
+                    logger.error(e);
+                    reject(e);
+                }
+            });
+            proc.on(EVT__EXIT, (code) => logger.debug(`Taskwarrior exited with status: ${ code }`));
+            proc.on(EVT__ERROR, (code) => {
+                logger.error(`Child process failed: ${ code }`);
+                reject(code);
+            });
+        } catch (e) {
+            logger.error(e);
+            reject(e);
+        }
+    });
+}
+
+function _getTask(taskId) {
+    return new Promise((resolve, reject) => {
+        try {
+            logger.verbose(`Fetch task: ${ taskId }`);
+            // TODO make this testable (injectable `spawn`-mock)
+            const proc = spawn(COMMAND__TASKWARRIOR, [taskId, ARG__EXPORT, ARG__EXPORT_TYPE__JSON]);
+            let rawData = '';
+            proc.stdout.on(EVT__DATA, (data) => rawData += data);
+            proc.stdout.on(EVT__CLOSE, () => {
+                try {
+                    logger.verbose(`Received data of task: ${ taskId }`);
+                    const tasks = JSON.parse(rawData);
+                    logger.isDebug() && logger.debug(JSON.stringify(tasks, null, '  '));
+                    const mappedTasks = mapTasks(tasks);
+                    resolve(mappedTasks.length ? mappedTasks[0] : null);
+                } catch (e) {
+                    logger.error(e);
+                    reject(e);
+                }
+            });
+            proc.on(EVT__EXIT, (code) => logger.debug(`Taskwarrior exited with status: ${ code }`));
+            proc.on(EVT__ERROR, (code) => {
+                logger.error(`Child process failed: ${ code }`);
+                reject(code);
+            });
+        } catch (e) {
+            logger.error(e);
+            reject(e);
+        }
+    });
+}
+
+function _modifyTask(taskId, taskArguments) {
+    return new Promise((resolve, reject) => {
+        try {
+            const modifyArgs = taskArguments.build();
+            logger.verbose(`Modify task: ${ taskId }`);
+            logger.isDebug() && logger.debug(`Modifying: ${ modifyArgs.join(' ') }`);
+            // TODO make this testable (injectable `spawn`-mock)
+            const proc = spawn(COMMAND__TASKWARRIOR, [taskId, ARG__MODIFY, ...modifyArgs]);
+            let response = '';
+            proc.stdout.on(EVT__DATA, (data) => response += data);
+            proc.stdout.on(EVT__CLOSE, () => {
+                try {
+                    logger.verbose(`Task modified: ${ response }`);
+                    resolve(response);
                 } catch (e) {
                     logger.error(e);
                     reject(e);

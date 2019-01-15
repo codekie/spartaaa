@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `"<Task taskId={[undefined]} isCompleted={false} isActive={false} activateTask={[Function: mockConstructor]} deactivateTask={[Function: mockConstructor]} tags={{...}} toggleNext={[Function: mockConstructor]} />"`;

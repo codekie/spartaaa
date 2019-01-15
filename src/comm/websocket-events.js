@@ -5,10 +5,11 @@ const REQUEST = 'Request',
     SESSION = 'session',
     SESSION__UPDATE = `${ SESSION }.update`,
     TASKS = 'tasks',
-    TASKS__GET = `${ TASKS }.get`,
     TASKS__ACTIVATE = `${ TASKS }.activate`,
     TASKS__DEACTIVATE = `${ TASKS }.deactivate`,
     TASKS__FINISH = `${ TASKS }.finish`,
+    TASKS__GET = `${ TASKS }.get`,
+    TASKS__TOGGLE_NEXT = `${ TASKS }.toggleNext`,
     TASKS__UNFINISH = `${ TASKS }.unfinish`;
 
 // PUBLIC API
@@ -22,11 +23,12 @@ export const Event = {
         update: SESSION__UPDATE
     },
     tasks: {
-        default: TASKS,
-        get: TASKS__GET,
         activateTask: TASKS__ACTIVATE,
         deactivateTask: TASKS__DEACTIVATE,
+        default: TASKS,
         finishTask: TASKS__FINISH,
+        get: TASKS__GET,
+        toggleNext: TASKS__TOGGLE_NEXT,
         unfinishTask: TASKS__UNFINISH
     }
 };

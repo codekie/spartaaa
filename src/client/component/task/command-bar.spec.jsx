@@ -37,15 +37,18 @@ describe('click handlers', () => {
 
 function _createContext() {
     const activateTask = jest.fn(),
-        deactivateTask = jest.fn();
+        deactivateTask = jest.fn(),
+        toggleNext = jest.fn();
     return {
-        createElement: ({ isActive = false } = {}) => _createElement({ activateTask, deactivateTask, isActive }),
+        createElement: ({ isActive = false } = {}) => _createElement({ activateTask, deactivateTask, toggleNext,
+            isActive
+        }),
         activateTask,
         deactivateTask
     };
 }
 
-function _createElement({ activateTask, deactivateTask, isActive }) {
+function _createElement({ activateTask, deactivateTask, toggleNext, isActive }) {
     return shallow(<CommandBar activateTask={activateTask} deactivateTask={deactivateTask} taskId={1}
-        isActive={isActive} />);
+        isActive={isActive} tags={['next']} toggleNext={toggleNext} />);
 }
