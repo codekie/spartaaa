@@ -16,7 +16,8 @@ import Button from 'react-bulma-components/lib/components/button';
 import TaskStatus from '../../../comm/task-status';
 
 const COLOR__TAG__PROJECT_SELECTED = 'primary',
-    COLOR__TAG__PROJECT = 'info';
+    COLOR__TAG__PROJECT = 'info',
+    INTERVAL__DUE_TIME = 60000;
 
 export default class Task extends PureComponent {
     static propTypes = {
@@ -44,7 +45,84 @@ export default class Task extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.state = {
+            timeoutDueUntil: null
+        };
     }
+
+    componentWillReceiveProps(nextProps) {
+        clearTimeout(this.state.timeoutDueUntil);
+        nextProps.due && this.setState({
+            timeoutDueUntil: this._createDueUntilTimeout()
+        });
+    }
+
+    _createDueUntilTimeout() {
+        return setTimeout(
+            () => {
+                this.setState({
+                    timeoutDueUntil: this._createDueUntilTimeout()
+                });
+            }, INTERVAL__DUE_TIME
+        );
+    }
+    _createProjectItem(project, taskFilter, clickHandler) {
+        if (!project) { return null; }
+        const colorTag = project === taskFilter.project ? COLOR__TAG__PROJECT_SELECTED : COLOR__TAG__PROJECT;
+        return (
+            <Level.Item>
+                <Tag.Group gapless className="tag-project tag-icon" onClick={() => clickHandler(project)}>
+                    <Tag color="dark">
+                        <Icon className="is-small">
+                            <FontAwesomeIcon icon={faFolder} />
+                        </Icon>
+                    </Tag>
+                    <Tag color={colorTag}>{ project }</Tag>
+                </Tag.Group>
+            </Level.Item>
+        );
+    }
+    _createDueItem(due) {
+        if (!due) { return null; }
+        const dueUntil = moment(due).fromNow(),
+            classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
+        return (
+            <Level.Item>
+                <Tag.Group gapless className="tag-due tag-icon">
+                    <Tag color="dark">
+                        <Icon className="is-small">
+                            <FontAwesomeIcon icon={faClock} />
+                        </Icon>
+                    </Tag>
+                    <Tag className={classNameDue}>{ dueUntil }</Tag>
+                </Tag.Group>
+            </Level.Item>
+        );
+    }
+    _createPriorityIndicator(priority, handlePriorityClick) {
+        return (
+            <div className={`priority ${ priority ? `prio-${ priority }` : '' }`}
+                onClick={() => handlePriorityClick(priority)} />
+        );
+    }
+    _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask } = {}) {
+        return (
+            <Button className="btn-check" onClick={() => {
+                return isCompleted
+                    ? unfinishTask(uuid)
+                    : finishTask(id);
+            }}>
+                <Icon>
+                    <FontAwesomeIcon
+                        icon={isCompleted
+                            ? faTimesCircle
+                            : faFlagCheckered}
+                        className="check-icon" />
+                </Icon>
+            </Button>
+        );
+    }
+
     render() {
         const props = this.props,
             {
@@ -54,7 +132,7 @@ export default class Task extends PureComponent {
             isCompleted = status === TaskStatus.completed;
         return (
             <Media className={`cmp-task ${ cssClassesString }`}>
-                { _createPriorityIndicator(priority, handlePriorityClick) }
+                { this._createPriorityIndicator(priority, handlePriorityClick) }
                 <Media.Item renderAs="figure" position="left">
                     <div>
                         <Icon className="is-medium fa-2x">
@@ -62,7 +140,7 @@ export default class Task extends PureComponent {
                         </Icon>
                     </div>
                     <div>
-                        { _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask }) }
+                        { this._createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask }) }
                     </div>
                 </Media.Item>
                 <Media.Item>
@@ -73,8 +151,8 @@ export default class Task extends PureComponent {
                         </p>
                         <Level>
                             <Level.Side align="left" className="tags">
-                                { _createDueItem(due) }
-                                { _createProjectItem(project, taskFilter, handleProjectClick) }
+                                { this._createDueItem(due) }
+                                { this._createProjectItem(project, taskFilter, handleProjectClick) }
                                 <Level.Item><ConnectedTaskTagList uuid={uuid}
                                     handleClick={handleTagClick} taskFilter={taskFilter} /></Level.Item>
                             </Level.Side>
@@ -100,62 +178,3 @@ export default class Task extends PureComponent {
     }
 }
 
-function _createProjectItem(project, taskFilter, clickHandler) {
-    if (!project) { return null; }
-    const colorTag = project === taskFilter.project ? COLOR__TAG__PROJECT_SELECTED : COLOR__TAG__PROJECT;
-    return (
-        <Level.Item>
-            <Tag.Group gapless className="tag-project tag-icon" onClick={() => clickHandler(project)}>
-                <Tag color="dark">
-                    <Icon className="is-small">
-                        <FontAwesomeIcon icon={faFolder} />
-                    </Icon>
-                </Tag>
-                <Tag color={colorTag}>{ project }</Tag>
-            </Tag.Group>
-        </Level.Item>
-    );
-}
-
-function _createDueItem(due) {
-    if (!due) { return null; }
-    const dueUntil = moment(due).fromNow(),
-        classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
-    return (
-        <Level.Item>
-            <Tag.Group gapless className="tag-due tag-icon">
-                <Tag color="dark">
-                    <Icon className="is-small">
-                        <FontAwesomeIcon icon={faClock} />
-                    </Icon>
-                </Tag>
-                <Tag className={classNameDue}>{ dueUntil }</Tag>
-            </Tag.Group>
-        </Level.Item>
-    );
-}
-
-function _createPriorityIndicator(priority, handlePriorityClick) {
-    return (
-        <div className={`priority ${ priority ? `prio-${ priority }` : '' }`}
-            onClick={() => handlePriorityClick(priority)} />
-    );
-}
-
-function _createToggleStatusButton({ id, uuid, isCompleted, unfinishTask, finishTask } = {}) {
-    return (
-        <Button className="btn-check" onClick={() => {
-            return isCompleted
-                ? unfinishTask(uuid)
-                : finishTask(id);
-        }}>
-            <Icon>
-                <FontAwesomeIcon
-                    icon={isCompleted
-                        ? faTimesCircle
-                        : faFlagCheckered}
-                    className="check-icon" />
-            </Icon>
-        </Button>
-    );
-}

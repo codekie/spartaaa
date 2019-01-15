@@ -1,7 +1,8 @@
 const moment = require('moment'),
     { logger } = require('../../util');
 
-const PATTERN__PARSE_DATE = 'YYYYMMDDHHmmss';
+const PATTERN__PARSE_DATE = 'YYYYMMDDHHmmssZZ',
+    TIMEZONE__GMT = '+00:00';
 
 const MAP__TRANSFORMER = {
     description: _noop,
@@ -57,5 +58,8 @@ function _filterProperties(rawTask) {
 function _noop(val) { return val; }
 
 function _toDate(strVal) {
-    return moment(strVal.replace('T', '').replace('Z', ''), PATTERN__PARSE_DATE).toDate().getTime();
+    return moment(
+        `${ strVal.replace('T', '').replace('Z', '') }${ TIMEZONE__GMT }`,
+        PATTERN__PARSE_DATE
+    ).toDate().getTime();
 }
