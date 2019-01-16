@@ -14,12 +14,17 @@ const COLOR__TAG__PROJECT = 'info',
 
 const getFocusableRefs = memoize(
     (parsedValues) => {
-        const refs = [];
-        parsedValues.priority && refs.push(React.createRef());
-        parsedValues.project && refs.push(React.createRef());
-        (parsedValues.tags || []).forEach(() => refs.push(React.createRef()));
-        refs.push(React.createRef());
-        return refs;
+        const refsFocusable = [];
+        parsedValues.priority && refsFocusable.push(React.createRef());
+        parsedValues.project && refsFocusable.push(React.createRef());
+        (parsedValues.tags || []).forEach(() => refsFocusable.push(React.createRef()));
+        // Input-field
+        refsFocusable.push(React.createRef());
+        const idxRefFocusableInput = refsFocusable.length - 1;
+        return {
+            refsFocusable,
+            idxRefFocusableInput
+        };
     }
 );
 
@@ -48,6 +53,7 @@ export default class Omnibox extends PureComponent {
         super(props);
         this.state = {
             idxFocus: null,
+            idxRefFocusableInput: null,
             refsFocusable: null,
             inputText: '',
             prevSerializedValue: ''
@@ -62,13 +68,20 @@ export default class Omnibox extends PureComponent {
         refsFocusable[idxFocus].current.focus();
     }
     static getDerivedStateFromProps(props, state) {
-        const { serializedValue, parsedValues } = props;
+        const { serializedValue, parsedValues } = props,
+            { refsFocusable, idxRefFocusableInput } = getFocusableRefs(props.parsedValues);
         return {
             inputText: state.prevSerializedValue !== serializedValue
                 ? parsedValues.searchTerm
                 : state.inputText,
             prevSerializedValue: serializedValue,
-            refsFocusable: getFocusableRefs(props.parsedValues)
+            refsFocusable,
+            idxRefFocusableInput,
+            // If the input-field had the focus before, update `idxFocus` with the new `idxFocus` of the input-field,
+            // after the criteria have been parsed and the index of the input (maybe) has changed
+            idxFocus: state.idxFocus === state.idxRefFocusableInput
+                ? idxRefFocusableInput
+                : state.idxFocus
         };
     }
 
@@ -76,8 +89,8 @@ export default class Omnibox extends PureComponent {
 
     handleInputKeyDown(event) {
         const { key, target } = event,
-            refsFocusable = this.state.refsFocusable,
-            inputValue = refsFocusable[refsFocusable.length - 1].current.value;
+            { refsFocusable, idxRefFocusableInput } = this.state,
+            inputValue = refsFocusable[idxRefFocusableInput].current.value;
         //noinspection FallThroughInSwitchStatementJS
         switch (key) {
             case 'Enter':
@@ -112,10 +125,10 @@ export default class Omnibox extends PureComponent {
         }
     }
     handleFocus(event, idxRef) {
-        this.setState({ idxFocus: idxRef });
+        this.setFocusIndex(idxRef);
     }
     handleBlur() {
-        this.setState({ idxFocus: null });
+        this.setFocusIndex(null);
     }
     handleInputBlur() {
         this.parseAndFilter();
@@ -160,6 +173,9 @@ export default class Omnibox extends PureComponent {
 
     // Implementation details
 
+    setFocusIndex(idxFocus) {
+        this.setState({ idxFocus });
+    }
     parseAndFilter() {
         this.props.setRawValue(this.state.inputText);
         this.props.parse();
@@ -172,11 +188,12 @@ export default class Omnibox extends PureComponent {
     updateFocusableRefIndex(event) {
         const amountFocusableRefsBeforeRemoval = this.state.refsFocusable.length,
             lastRef = amountFocusableRefsBeforeRemoval === 1;
-        if (lastRef) {
-            this.setState({ idxFocus: null });
+        // Don't reset the focus-index, if the input-field has the focus
+        if (this.state.idxFocus !== this.state.idxRefFocusableInput && lastRef) {
+            this.setFocusIndex(null);
             return;
         }
-        let idxFocus = null;
+        let idxFocus = this.state.idxFocus;
         switch (event.key) {
             case 'ArrowLeft':
                 idxFocus = Math.max(this.state.idxFocus - 1, 0);
@@ -191,7 +208,7 @@ export default class Omnibox extends PureComponent {
                 idxFocus = Math.max(this.state.idxFocus - 1, 0);
                 break;
         }
-        this.setState({ idxFocus });
+        this.setFocusIndex(idxFocus);
     }
 
     // Renderer-helper
@@ -242,9 +259,8 @@ export default class Omnibox extends PureComponent {
     render() {
         const { parsedValues, removeTag } = this.props,
             tags = parsedValues.tags,
-            refsFocusable = this.state.refsFocusable;
-        let offsetIdxRef = 0,
-            idxRefInpupt = refsFocusable.length - 1;
+            { refsFocusable, idxRefFocusableInput } = this.state;
+        let offsetIdxRef = 0;
         return (
             <Panel className="cmp-omnibox">
                 {
@@ -279,11 +295,11 @@ export default class Omnibox extends PureComponent {
                         }</Tag.Group>
                     )
                 }</div>
-                <Input ref={refsFocusable[idxRefInpupt]} size="small" type="text"
+                <Input ref={refsFocusable[idxRefFocusableInput]} size="small" type="text"
                     className="cmp-sub-input sub-focusable" placeholder="search" value={this.state.inputText}
                     onChange={(event) => this.setState({ inputText: event.target.value })}
                     onKeyDown={(event) => this.handleInputKeyDown(event)}
-                    onFocus={(event) => this.handleFocus(event, idxRefInpupt)}
+                    onFocus={(event) => this.handleFocus(event, idxRefFocusableInput)}
                     onBlur={() => this.handleInputBlur()} />
             </Panel>
         );
