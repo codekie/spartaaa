@@ -143,7 +143,8 @@ function _toggleOmniboxProject(state, action) {
     if (state.get(PROP__PARSED).get(PROP__PROJECT) === project) {
         selectedProject = null;
     }
-    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PROJECT, selectedProject));
+    let resultState = state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PROJECT, selectedProject));
+    return resultState.set(PROP__SERIALIZED_VALUE, _serializeValue(resultState));
 }
 
 function _toggleOmniboxPriority(state, action) {
@@ -152,7 +153,8 @@ function _toggleOmniboxPriority(state, action) {
     if (state.get(PROP__PARSED).get(PROP__PRIORITY) === priority) {
         selectedPriority = null;
     }
-    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PRIORITY, selectedPriority));
+    let resultState = state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__PRIORITY, selectedPriority));
+    return resultState.set(PROP__SERIALIZED_VALUE, _serializeValue(resultState));
 }
 
 function _toggleOmniboxTag(state, action) {
@@ -163,5 +165,6 @@ function _toggleOmniboxTag(state, action) {
     } else {
         selectedTags = selectedTags.add(tag);
     }
-    return state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__TAGS, selectedTags));
+    let resultState = state.set(PROP__PARSED, state.get(PROP__PARSED).set(PROP__TAGS, selectedTags));
+    return resultState.set(PROP__SERIALIZED_VALUE, _serializeValue(resultState));
 }
