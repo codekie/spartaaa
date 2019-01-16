@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from './controller/websocket';
@@ -10,6 +11,7 @@ import ActionCreator from './store/action-creators';
 _init();
 
 function _init() {
+    moment.locale(window.navigator.language);
     const store = Store.init();
     connect();
     _render({ document }, store);

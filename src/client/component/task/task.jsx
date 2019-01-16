@@ -17,7 +17,8 @@ import TaskStatus from '../../../comm/task-status';
 
 const COLOR__TAG__PROJECT_SELECTED = 'primary',
     COLOR__TAG__PROJECT = 'info',
-    INTERVAL__DUE_TIME = 60000;
+    INTERVAL__DUE_TIME = 60000,
+    FORMAT__DATE = 'LLLL';
 
 export default class Task extends PureComponent {
     static propTypes = {
@@ -84,11 +85,12 @@ export default class Task extends PureComponent {
     }
     _createDueItem(due) {
         if (!due) { return null; }
-        const dueUntil = moment(due).fromNow(),
+        const momentDue = moment(due),
+            dueUntil = momentDue.fromNow(),
             classNameDue = due - Date.now() > 0 ? 'in-time' : 'overdue';
         return (
             <Level.Item>
-                <Tag.Group gapless className="tag-due tag-icon">
+                <Tag.Group gapless className="tag-due tag-icon" title={momentDue.format(FORMAT__DATE)}>
                     <Tag color="dark">
                         <Icon className="is-small">
                             <FontAwesomeIcon icon={faClock} />
