@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Section
+<ForwardRef
   className=""
   renderAs="section"
   size={null}
   style={Object {}}
 >
   <Connect(Component) />
-  <PanelBlock
+  <ForwardRef
     active={false}
     className=""
     renderAs="div"
   >
-    <Control
+    <ForwardRef
       className=""
       fullwidth={false}
       iconLeft={false}
@@ -24,9 +24,9 @@ exports[`renders correctly 1`] = `
       style={Object {}}
     >
       <Connect(Component) />
-    </Control>
-  </PanelBlock>
+    </ForwardRef>
+  </ForwardRef>
   <Connect(Component) />
   <Connect(Component) />
-</Section>
+</ForwardRef>
 `;
