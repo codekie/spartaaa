@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<TagGroup
+<ForwardRef
   className="cmp-tag-list"
   gapless={false}
   style={Object {}}
 >
-  <Tag
+  <ForwardRef
     className=""
     color={null}
     key="tüdlidü"
@@ -18,6 +18,6 @@ exports[`renders correctly 1`] = `
     style={Object {}}
   >
     tüdlidü
-  </Tag>
-</TagGroup>
+  </ForwardRef>
+</ForwardRef>
 `;

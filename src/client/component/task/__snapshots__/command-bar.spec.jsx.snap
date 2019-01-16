@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly active task 1`] = `
-<Panel
+<ForwardRef
   className="task-command-bar"
   renderAs="nav"
 >
-  <Button
+  <ForwardRef
     className="is-grouped btn-activation"
     color={null}
     disabled={false}
@@ -26,7 +26,7 @@ exports[`renders correctly active task 1`] = `
     submit={false}
     text={false}
   >
-    <Icon
+    <ForwardRef
       align={null}
       className="is-small"
       color={null}
@@ -64,9 +64,9 @@ exports[`renders correctly active task 1`] = `
         title=""
         transform={null}
       />
-    </Icon>
-  </Button>
-  <Button
+    </ForwardRef>
+  </ForwardRef>
+  <ForwardRef
     className="is-grouped btn-toggle-next"
     color={null}
     disabled={false}
@@ -87,7 +87,7 @@ exports[`renders correctly active task 1`] = `
     submit={false}
     text={false}
   >
-    <Icon
+    <ForwardRef
       align={null}
       className="is-small"
       color={null}
@@ -125,17 +125,17 @@ exports[`renders correctly active task 1`] = `
         title=""
         transform={null}
       />
-    </Icon>
-  </Button>
-</Panel>
+    </ForwardRef>
+  </ForwardRef>
+</ForwardRef>
 `;
 
 exports[`renders correctly inactive task 1`] = `
-<Panel
+<ForwardRef
   className="task-command-bar"
   renderAs="nav"
 >
-  <Button
+  <ForwardRef
     className="is-grouped btn-activation"
     color={null}
     disabled={false}
@@ -156,7 +156,7 @@ exports[`renders correctly inactive task 1`] = `
     submit={false}
     text={false}
   >
-    <Icon
+    <ForwardRef
       align={null}
       className="is-small"
       color={null}
@@ -194,9 +194,9 @@ exports[`renders correctly inactive task 1`] = `
         title=""
         transform={null}
       />
-    </Icon>
-  </Button>
-  <Button
+    </ForwardRef>
+  </ForwardRef>
+  <ForwardRef
     className="is-grouped btn-toggle-next"
     color={null}
     disabled={false}
@@ -217,7 +217,7 @@ exports[`renders correctly inactive task 1`] = `
     submit={false}
     text={false}
   >
-    <Icon
+    <ForwardRef
       align={null}
       className="is-small"
       color={null}
@@ -255,7 +255,7 @@ exports[`renders correctly inactive task 1`] = `
         title=""
         transform={null}
       />
-    </Icon>
-  </Button>
-</Panel>
+    </ForwardRef>
+  </ForwardRef>
+</ForwardRef>
 `;

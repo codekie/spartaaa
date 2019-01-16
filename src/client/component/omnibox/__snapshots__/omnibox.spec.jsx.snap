@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<Panel
+<ForwardRef
   className="cmp-omnibox"
   renderAs="nav"
 >
@@ -12,12 +12,12 @@ exports[`renders correctly 1`] = `
     onKeyDown={[Function]}
     tabIndex={0}
   >
-    <TagGroup
+    <ForwardRef
       className="tag-project tag-icon"
       gapless={true}
       style={Object {}}
     >
-      <Tag
+      <ForwardRef
         className=""
         color="dark"
         remove={false}
@@ -26,7 +26,7 @@ exports[`renders correctly 1`] = `
         size={null}
         style={Object {}}
       >
-        <Icon
+        <ForwardRef
           align={null}
           className="is-small"
           color={null}
@@ -64,9 +64,9 @@ exports[`renders correctly 1`] = `
             title=""
             transform={null}
           />
-        </Icon>
-      </Tag>
-      <Tag
+        </ForwardRef>
+      </ForwardRef>
+      <ForwardRef
         className=""
         color="info"
         remove={false}
@@ -76,8 +76,8 @@ exports[`renders correctly 1`] = `
         style={Object {}}
       >
         foo
-      </Tag>
-      <Tag
+      </ForwardRef>
+      <ForwardRef
         className=""
         color={null}
         onClick={[Function]}
@@ -87,12 +87,12 @@ exports[`renders correctly 1`] = `
         size={null}
         style={Object {}}
       />
-    </TagGroup>
+    </ForwardRef>
   </div>
   <div
     className="sub-cont-taggroup"
   >
-    <TagGroup
+    <ForwardRef
       className="cmp-sub-tags"
       gapless={true}
       style={Object {}}
@@ -105,12 +105,12 @@ exports[`renders correctly 1`] = `
         onKeyDown={[Function]}
         tabIndex={0}
       >
-        <TagGroup
+        <ForwardRef
           className="cmp-sub-tags"
           gapless={true}
           style={Object {}}
         >
-          <Tag
+          <ForwardRef
             className=""
             color="primary"
             remove={false}
@@ -120,8 +120,8 @@ exports[`renders correctly 1`] = `
             style={Object {}}
           >
             bar
-          </Tag>
-          <Tag
+          </ForwardRef>
+          <ForwardRef
             className=""
             color={null}
             onClick={[Function]}
@@ -131,25 +131,19 @@ exports[`renders correctly 1`] = `
             size={null}
             style={Object {}}
           />
-        </TagGroup>
+        </ForwardRef>
       </div>
-    </TagGroup>
+    </ForwardRef>
   </div>
-  <Input
+  <ForwardRef
     className="cmp-sub-input sub-focusable"
-    color={null}
-    disabled={false}
-    isStatic={false}
-    name={null}
     onBlur={[Function]}
     onChange={[Function]}
     onKeyDown={[Function]}
     placeholder="search"
-    readOnly={false}
     size="small"
-    style={Object {}}
     type="text"
     value=""
   />
-</Panel>
+</ForwardRef>
 `;

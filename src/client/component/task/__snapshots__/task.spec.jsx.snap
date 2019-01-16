@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly default 1`] = `
-<Media
+<ForwardRef
   className="cmp-task undefined"
   renderAs="article"
   style={Object {}}
@@ -10,14 +10,14 @@ exports[`renders correctly default 1`] = `
     className="priority "
     onClick={[Function]}
   />
-  <MediaItem
+  <ForwardRef
     className=""
     position="left"
     renderAs="figure"
     style={Object {}}
   >
     <div>
-      <Icon
+      <ForwardRef
         align={null}
         className="is-medium fa-2x"
         color={null}
@@ -43,10 +43,10 @@ exports[`renders correctly default 1`] = `
           title=""
           transform={null}
         />
-      </Icon>
+      </ForwardRef>
     </div>
     <div>
-      <Button
+      <ForwardRef
         className="btn-check"
         color={null}
         disabled={false}
@@ -67,7 +67,7 @@ exports[`renders correctly default 1`] = `
         submit={false}
         text={false}
       >
-        <Icon
+        <ForwardRef
           align={null}
           className=""
           color={null}
@@ -105,17 +105,17 @@ exports[`renders correctly default 1`] = `
             title=""
             transform={null}
           />
-        </Icon>
-      </Button>
+        </ForwardRef>
+      </ForwardRef>
     </div>
-  </MediaItem>
-  <MediaItem
+  </ForwardRef>
+  <ForwardRef
     className=""
     position="center"
     renderAs="div"
     style={Object {}}
   >
-    <Content
+    <ForwardRef
       renderAs="div"
       size={null}
       style={Object {}}
@@ -131,29 +131,30 @@ exports[`renders correctly default 1`] = `
           ] 
         </strong>
       </p>
-      <Level
+      <ForwardRef
         breakpoint={null}
         className=""
         renderAs="div"
         style={Object {}}
       >
-        <LevelSide
+        <ForwardRef
           align="left"
           className="tags"
           renderAs="div"
           style={Object {}}
         >
-          <LevelItem
+          <ForwardRef
             className=""
             renderAs="div"
             style={Object {}}
           >
-            <TagGroup
+            <ForwardRef
               className="tag-due tag-icon"
               gapless={true}
               style={Object {}}
+              title="Thursday, November 8, 2018 3:34 PM"
             >
-              <Tag
+              <ForwardRef
                 className=""
                 color="dark"
                 remove={false}
@@ -162,7 +163,7 @@ exports[`renders correctly default 1`] = `
                 size={null}
                 style={Object {}}
               >
-                <Icon
+                <ForwardRef
                   align={null}
                   className="is-small"
                   color={null}
@@ -200,9 +201,9 @@ exports[`renders correctly default 1`] = `
                     title=""
                     transform={null}
                   />
-                </Icon>
-              </Tag>
-              <Tag
+                </ForwardRef>
+              </ForwardRef>
+              <ForwardRef
                 className="overdue"
                 color={null}
                 remove={false}
@@ -212,21 +213,21 @@ exports[`renders correctly default 1`] = `
                 style={Object {}}
               >
                 a few seconds ago
-              </Tag>
-            </TagGroup>
-          </LevelItem>
-          <LevelItem
+              </ForwardRef>
+            </ForwardRef>
+          </ForwardRef>
+          <ForwardRef
             className=""
             renderAs="div"
             style={Object {}}
           >
-            <TagGroup
+            <ForwardRef
               className="tag-project tag-icon"
               gapless={true}
               onClick={[Function]}
               style={Object {}}
             >
-              <Tag
+              <ForwardRef
                 className=""
                 color="dark"
                 remove={false}
@@ -235,7 +236,7 @@ exports[`renders correctly default 1`] = `
                 size={null}
                 style={Object {}}
               >
-                <Icon
+                <ForwardRef
                   align={null}
                   className="is-small"
                   color={null}
@@ -273,9 +274,9 @@ exports[`renders correctly default 1`] = `
                     title=""
                     transform={null}
                   />
-                </Icon>
-              </Tag>
-              <Tag
+                </ForwardRef>
+              </ForwardRef>
+              <ForwardRef
                 className=""
                 color="info"
                 remove={false}
@@ -285,10 +286,10 @@ exports[`renders correctly default 1`] = `
                 style={Object {}}
               >
                 spartaaa
-              </Tag>
-            </TagGroup>
-          </LevelItem>
-          <LevelItem
+              </ForwardRef>
+            </ForwardRef>
+          </ForwardRef>
+          <ForwardRef
             className=""
             renderAs="div"
             style={Object {}}
@@ -307,16 +308,16 @@ exports[`renders correctly default 1`] = `
               }
               uuid="ABC"
             />
-          </LevelItem>
-        </LevelSide>
-      </Level>
-      <Level
+          </ForwardRef>
+        </ForwardRef>
+      </ForwardRef>
+      <ForwardRef
         breakpoint={null}
         className="aux-bar-1"
         renderAs="div"
         style={Object {}}
       >
-        <LevelSide
+        <ForwardRef
           align="left"
           className=""
           renderAs="div"
@@ -325,36 +326,36 @@ exports[`renders correctly default 1`] = `
           <Connect(Component)
             uuid="ABC"
           />
-        </LevelSide>
-      </Level>
-    </Content>
-    <Level
+        </ForwardRef>
+      </ForwardRef>
+    </ForwardRef>
+    <ForwardRef
       breakpoint="mobile"
       className=""
       renderAs="div"
       style={Object {}}
     >
-      <LevelSide
+      <ForwardRef
         align="left"
         className=""
         renderAs="div"
         style={Object {}}
       />
-    </Level>
-  </MediaItem>
-  <MediaItem
+    </ForwardRef>
+  </ForwardRef>
+  <ForwardRef
     className=""
     position="right"
     renderAs="div"
     style={Object {}}
   >
-    <Content
+    <ForwardRef
       renderAs="div"
       size={null}
       style={Object {}}
     >
       <small />
-    </Content>
-  </MediaItem>
-</Media>
+    </ForwardRef>
+  </ForwardRef>
+</ForwardRef>
 `;
