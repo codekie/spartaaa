@@ -139,6 +139,7 @@ exports[`renders correctly 1`] = `
     className="cmp-sub-input sub-focusable"
     onBlur={[Function]}
     onChange={[Function]}
+    onFocus={[Function]}
     onKeyDown={[Function]}
     placeholder="search"
     size="small"

@@ -6,10 +6,17 @@ import TaskFilter from '../../../comm/session/task-filter';
 
 const TIMESTAMP__DUE = 1541687666487;
 
+// Modules have to be mocked in the global context
+jest.mock('moment', () => () => ({
+    format: () => '2019–01–16 16:10:10',
+    fromNow: () => 'Tomorrow'
+}));
+
 describe('renders correctly', () => {
     // Local variables
     let _origNow = Date.now,
         _context = null;
+
     // Setup / teardown
     beforeEach(() => {
         Date.now = jest.fn(() => TIMESTAMP__DUE + 1000);
