@@ -18,10 +18,7 @@ const getFocusableRefs = memoize(
         parsedValues.priority && refs.push(React.createRef());
         parsedValues.project && refs.push(React.createRef());
         (parsedValues.tags || []).forEach(() => refs.push(React.createRef()));
-        // Ref, for the search-field
-        // Ref-forwarding is not supported yet, with the current version of `react-bulma-components`
-        // This requires version `3+`
-        // refs.push(React.createRef());
+        refs.push(React.createRef());
         return refs;
     }
 );
@@ -77,8 +74,22 @@ export default class Omnibox extends PureComponent {
 
     // Event-handlers
 
-    handleKeyDown(event) {
+    handleInputKeyDown(event) {
+        const refsFocusable = this.state.refsFocusable,
+            inputValue = refsFocusable[refsFocusable.length - 1].current.value;
+        //noinspection FallThroughInSwitchStatementJS
         switch (event.key) {
+            case 'ArrowLeft':
+            case 'Backspace':
+                if (event.target.selectionStart > 0 && inputValue.length > 0) {
+                    break;
+                }
+            case 'ArrowRight':
+                if (event.target.selectionStart === inputValue.length - 1 && inputValue.length > 0) {
+                    break;
+                }
+                this.updateFocusableRefIndex(event);
+                break;
             case 'Enter':
             case ' ':
             case 'Tab':
@@ -96,6 +107,46 @@ export default class Omnibox extends PureComponent {
     handleBlur() {
         this.setState({ idxFocus: null });
     }
+    handleInputBlur() {
+        this.parseAndFilter();
+        this.handleBlur();
+    }
+    handleTagKeyDown(event, tag) {
+        switch (event.key) {
+            case 'ArrowLeft':
+            case 'ArrowRight':
+                this.updateFocusableRefIndex(event);
+                break;
+            case 'Delete':
+            case 'Backspace':
+                this.removeCriterion(event, this.props.removeTag, tag);
+                break;
+        }
+    }
+    handlePriorityKeyDown(event) {
+        switch (event.key) {
+            case 'ArrowLeft':
+            case 'ArrowRight':
+                this.updateFocusableRefIndex(event);
+                break;
+            case 'Delete':
+            case 'Backspace':
+                this.removeCriterion(event, this.props.clearPriority);
+                break;
+        }
+    }
+    handleProjectKeyDown(event) {
+        switch (event.key) {
+            case 'ArrowLeft':
+            case 'ArrowRight':
+                this.updateFocusableRefIndex(event);
+                break;
+            case 'Delete':
+            case 'Backspace':
+                this.removeCriterion(event, this.props.clearProject);
+                break;
+        }
+    }
 
     // Implementation details
 
@@ -104,18 +155,6 @@ export default class Omnibox extends PureComponent {
         this.props.parse();
         this.props.applyFilter();
     }
-    removeTagOnDelete(event, tag) {
-        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
-        this.removeCriterion(event, this.props.removeTag, tag);
-    }
-    clearPriorityOnDelete(event) {
-        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
-        this.removeCriterion(event, this.props.clearPriority);
-    }
-    clearProjectOnDelete(event) {
-        if (event.key !== 'Delete' && event.key !== 'Backspace') { return; }
-        this.removeCriterion(event, this.props.clearProject);
-    }
     removeCriterion(event, removeHandler, value = null) {
         this.updateFocusableRefIndex(event);
         removeHandler(value);
@@ -123,26 +162,33 @@ export default class Omnibox extends PureComponent {
     updateFocusableRefIndex(event) {
         const amountFocusableRefsBeforeRemoval = this.state.refsFocusable.length,
             lastRef = amountFocusableRefsBeforeRemoval === 1;
-        if (event.key === 'Delete') {
-            this.setState({
-                idxFocus: !lastRef
-                    ? Math.min(this.state.idxFocus, amountFocusableRefsBeforeRemoval - 2)
-                    : null
-            });
+        if (lastRef) {
+            this.setState({ idxFocus: null });
             return;
         }
-        this.setState({
-            idxFocus: !lastRef
-                ? Math.max(this.state.idxFocus - 1, 0)
-                : null
-        });
+        let idxFocus = null;
+        switch (event.key) {
+            case 'ArrowLeft':
+                idxFocus = Math.max(this.state.idxFocus - 1, 0);
+                break;
+            case 'Delete':
+                idxFocus = Math.min(this.state.idxFocus, amountFocusableRefsBeforeRemoval - 2);
+                break;
+            case 'ArrowRight':
+                idxFocus = Math.min(this.state.idxFocus + 1, amountFocusableRefsBeforeRemoval - 1);
+                break;
+            case 'Backspace':
+                idxFocus = Math.max(this.state.idxFocus - 1, 0);
+                break;
+        }
+        this.setState({ idxFocus });
     }
     createPriorityItem(priority, idxRef, ref) {
         if (!priority) { return null; }
         const { clearPriority } = this.props;
         return (
             <div ref={ref} className="sub-cont-taggroup sub-focusable" tabIndex={0}
-                onKeyDown={(event) => this.clearPriorityOnDelete(event)}
+                onKeyDown={(event) => this.handlePriorityKeyDown(event)}
                 onFocus={(event) => this.handleFocus(event, idxRef)}
                 onBlur={(event) => this.handleBlur(event)}>
                 <Tag.Group gapless className="tag-priority tag-icon">
@@ -162,7 +208,7 @@ export default class Omnibox extends PureComponent {
         const { clearProject } = this.props;
         return (
             <div ref={ref} className="sub-cont-taggroup sub-focusable" tabIndex={0}
-                onKeyDown={(event) => this.clearProjectOnDelete(event)}
+                onKeyDown={(event) => this.handleProjectKeyDown(event)}
                 onFocus={(event) => this.handleFocus(event, idxRef)}
                 onBlur={(event) => this.handleBlur(event)}>
                 <Tag.Group gapless className="tag-project tag-icon">
@@ -184,7 +230,8 @@ export default class Omnibox extends PureComponent {
         const { parsedValues, removeTag } = this.props,
             tags = parsedValues.tags,
             refsFocusable = this.state.refsFocusable;
-        let offsetIdxRef = 0;
+        let offsetIdxRef = 0,
+            idxRefInpupt = refsFocusable.length - 1;
         return (
             <Panel className="cmp-omnibox">
                 {
@@ -205,7 +252,7 @@ export default class Omnibox extends PureComponent {
                                 return (
                                     <div className="sub-cont-tag sub-focusable" tabIndex={0} key={tag}
                                         ref={refsFocusable[idxRef]}
-                                        onKeyDown={(event) => this.removeTagOnDelete(event, tag)}
+                                        onKeyDown={(event) => this.handleTagKeyDown(event, tag)}
                                         onFocus={(event) => this.handleFocus(event, idxRef)}
                                         onBlur={(event) => this.handleBlur(event)}>
                                         <Tag.Group gapless className="cmp-sub-tags">
@@ -219,9 +266,12 @@ export default class Omnibox extends PureComponent {
                         }</Tag.Group>
                     )
                 }</div>
-                <Input size="small" type="text" className="cmp-sub-input sub-focusable" placeholder="search"
-                    value={this.state.inputText} onChange={(event) => this.setState({ inputText: event.target.value })}
-                    onKeyDown={(event) => this.handleKeyDown(event)} onBlur={() => this.parseAndFilter()} />
+                <Input ref={refsFocusable[idxRefInpupt]} size="small" type="text"
+                    className="cmp-sub-input sub-focusable" placeholder="search" value={this.state.inputText}
+                    onChange={(event) => this.setState({ inputText: event.target.value })}
+                    onKeyDown={(event) => this.handleInputKeyDown(event)}
+                    onFocus={(event) => this.handleFocus(event, idxRefInpupt)}
+                    onBlur={() => this.handleInputBlur()} />
             </Panel>
         );
     }
