@@ -13,6 +13,10 @@ describe('renders correctly', () => {
     // Setup / teardown
     beforeEach(() => {
         Date.now = jest.fn(() => TIMESTAMP__DUE + 1000);
+        jest.mock('moment', () => () => ({
+            format: '2019–01–16T16:10:10+01:00',
+            fromNow: () => 'Tomorrow'
+        }));
         _context = _createContext();
     });
     afterEach(() => { Date.now = _origNow; });
