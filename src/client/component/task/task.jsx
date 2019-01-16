@@ -57,6 +57,9 @@ export default class Task extends PureComponent {
             timeoutDueUntil: this._createDueUntilTimeout()
         });
     }
+    componentWillUnmount() {
+        clearTimeout(this.state.timeoutDueUntil);
+    }
 
     _createDueUntilTimeout() {
         return setTimeout(

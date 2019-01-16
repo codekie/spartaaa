@@ -75,28 +75,38 @@ export default class Omnibox extends PureComponent {
     // Event-handlers
 
     handleInputKeyDown(event) {
-        const refsFocusable = this.state.refsFocusable,
+        const { key, target } = event,
+            refsFocusable = this.state.refsFocusable,
             inputValue = refsFocusable[refsFocusable.length - 1].current.value;
         //noinspection FallThroughInSwitchStatementJS
-        switch (event.key) {
-            case 'ArrowLeft':
-            case 'Backspace':
-                if (event.target.selectionStart > 0 && inputValue.length > 0) {
-                    break;
-                }
-            case 'ArrowRight':
-                if (event.target.selectionStart === inputValue.length - 1 && inputValue.length > 0) {
-                    break;
-                }
-                this.updateFocusableRefIndex(event);
-                break;
+        switch (key) {
             case 'Enter':
             case ' ':
             case 'Tab':
                 this.props.setRawValue(this.state.inputText);
                 this.props.parse();
                 break;
+
+            // Keys for navigating within the omnibox
+            case 'ArrowLeft':
+            case 'Backspace':
+                if (target.selectionStart !== target.selectionEnd
+                    || target.selectionStart > 0 && inputValue.length > 0
+                ) {
+                    return;
+                }
+            case 'ArrowRight':
+                if (key === 'ArrowRight' && (
+                    target.selectionStart !== target.selectionEnd
+                    || target.selectionEnd === inputValue.length - 1 && inputValue.length > 0
+                )) {
+                    return;
+                }
+                break;
+            default:
+                this.setState({ inputText: event.target.value });
         }
+        this.updateFocusableRefIndex(event);
         if (event.key === 'Enter') {
             this.props.applyFilter();
         }
@@ -183,6 +193,9 @@ export default class Omnibox extends PureComponent {
         }
         this.setState({ idxFocus });
     }
+
+    // Renderer-helper
+
     createPriorityItem(priority, idxRef, ref) {
         if (!priority) { return null; }
         const { clearPriority } = this.props;
