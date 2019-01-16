@@ -152,7 +152,7 @@ exports[`renders correctly default 1`] = `
               className="tag-due tag-icon"
               gapless={true}
               style={Object {}}
-              title="Thursday, November 8, 2018 3:34 PM"
+              title="2019–01–16 16:10:10"
             >
               <ForwardRef
                 className=""
@@ -212,7 +212,7 @@ exports[`renders correctly default 1`] = `
                 size={null}
                 style={Object {}}
               >
-                a few seconds ago
+                Tomorrow
               </ForwardRef>
             </ForwardRef>
           </ForwardRef>
