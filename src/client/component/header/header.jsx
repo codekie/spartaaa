@@ -17,7 +17,7 @@ import LOGO from '../../static/images/sparta.png';
 
 export default class Header extends PureComponent {
     static propTypes = {
-        fetchTasks: PropTypes.func.isRequired,
+        refreshTasks: PropTypes.func.isRequired,
 
         connectionState: PropTypes.string,
         loading: PropTypes.bool
@@ -27,7 +27,7 @@ export default class Header extends PureComponent {
         super(props);
     }
     render() {
-        const { connectionState, fetchTasks, loading } = this.props;
+        const { connectionState, refreshTasks, loading } = this.props;
         return (
             <Panel.Header>
                 <Level renderAs="nav">
@@ -39,7 +39,7 @@ export default class Header extends PureComponent {
                             This is Spartaaa!!!
                         </Level.Item>
                         <Level.Item>
-                            <Button onClick={fetchTasks}>
+                            <Button onClick={refreshTasks}>
                                 Refresh
                             </Button>
                         </Level.Item>

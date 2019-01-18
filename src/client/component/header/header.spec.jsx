@@ -4,6 +4,6 @@ import { shallow } from 'enzyme';
 import TaskStatus from '../../../comm/task-status';
 
 it('renders correctly', () => {
-    expect(shallow(<Header connectionState={TaskStatus.pending} loading={false} fetchTasks={jest.fn()} />))
+    expect(shallow(<Header connectionState={TaskStatus.pending} loading={false} refreshTasks={jest.fn()} />))
         .toMatchSnapshot();
 });

@@ -16,6 +16,7 @@ export default {
     [ActionType.deactivateTask]: deactivateTask,
     [ActionType.fetchTasks]: fetchTasks,
     [ActionType.finishTask]: finishTask,
+    [ActionType.refreshTasks]: refreshTasks,
     [ActionType.toggleNext]: toggleNext,
     [ActionType.unfinishTask]: unfinishTask,
 
@@ -99,6 +100,10 @@ function finishTask(taskId) {
         type: ActionType.finishTask,
         payload: taskId
     };
+}
+
+function refreshTasks() {
+    return { type: ActionType.refreshTasks };
 }
 
 function toggleNext(taskId) {

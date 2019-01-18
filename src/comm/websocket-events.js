@@ -9,6 +9,7 @@ const REQUEST = 'Request',
     TASKS__DEACTIVATE = `${ TASKS }.deactivate`,
     TASKS__FINISH = `${ TASKS }.finish`,
     TASKS__GET = `${ TASKS }.get`,
+    TASKS__REFRESH = `${ TASKS }.refresh`,
     TASKS__TOGGLE_NEXT = `${ TASKS }.toggleNext`,
     TASKS__UNFINISH = `${ TASKS }.unfinish`;
 
@@ -28,6 +29,7 @@ export const Event = {
         default: TASKS,
         finishTask: TASKS__FINISH,
         get: TASKS__GET,
+        refresh: TASKS__REFRESH,
         toggleNext: TASKS__TOGGLE_NEXT,
         unfinishTask: TASKS__UNFINISH
     }

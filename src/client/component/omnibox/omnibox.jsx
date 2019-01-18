@@ -56,7 +56,8 @@ export default class Omnibox extends PureComponent {
             idxRefFocusableInput: null,
             refsFocusable: null,
             inputText: '',
-            prevSerializedValue: ''
+            prevSerializedValue: '',
+            prevAppliedSerializedValue: ''
         };
     }
 
@@ -121,7 +122,7 @@ export default class Omnibox extends PureComponent {
         }
         this.updateFocusableRefIndex(event);
         if (event.key === 'Enter') {
-            this.props.applyFilter();
+            this.filter();
         }
     }
     handleFocus(event, idxRef) {
@@ -176,14 +177,23 @@ export default class Omnibox extends PureComponent {
     setFocusIndex(idxFocus) {
         this.setState({ idxFocus });
     }
+    filter() {
+        // Only apply filter, if criteria have changed
+        if (this.state.prevAppliedSerializedValue === this.props.serializedValue) {
+            return;
+        }
+        this.props.applyFilter();
+        this.setState({ prevAppliedSerializedValue: this.props.serializedValue });
+    }
     parseAndFilter() {
         this.props.setRawValue(this.state.inputText);
         this.props.parse();
-        this.props.applyFilter();
+        window.setTimeout(() => this.filter());
     }
     removeCriterion(event, removeHandler, value = null) {
         this.updateFocusableRefIndex(event);
         removeHandler(value);
+        window.setTimeout(() => this.setState({ prevAppliedSerializedValue: this.props.serializedValue }));
     }
     updateFocusableRefIndex(event) {
         const amountFocusableRefsBeforeRemoval = this.state.refsFocusable.length,

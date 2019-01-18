@@ -12,6 +12,7 @@ export default {
     // Tasks
     fetchTasks: 'fetchTasks',
     finishTask: 'finishTask',
+    refreshTasks: 'refreshTasks',
     toggleNext: 'toggleNext',
     unfinishTask: 'unfinishTask',
 
