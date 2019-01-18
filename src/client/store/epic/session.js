@@ -1,6 +1,5 @@
-import { from } from 'rxjs';
+import { from, EMPTY } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import ActionType from '../action-type';
 import ActionCreator from '../action-creators';
 import { WebSocketEvents } from '../../../comm';
