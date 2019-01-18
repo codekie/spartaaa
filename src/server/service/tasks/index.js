@@ -20,6 +20,7 @@ module.exports = {
         fetchTasks,
         filterTasks,
         finishTask,
+        refreshTasks,
         toggleNext,
         unfinishTask
     }
@@ -28,6 +29,10 @@ module.exports = {
 // # IMPLEMENTATION DETAILS
 
 // ## Public
+
+async function refreshTasks() {
+    return await DB.refreshTasks();
+}
 
 async function fetchTasks() {
     return await DB.fetchTasks();

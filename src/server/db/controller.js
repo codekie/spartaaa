@@ -1,4 +1,13 @@
-import { initDB, fetchTasks, activateTask, deactivateTask, finishTask, unfinishTask, toggleNext } from './taskwarrior';
+import {
+    initDB,
+    fetchTasks,
+    activateTask,
+    deactivateTask,
+    finishTask,
+    unfinishTask,
+    refreshTasks,
+    toggleNext
+} from './taskwarrior';
 
 const _inst = {
 
@@ -10,6 +19,7 @@ export {
     fetchTasks,
     finishTask,
     init,
+    refreshTasks,
     toggleNext,
     unfinishTask
 };

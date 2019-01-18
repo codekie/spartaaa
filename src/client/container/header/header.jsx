@@ -16,7 +16,7 @@ const MAP__STATE_TO_PROPS = {
         loading: (state) => state.get('loader').get('loading')
     },
     MAP__DISPATCH_TO_PROPS = {
-        [ActionType.fetchTasks]: ActionCreator[ActionType.fetchTasks]
+        [ActionType.refreshTasks]: ActionCreator[ActionType.refreshTasks]
     };
 
 // # EXPORT PUBLIC API

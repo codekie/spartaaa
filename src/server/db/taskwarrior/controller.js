@@ -1,3 +1,4 @@
+import { List } from 'immutable';
 import { spawn } from 'child_process';
 import { logger } from '../../util';
 import { mapTasks } from './map-tasks';
@@ -23,6 +24,7 @@ const COMMAND__TASKWARRIOR = 'task',
     TAG__NEXT = 'next';
 
 //let _delegate = null;
+let _cachedTasks = null;
 
 export {
     initDB,
@@ -31,30 +33,34 @@ export {
     toggleNext,
     fetchTasks,
     finishTask,
+    refreshTasks,
     unfinishTask
 };
 
-function initDB({ /*delegate*/ }) {
+async function initDB({ /*delegate*/ }) {
 //    _delegate = delegate;
-    return Promise.resolve();
+    return await refreshTasks();
 }
 
 // TODO refactor these (extract common parts to factory-function)
 
-function fetchTasks() {
+function refreshTasks() {
     return new Promise((resolve, reject) => {
         try {
-            logger.info('Triggering task export');
+            logger.info('Refreshing tasks-cache');
             // TODO make this testable (injectable `spawn`-mock)
             const proc = spawn(COMMAND__TASKWARRIOR, [ARG__EXPORT, ARG__EXPORT_TYPE__JSON]);
             let rawData = '';
             proc.stdout.on(EVT__DATA, (data) => rawData += data);
             proc.stdout.on(EVT__CLOSE, () => {
                 try {
-                    logger.verbose('Received results of the task export');
+                    logger.info('Received results of the task export');
                     const tasks = JSON.parse(rawData);
                     logger.isDebug() && logger.debug(JSON.stringify(tasks, null, '  '));
-                    resolve(mapTasks(tasks));
+                    // eslint-disable-next-line new-cap
+                    _cachedTasks = List(mapTasks(tasks));
+                    resolve(_cachedTasks.toJS());
+                    logger.info('Updated tasks-cache');
                 } catch (e) {
                     logger.error(e);
                     reject(e);
@@ -65,6 +71,19 @@ function fetchTasks() {
                 logger.error(`Child process failed: ${ code }`);
                 reject(code);
             });
+        } catch (e) {
+            logger.error(e);
+            reject(e);
+        }
+    });
+}
+
+function fetchTasks() {
+    return new Promise(async (resolve, reject) => {
+        _cachedTasks === null && await refreshTasks();
+        try {
+            logger.info('Fetching cached tasks');
+            resolve(_cachedTasks.toJS());
         } catch (e) {
             logger.error(e);
             reject(e);
