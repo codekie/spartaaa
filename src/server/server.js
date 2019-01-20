@@ -42,8 +42,11 @@ function _mountServices({ app }) {
             const serviceConfig = services[name];
             Object.keys(serviceConfig.restMethods)
                 .forEach(httpMethod => {
-                    const handler = serviceConfig.restMethods[httpMethod];
-                    app[httpMethod](`${ appConfig.server.basePathServices }/${ serviceConfig.name }`, handler);
+                    const handler = serviceConfig.restMethods[httpMethod],
+                        basePathService = serviceConfig.basePathService != null
+                            ? serviceConfig.basePathService
+                            : appConfig.server.basePathServices;
+                    app[httpMethod](`${ basePathService }/${ serviceConfig.name }`, handler);
                 });
         });
 }

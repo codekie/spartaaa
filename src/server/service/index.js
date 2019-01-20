@@ -1,5 +1,7 @@
-const ping = require('./ping');
+const ping = require('./ping'),
+    prometheus = require('./prometheus');
 
 module.exports = {
-    ping
+    ping,
+    prometheus
 };
