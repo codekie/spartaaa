@@ -58,7 +58,7 @@
     "nodemon": "^1.18.9",
     "react-test-renderer": "^16.6.2",
     "rimraf": "^2.6.3",
-    "sass": "^1.16.0",
+    "sass": "^1.24.2",
     "sass-loader": "^7.1.0",
     "standard-version": "^4.4.0",
     "style-loader": "^0.23.1",
