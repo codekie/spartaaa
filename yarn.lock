@@ -1664,10 +1664,10 @@ bulma@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.1.tgz#73c2e3b2930c90cc272029cbd19918b493fca486"
 
-bulmaswatch@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/bulmaswatch/-/bulmaswatch-0.7.2.tgz#99b05844123dd9dca2cb1f271b54c8bc0c49e421"
-  integrity sha512-qickVpky/vv/PX/G7DVz1UpYPncJIjoxbovVELf48tgZ7Fd8UAzfWLSzniPWHwPt1YAq/UX9CGTtcl0AbxSMYg==
+bulmaswatch@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/bulmaswatch/-/bulmaswatch-0.8.0.tgz#11057ea5ecc1765de0f7049dd2bdbe3a0afbc992"
+  integrity sha512-ubqgGrUXL/BM0dhG309lmR9BQnV7kjp1vXhqGOE6xqOR+qHjHpuqxACNbBCWn+uSXhTAyE7VnmXffc9qQkm3xg==
 
 bytes@3.0.0:
   version "3.0.0"
