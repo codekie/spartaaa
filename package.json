@@ -74,7 +74,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bulma-extensions": "^4.0.1",
     "bulmaswatch": "^0.7.2",
-    "chokidar": "^3.0.2",
+    "chokidar": "^3.4.0",
     "colors": "^1.3.3",
     "express": "^4.16.4",
     "express-request-id": "^1.4.1",
