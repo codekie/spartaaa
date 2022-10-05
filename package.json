@@ -24,7 +24,9 @@
     "start-dev:server": "babel-node ./src/server/index.js",
     "start-dev:server-debug": "babel-node --inspect ./src/server/index.js",
     "start-dev:webpack": "webpack-dev-server --mode development --hot --history-api-fallback --inline --progress --config ./config/webpack/dev.js",
-    "build:webpack": "webpack --mode production --bail --progress --config ./config/webpack/build.js"
+    "build:webpack": "webpack --mode production --bail --progress --config ./config/webpack/build.js",
+    "prepare": "yarn run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "repository": "https://github.com/codekie/spartaaa.git",
   "author": "Code Kie <codekie@users.noreply.github.com>",
@@ -79,9 +81,9 @@
     "express": "^4.16.4",
     "express-request-id": "^1.4.1",
     "immutable": "^3.8.2",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.21",
     "memoize-one": "^5.0.0",
-    "moment": "^2.23.0",
+    "moment": "^2.29.4",
     "prop-types": "^15.6.2",
     "queueing-subject": "^0.3.0",
     "react": "^16.6.2",
@@ -93,8 +95,10 @@
     "redux-immutable": "^4.0.0",
     "redux-observable": "^1.0.0",
     "rxjs": "^6.3.3",
-    "snapshot-diff": "^0.4.2",
+    "snapshot-diff": "^0.5.0",
     "winston": "^3.1.0",
-    "ws": "^6.1.2"
-  }
+    "ws": "^6.2.2",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
